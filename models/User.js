@@ -11,10 +11,14 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
+    socket: {
+      type: Number,
+      required: false,
+    },
     password: {
       type: String,
       required: true,
-    },
+    }, 
     interests: {
       type: [{
         type: String
@@ -42,8 +46,7 @@ const UserSchema = new Schema(
   },
   {
     timestamps: true,
-  }
-);
+  });
 
 function validateInterestsLength(){
   return this.interests.length < 7
