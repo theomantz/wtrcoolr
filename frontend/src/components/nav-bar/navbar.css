@@ -1,0 +1,42 @@
+.navbar{
+    position: absolute;
+    background-color: rgba(3,197,199,1);
+    height: 70px;
+    width: 100%;
+    display: flex;
+    color: rgba(161,44,176,1);
+}
+
+.nav-logo{
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    transform: translateY(-50%);
+}
+
+.nav-logo h1{
+    font-size: 24px;
+}
+
+
+.navlinks{
+    position: absolute;
+    top: 50%;
+    left: 85%;
+    transform: translateY(-50%);
+}
+
+.navlink{
+    color: rgba(161,44,176,1);
+    text-decoration: none;
+    margin: 10px;
+}
+
+.logout{
+    background-color: rgba(161,44,176,1);
+    border-style: none;
+    text-decoration: none;
+    margin: 10px;
+    color: rgba(3,197,199,1);
+    height: 30px;
+}

@@ -1,0 +1,32 @@
+.dashboard-column{
+    height: 700px;
+    width: 20%;
+    margin: 3%;
+    background-color: rgba(3,197,199,1);
+}
+
+.dashboard-container{
+    display: flex;
+    padding-top: 100px;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.column-title{
+    font-size: 24px;
+    margin: 10px;
+    left: 50%;
+    text-align: center;
+    color: white;
+    background-color: rgba(161,44,176,1);
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.column-subtitle{
+    font-size: 18px;
+    margin: 10px;
+    margin-top: 30px;
+    text-align: center;
+    color: white;    
+}

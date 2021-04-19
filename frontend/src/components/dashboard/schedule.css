@@ -1,0 +1,42 @@
+.next-coolr-container{
+    color: white;
+    background-color: rgba(161,44,176,1);
+    width: 80%;
+    height: 20%;
+    margin: auto;
+    margin-top:10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.next-coolr-container h1{
+    font-size: 26px;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.next-coolr-container h2{
+    font-size: 24px;
+    text-align: center;
+    padding-top: 10px;
+    color: lightgray
+}
+
+.next-coolr-container h3{
+    font-size: 22px;
+    text-align: center;
+    padding-top: 10px;
+    color: lightgray
+}
+
+.calendar-container{
+    background-color: rgba(161,44,176,1);
+    width: 80%;
+    height: 40%;
+    margin: auto;
+    margin-top:10px;
+}
+
+
+
