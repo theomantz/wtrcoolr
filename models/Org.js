@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const OrgsSchema = new Schema(
+const OrgSchema = new Schema(
   {
     name: {
       type: String,
@@ -20,4 +20,4 @@ const OrgsSchema = new Schema(
   }
 );
 
-module.exports = User = mongoose.model("User", UserSchema);
+module.exports = Org = mongoose.model("Org", OrgSchema);
