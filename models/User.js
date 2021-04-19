@@ -11,14 +11,13 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    location: {
+    password_digest: {
       type: String,
       required: true,
     },
-    password: {
-      type: String,
-      required: true,
-    },
+    interests: [{
+      interests: String
+    }]
   },
   {
     timestamps: true,
