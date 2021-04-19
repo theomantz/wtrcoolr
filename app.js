@@ -5,6 +5,10 @@ const app = express();
 const mongoose = require('mongoose');
 const db = require('./config/keys').mongoURI;
 
+
+//models
+const User = require('./models/User');
+
 // Passport / User Auth
 const passport = require('passport')
 
