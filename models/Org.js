@@ -8,16 +8,30 @@ const OrgSchema = new Schema(
       required: true,
     },
     admins: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
+      type: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      }],
+      validate: [validateNumberAdmins, "Organization must have at least one administrator"]
     },
     members: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
+      type:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+      }]
     },
-  }, {
+    coolrHours: {
+      start: String,
+      end: String
+    },
+  }, 
+  {
     timestamps: true,
   }
 );
+
+function validateNumberAdmins(){
+  return this.admins.length > 0
+}
 
 module.exports = Org = mongoose.model("Org", OrgSchema);

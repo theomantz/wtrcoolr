@@ -26,6 +26,18 @@ const UserSchema = new Schema(
         type: String
       }],
       validate: [validateNonStartersLength, 'Non starters cannot exceed 6']
+    },
+    orgs: {
+      type: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Org"
+      }]
+    },
+    admins: {
+      type: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Org"
+      }]
     }
   },
   {
