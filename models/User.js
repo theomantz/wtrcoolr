@@ -11,12 +11,15 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    password_digest: {
+    passwordDigest: {
       type: String,
       required: true,
     },
     interests: [{
-      interests: String
+      type: String
+    }],
+    nonStarters: [{
+      type: String
     }]
   },
   {
