@@ -2,7 +2,7 @@ import "./index.css";
 import React from "react";
 import ReactDOM from "react-dom";
 import Root from "./components/root";
-import configureStore from "./store/store";
+// import configureStore from "./store/store";
 import jwt_decode from "jwt-decode";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -31,5 +31,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const root = document.getElementById("root");
 
-  ReactDOM.render(<Root />, root);
+  ReactDOM.render(<Root store={null}/>, root);
 });
