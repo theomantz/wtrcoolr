@@ -11,18 +11,16 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    location: {
-      type: String,
-      required: true,
+    socket: {
+      type: Number,
+      required: false,
     },
     password: {
       type: String,
       required: true,
     },
-  },
-  {
+  }, {
     timestamps: true,
-  }
-);
+  });
 
 module.exports = User = mongoose.model("User", UserSchema);

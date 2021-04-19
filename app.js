@@ -2,12 +2,20 @@
 const express = require('express');
 const app = express();
 
+// Video Server Imports
+const http = require('http')
+const server = http.createServer(app)
+const io = require('socket.io')(server)
+const username = require('username-generator')
+
 const mongoose = require('mongoose');
 const db = require('./config/keys').mongoURI;
 
 // Passport / User Auth
 const passport = require('passport')
 
+// Models
+const User = require('./models/User')
 
 // const users =  require('./routes/api/users');
 // const orgs = require('./routes/api/orgs')
@@ -32,6 +40,41 @@ app.use(express.json());
 
 app.use(passport.initialize());
 require('./config/passport')(passport);
+
+io.on('connection', socket => {
+
+   const userid = username.generateUsername("-");
+   if (!users[userid]) {
+     users[userid] = socket.id;
+   }
+   //send back username
+   socket.emit("yourID", userid);
+   io.sockets.emit("allUsers", users);
+
+   socket.on("disconnect", () => {
+     delete users[userid];
+   });
+
+   socket.on("callUser", (data) => {
+     io.to(users[data.userToCall]).emit("hey", {
+       signal: data.signalData,
+       from: data.from,
+     });
+   });
+
+   socket.on("acceptCall", (data) => {
+     io.to(users[data.to]).emit("callAccepted", data.signal);
+   });
+
+   socket.on("close", (data) => {
+     io.to(users[data.to]).emit("close");
+   });
+
+   socket.on("rejected", (data) => {
+     io.to(users[data.to]).emit("rejected");
+   });
+})
+
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server is up and running on ${port}`));
