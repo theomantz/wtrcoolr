@@ -24,14 +24,14 @@ router.post('/register', (req, res)=>{
     return res.status(400).json(errors)
   }
 
-  User.findOne({ handle: req.body.handle })
+  User.findOne({ name: req.body.name })
     .then(user => {
       if (user) {
-        errors.handle = "User already exists"
+        errors.name = "User already exists"
         return res.status(400).json(errors);
       } else {
         const newUser = new User({
-          handle: req.body.handle,
+          name: req.body.name,
           email: req.body.email,
           password: req.body.password
         });
@@ -43,7 +43,7 @@ router.post('/register', (req, res)=>{
             newUser
               .save()
               .then(user => {
-                const payload = { id: user.id, handle: user.handle }
+                const payload = { id: user.id, name: user.name }
 
                 jwt.sign(payload, keys.secretOrKey, {expiresIn: 3600}, (err, token) =>{
                   res.json({
@@ -68,7 +68,7 @@ router.post('/login', (req, res) => {
     return res.status(400).json(errors)
   }
 
-  const handle = req.body.handle;
+  const name = req.body.name;
   const password = req.body.password;
   const email = req.body.email
 
@@ -83,7 +83,7 @@ router.post('/login', (req, res) => {
       bcrypt.compare(password, user.password)
         .then(isMatch => {
           if (isMatch) {
-            const payload = {id: user.id, handle: user.handle, email: user.email}
+            const payload = {id: user.id, name: user.name, email: user.email}
 
             jwt.sign(
               payload,
