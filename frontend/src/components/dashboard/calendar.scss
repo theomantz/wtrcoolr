@@ -1,0 +1,353 @@
+@import url('https://fonts.googleapis.com/css?family=Dosis');
+
+$global-color: #616161;
+$header-color: #ffffff;
+$background-color-body: #ffffff;
+$background-color-light-4: #bbdefb;
+$background-color-light-3: #90caf9;
+$background-color-main: #2196f3;
+$background-color-dark: #1e88e5;
+$animation-delay: 0.5s;
+
+body {
+  font-size: 16px;
+}
+
+.calendar-rectangle {
+  width: 100%;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  color: $global-color;
+  font-size: 1em;
+  font-family: 'Dosis', sans-serif;
+  overflow: hidden;
+  box-shadow: 0px 0px 50px #888888;
+  
+  @media (min-width: 576px) { 
+    width:70%;
+  }
+
+  @media (min-width: 768px) {
+    width:50%;
+    font-size: 1em;
+  }
+
+  @media (min-width: 992px) {
+    width:40%;
+    font-size: 1em;
+  }
+
+  @media (min-width: 1200px) {
+    width:30%;
+    font-size: 1em;
+  }
+  
+  @media (min-width: 1300px) {
+    width: 20%;
+  }
+
+  &:before {
+    content: "";
+    display: block;
+    padding-top: 120%;
+  }
+}
+
+.calendar-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.main-calendar {
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  .calendar-header {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 30%;
+    color: $header-color;
+
+    .title-header {
+      width: 100%;
+      height: 70%;
+      white-space: nowrap;
+      font-size: 1.2em;
+      background-color: $background-color-dark;
+
+      @media (min-width: 992px) {
+        font-size: 1.4em;
+      }
+
+      @media (min-width: 1200px) {
+        font-size: 1.2em;
+      }
+
+      .header-text {
+        flex: 5;
+        display: flex;
+        height: 100%;
+
+        .today-label {
+          flex: 1;
+          font-size: 0.8em;
+          
+          &:hover{
+            cursor: pointer;
+            color: $background-color-dark;
+            background-color: $header-color;
+           
+          }
+          
+        }
+
+        .month-label {
+          flex: 3;
+        }
+      }
+    }
+
+    .days-header {
+      width: 100%;
+      height: 30%;
+      background-color: $background-color-main;
+    }
+
+    .button-container {
+      width: 100%;
+      height: 30%;
+      background-color: $background-color-main;
+      .event-button {
+        flex-grow: 1;
+        display: flex;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          background-color: #fff;
+          color: $background-color-main;
+        }
+      }
+    }
+  }
+
+  .days-container {
+    width: 100%;
+    height: 70%;
+    background: $background-color-body;
+
+    .week {
+      height: 15%;
+    }
+  }
+
+  .day-events {
+    position: relative;
+    width: 100%;
+    height: 70%;
+    background-color: $background-color-body;
+    font-size: 1.2em;
+
+    .event-container {
+      width: 100%;
+      text-align: center;
+      display: flex;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+//             @for $i from 1 through 12 {
+//               &:nth-child(#{$i}) {
+//                 > .animated-time {
+//                   background-color: mix($background-color-dark, $background-color-light-4, percentage(($i - 1) / 12));
+//                 }
+
+//                 > .animated-title {
+//                   background-color: mix($background-color-dark, white, percentage(($i - 1) / 12));
+//                 }
+//               }
+//             }
+
+      .animated-time {
+        width: 30%;
+
+        .event-time {
+        }
+      }
+
+      .animated-title {
+        width: 70%;
+
+        .event-title {
+        }
+      }
+
+      .event-attribute {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        box-sizing: border-box;
+        padding: 5px;
+      }
+    }
+  }
+} //End of calendar container
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  //grow in parent (child property)
+  flex-grow: 1;
+  //parent properties
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+  transition: all 0.4s ease-in-out 0s;
+
+  &.arrow {
+    &:hover {
+      background-color: white;
+      cursor: pointer;
+      color: $background-color-dark;
+      transition: all 0.2s ease-in-out 0s;
+    }
+  }
+}
+
+.day {
+  //grow in parent (child property)
+  //flex-grow: 1;
+  //parent properties
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+
+  .day-number {
+    width: 80%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid $background-color-body;
+    box-sizing: border-box;
+    border-radius: 50%;
+  }
+
+  &:hover {
+    .day-number {
+      cursor: default;
+      background-color: $background-color-light-3;
+      color: $background-color-body;
+      transition: background-color 0.2s ease-in-out 0s;
+    }
+  }
+
+  &.today {
+    .day-number {
+      // background-color: $background-color-light-3;
+      // color: $background-color-dark;
+     border: 1px solid $background-color-light-3;
+    }
+  }
+
+  &.has-events {
+    .day-number {
+      color: $background-color-dark;
+      font-weight: bold;
+    }
+  }
+
+  &.selected {
+    .day-number {
+    }
+  }
+
+  &.different-month {
+    opacity: 0.5;
+  }
+}
+
+@mixin slide-animation($translate-position) {
+  transform: translateX($translate-position);
+  transition: all $animation-delay cubic-bezier(0.645, 0.045, 0.355, 1) 0s;
+}
+
+/* time animation */
+.time-appear {
+  @include slide-animation(-100%);
+}
+
+.time-appear {
+  &.time-appear-active {
+    @include slide-animation(0);
+  }
+}
+
+.time-enter {
+  @include slide-animation(-100%);
+}
+
+.time-enter {
+  &.time-enter-active {
+    @include slide-animation(0);
+  }
+}
+
+.time-leave {
+  @include slide-animation(-100%);
+}
+
+.time-leave {
+  &.time-leave-active {
+    @include slide-animation(0);
+  }
+}
+
+/* title animation */
+.title-appear {
+  @include slide-animation(100%);
+}
+
+.title-appear {
+  &.title-appear-active {
+    @include slide-animation(0);
+  }
+}
+
+.title-enter {
+  @include slide-animation(100%);
+}
+
+.title-enter {
+  &.title-enter-active {
+    @include slide-animation(0);
+  }
+}
+
+.title-leave {
+  @include slide-animation(100%);
+}
+
+.title-leave {
+  &.title-leave-active {
+    @include slide-animation(0);
+  }
+}

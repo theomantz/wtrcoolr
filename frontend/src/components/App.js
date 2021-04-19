@@ -1,16 +1,23 @@
+// src/components/app.js
+
 import React from 'react';
-import { Switch, Route } from 'react-router-dom'
-import NavBarContainer from './nav-bar/nav_bar_container'
+import { AuthRoute, ProtectedRoute } from '../util/route_util';
+import { Route, Redirect, withRouter } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
+import NavBarContainer from './nav/navbar_container';
+import Dashboard from './dashboard/dashboard'
+import './css_reset.css'
 
-function App() {
-  return(
-    <div>
-      <NavBarContainer />
-      <Switch>
-        <Route path='/' render={<h1>Hello</h1>} />
-      </Switch>
-    </div>
-  )
-}
 
-export default App
+
+const App = () => (
+  <div>
+    <NavBarContainer />
+    <Switch>
+      <Route exact path="/dashboard" component={Dashboard} />
+
+    </Switch>
+  </div>
+);
+
+export default App;
