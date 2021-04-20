@@ -8,7 +8,6 @@ const mSTP = state => ({
 
 const mDTP = dispatch => ({
   closeSessionModal: () => dispatch(closeSessionModal())
-
 });
 
 export default connect(mSTP, mDTP)(SessionModal)
