@@ -45,19 +45,31 @@ router.post('/create' (req, res => {x
     })
 }))
 
-router.delete('/delete' (req, res => {
+router.patch('/edit',(req, res) =>{
 
-  org = Org.findbyid(req.body.id)
-  db.collection.remove({_id: org._id})
+  Org.findByIdAndUpdate(req.body.id, { $set: req.body }, { new: true })
+    .then(org => res.json(org))
 
-}))
+})
 
+
+
+//public orgs get
 router.get('/publicOrgs' (req, res => {
 
   Org.find({ public: true})
     .then(publicOrgs => res.json(publicOrgs))
 
 }))
+
+router.delete('/delete' (req, res => {
+
+  const org = Org.findbyid(req.body.id)
+  db.collection.remove({_id: org._id})
+
+}))
+
+
 
 
 

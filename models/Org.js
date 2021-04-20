@@ -21,8 +21,7 @@ const OrgSchema = new Schema(
       }]
     },
     coolrHours: {
-      start: String,
-      end: String
+      type: Array
     },
     public: {
       type: Boolean,
