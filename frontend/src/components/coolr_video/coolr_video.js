@@ -1,6 +1,9 @@
 import './coolr.css'
 import React from 'react';
+import ReactDOM from 'react-dom'
 import { io } from 'socket.io-client';
+import { Redirect } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { 
   faVideo, 
@@ -13,12 +16,57 @@ import Peer from 'simple-peer';
 class CoolrVideo extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      audio: false,
+      video: false
+    }
+
+    this.userVideo = null;
+    this.peerVideo = null;
+    this.socket = io('/')
+    this.myPeer = null;
+    
+
+    this.handleMute = this.handleMute.bind(this)
+    
+  }
+  
+  componentDidMount() {
+    const { socket } = this
+    this.renderVideo()
+    // socket.current = io.connect('/');
+    // this.props.history.push( uuidv4() );
   }
 
-  // componentDidMount() {
-  //   socket.current = io.connect('/coolr');
+  renderVideo() {
+    const videoGrid = document.getElementById('video-grid')
+    const userVideo = document.createElement('video')
+    userVideo.muted = true;
+    navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: true
+    })
+    .then(stream => {
+      this.addVideoStream(userVideo, stream, videoGrid)
+    })
+  }
 
-  // }
+  addVideoStream(video, stream, videoGrid) {
+    video.srcObect = stream;
+    video.addEventListener("loadedmetadata", () => {
+      video.play();
+      videoGrid.append(video)
+    })
+  }
+
+  handleMute() {
+    this.setState({ audio: !this.state.audio })
+  }
+
+  handleVideo() {
+    this.setState({ video: !this.state.video })
+  }
 
 
   render() {
@@ -43,6 +91,7 @@ class CoolrVideo extends React.Component {
                   <FontAwesomeIcon
                     icon={faMicrophone}
                     className="option-button"
+                    onClick={this.handleMute}
                   />
                 </div>
               </div>
