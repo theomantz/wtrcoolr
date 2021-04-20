@@ -22,6 +22,8 @@
     "redux-thunk": "^2.3.0",
     "simple-peer": "^9.11.0",
     "socket.io-client": "^4.0.1",
+    "username-generator": "^1.1.0",
+    "uuid": "^8.3.2",
     "web-vitals": "^1.1.1"
   },
   "scripts": {
