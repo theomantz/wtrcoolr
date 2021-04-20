@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom'
+import { openModal, closeModal } from '../modal/modal'
 // import './navbar.css'
 
 class NavBar extends React.Component {
@@ -14,6 +15,11 @@ class NavBar extends React.Component {
   logoutUser(e) {
       e.preventDefault();
       this.props.logout();
+  }
+
+  handleClick(type) {
+    debugger
+    return () => this.props.openModal(type)
   }
 
   // Selectively render links dependent on whether the user is logged in
@@ -29,8 +35,14 @@ class NavBar extends React.Component {
       } else {
         return (
             <div className="navlinks">
-                <Link className="navlink" to={'/signup'}>Signup</Link>
-                <Link className="navlink" to={'/login'}>Login</Link>
+                <button 
+                  className="nav-button" 
+                  onClick={this.handleClick('signup')}
+                  >Signup</button>
+                <button 
+                  className="nav-button" 
+                  onClick={this.handleClick('login')}
+                  >Login</button>
             </div>
         );
       }

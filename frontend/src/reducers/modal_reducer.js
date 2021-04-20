@@ -1,13 +1,16 @@
-const { CLOSE_MODAL, OPEN_MODAL } = require("../actions/modal_actions")
+import {
+  OPEN_MODAL,
+  CLOSE_MODAL
+} from '../actions/modal_actions'
 
 
 const ModalReducer = ( state = false, action) => {
   Object.freeze(state)
   switch(action.type) {
+    case OPEN_MODAL:
+      return action.modal
     case CLOSE_MODAL:
       return false
-    case OPEN_MODAL:
-      return true
     default:
       return state;
   }

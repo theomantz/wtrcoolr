@@ -2,14 +2,19 @@
 export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
 
-const receiveModalStatus = (status) => ({
-  type: status
+const removeModal = () => ({
+  type: CLOSE_MODAL
 });
 
+const receiveModal = (modal) => ({
+  type: OPEN_MODAL,
+  modal
+})
+
 export const closeModal = dispatch => (
-  dispatch(receiveModalStatus(CLOSE_MODAL))
+  dispatch(removeModal())
 );
 
-export const openModal = dispatch => (
-  dispatch(receiveModalStatus(OPEN_MODAL))
+export const openModal = modal => dispatch => (
+  dispatch(receiveModal(modal))
 );

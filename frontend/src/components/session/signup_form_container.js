@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import { 
-  openSessionModal, 
-  closeSessionModal 
-} from '../../actions/session/session_actions'
+  openModal, 
+  closeModal 
+} from '../../actions/modal_actions'
+import { signup } from '../../actions/session_actions'
 import SessionForm from './session_form';
 
 const mSTP = state => ({
@@ -12,8 +13,8 @@ const mSTP = state => ({
 
 const mDTP = dispatch => ({
   formAction: (user) => dispatch(signup(user)),
-  closeSessionModal: () => dispatch(closeSessionModal()),
-  switchSessionModal: () => dispatch(openSessionModal('login'))
+  closeModal: () => dispatch(closeModal()),
+  switchSessionModal: () => dispatch(openModal('login'))
 });
 
 export default connect(mSTP, mDTP)(SessionForm)

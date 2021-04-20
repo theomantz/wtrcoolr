@@ -18,6 +18,9 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(bodyParser.json())
 
+// Models
+const User = require('./models/User')
+
 // Passport / User Auth
 
 const passport = require('passport');
@@ -30,8 +33,6 @@ const orgs = require('./routes/api/orgs')
 app.use("/api/users", users)
 // app.use("/api/orgs", orgs)
 
-// Models
-const User = require('./models/User')
 
 
 // Path config
