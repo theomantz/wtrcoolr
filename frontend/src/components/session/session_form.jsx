@@ -10,6 +10,13 @@ class SessionForm extends React.Component {
       email: '',
       password: ''
     }
+
+    if(this.props.formType === 'Sign up') {
+      this.state.password2 = this.state.password2 || ''
+    }
+
+    this.handleSubmit = this.handleSubmit.bind(this)
+    
   }
 
   update(field) {
@@ -21,18 +28,20 @@ class SessionForm extends React.Component {
   }
 
   handleSubmit(e) {
+    debugger
     e.preventDefault();
     if (this.props.formType === 'Sign up') {
       this.props.formAction({
         name: this.state.name,
         email: this.state.email,
-        password: this.state.password
-      })
+        password: this.state.password,
+        password2: this.state.password2
+      }).then(() => this.props.closeModal())
     } else if (this.props.formType === 'Log in') {
       this.props.formAction({
         email: this.state.email,
         password: this.state.password
-      })
+      }).then(() => this.props.closeModal())
     }
   }
 
@@ -73,6 +82,16 @@ class SessionForm extends React.Component {
             onChange={this.update('password')}
             >
           </input>
+
+          { this.props.formType === 'Sign up' ? 
+          <input 
+            placeholder="Password" 
+            type="password"
+            value={this.state.password2}
+            onChange={this.update('password2')}
+            >
+          </input>
+           : null }
          
           <input type="submit" value={this.props.formType}/>
           

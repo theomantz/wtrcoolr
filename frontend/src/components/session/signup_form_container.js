@@ -8,13 +8,13 @@ import SessionForm from './session_form';
 
 const mSTP = state => ({
   formType: "Sign up",
-  errors: state.errors.sessionErrors
+  errors: state.errors.session
 });
 
 const mDTP = dispatch => ({
   formAction: (user) => dispatch(signup(user)),
   closeModal: () => dispatch(closeModal()),
-  switchSessionModal: () => dispatch(openModal('login'))
+  openModal: () => dispatch(openModal('login'))
 });
 
 export default connect(mSTP, mDTP)(SessionForm)

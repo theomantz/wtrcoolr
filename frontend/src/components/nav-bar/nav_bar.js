@@ -18,7 +18,6 @@ class NavBar extends React.Component {
   }
 
   handleClick(type) {
-    debugger
     return () => this.props.openModal(type)
   }
 
