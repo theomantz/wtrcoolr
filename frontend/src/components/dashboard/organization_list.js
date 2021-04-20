@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { authorize } from "passport";
 import './organization_list.css'
 
 // fake data generator
@@ -40,6 +39,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   padding: grid * 2,
   margin: `0 0 ${grid}px 0`,
   color: "white",
+  borderRadius: "5px",
   // change background colour if dragging
   background: isDragging ? "gray" : "rgba(161,44,176,1)",
 

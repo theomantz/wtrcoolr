@@ -2,11 +2,11 @@
 
 import React from 'react';
 import Modal from './modal/modal'
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from '../util/route_utils';
 import NavBarContainer from './nav-bar/nav_bar_container';
 import Dashboard from './dashboard/dashboard'
-// import './reset-css.css'
+import './css_reset.css'
 
 
 
@@ -17,7 +17,7 @@ const App = () => (
       <NavBarContainer />
     </header>
     <Switch>
-      <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+      <Route exact path="/dashboard" component={Dashboard} />
     </Switch>
   </div>
 );

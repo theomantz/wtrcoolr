@@ -3,6 +3,7 @@
     width: 20%;
     margin: 3%;
     background-color: rgba(3,197,199,1);
+    border-radius: 6px;
 }
 
 .dashboard-container{
