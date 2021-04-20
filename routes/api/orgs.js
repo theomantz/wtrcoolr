@@ -52,10 +52,13 @@ router.delete('/delete' (req, res => {
 
 }))
 
-router.get('/publicorgs' (req, res => {
+router.get('/publicOrgs' (req, res => {
 
-  publicOrgs = Org.find({ public: true})
+  Org.find({ public: true})
+    .then(publicOrgs => res.json(publicOrgs))
 
 }))
+
+
 
 
