@@ -5,7 +5,15 @@ const Org = require('../../models/Org')
 const kets = require('../../config/keys')
 const User = require("../../models/User")
 
-router.post('/create' (req, res => {
+router.post('/create' (req, res => {x
+
+  //add error handling
+
+  // const { errors, isValid } = validateRegisterInput(req.body)
+
+  // if (!isValid) {
+  //   return res.status(400).json(errors)
+  // }
 
   Org.findOne({ name: req.body.name })
     .then(org => {
@@ -26,6 +34,13 @@ router.post('/create' (req, res => {
           members: [firstAdmin]
 
         })
+
+        newOrg
+          .save()
+          .then( org => res.json(org))
+          .catch( err => 
+            res.status(404).json({ orgNotCreated: "Invalid Organization Details"})
+          )
       }
     })
 }))
@@ -34,6 +49,12 @@ router.delete('/delete' (req, res => {
 
   org = Org.findbyid(req.body.id)
   db.collection.remove({_id: org._id})
+
+}))
+
+router.get('/publicorgs' (req, res => {
+
+  publicOrgs = Org.find({ public: true})
 
 }))
 

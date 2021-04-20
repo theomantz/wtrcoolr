@@ -24,6 +24,10 @@ const OrgSchema = new Schema(
       start: String,
       end: String
     },
+    public: {
+      type: Boolean,
+      required: true
+    }
   }, 
   {
     timestamps: true,
