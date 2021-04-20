@@ -5,7 +5,9 @@ const Org = require('../../models/Org')
 const kets = require('../../config/keys')
 const User = require("../../models/User")
 
-router.post('/create' (req, res => {x
+router.post('/', 
+
+  (req, res) => {
 
   //add error handling
 
@@ -14,7 +16,6 @@ router.post('/create' (req, res => {x
   // if (!isValid) {
   //   return res.status(400).json(errors)
   // }
-
   Org.findOne({ name: req.body.name })
     .then(org => {
 
@@ -43,7 +44,7 @@ router.post('/create' (req, res => {x
           )
       }
     })
-}))
+})
 
 router.patch('/edit',(req, res) =>{
 
@@ -55,19 +56,19 @@ router.patch('/edit',(req, res) =>{
 
 
 //public orgs get
-router.get('/publicOrgs' (req, res => {
+router.get('/publicOrgs', (req, res) => {
 
   Org.find({ public: true})
     .then(publicOrgs => res.json(publicOrgs))
 
-}))
+})
 
-router.delete('/delete' (req, res => {
+router.delete('/delete', (req, res) => {
 
   const org = Org.findbyid(req.body.id)
   db.collection.remove({_id: org._id})
 
-}))
+})
 
 
 
