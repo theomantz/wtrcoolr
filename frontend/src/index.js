@@ -9,7 +9,6 @@ import jwt_decode from "jwt-decode";
 
 document.addEventListener("DOMContentLoaded", () => {
   let store;
-
   if (localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
 
@@ -18,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const preloadedState = {
       session: { isAuthenticated: true, user: decodedUser },
     };
-
     store = configureStore(preloadedState);
 
     const currentTime = Date.now() / 1000;
@@ -28,9 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "/login";
     }
   } else {
+    store = configureStore({});
   }
   
-  store = configureStore({});
   const root = document.getElementById("root");
 
   ReactDOM.render(<Root store={store}/>, root);
