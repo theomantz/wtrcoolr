@@ -11,12 +11,10 @@ const username = require('username-generator')
 const mongoose = require('mongoose');
 const db = require('./config/keys').mongoURI;
 
-// body parser
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({
+app.use(express.urlencoded({
   extended: false
 }))
-app.use(bodyParser.json())
+app.use(express.json())
 
 // Models
 const User = require('./models/User')
