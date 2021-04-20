@@ -9,11 +9,17 @@ const validateLoginInput = require('../../validation/login')
 const passport = require('passport');
 
 router.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
-  res.json({
-    id: req.user.id,
-    name: req.user.name,
-    email: req.user.email
-  })
+
+  return User.findById(req.user.id)
+    .populate('orgs')
+
+})
+
+router.patch('/edit',(req, res) =>{
+
+  User.findByIdAndUpdate(req.body.id, { $set: req.body }, { new: true })
+    .then(user => res.json(user))
+
 })
 
 router.post('/register', (req, res)=>{

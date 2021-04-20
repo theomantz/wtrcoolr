@@ -5,6 +5,7 @@ import Modal from './modal/modal'
 import { Switch, Route } from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from '../util/route_utils';
 import NavBarContainer from './nav-bar/nav_bar_container';
+import CoolrVideoContainer from './coolr_video/coolr_vide_container'
 import Dashboard from './dashboard/dashboard'
 import './css_reset.css'
 
@@ -17,7 +18,10 @@ const App = () => (
       <NavBarContainer />
     </header>
     <Switch>
-      <Route exact path="/dashboard" component={Dashboard} />
+
+      <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+      <ProtectedRoute exact path="/coolr" component={CoolrVideoContainer} />
+
     </Switch>
   </div>
 );
