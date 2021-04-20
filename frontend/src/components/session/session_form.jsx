@@ -28,7 +28,6 @@ class SessionForm extends React.Component {
   }
 
   handleSubmit(e) {
-    debugger
     e.preventDefault();
     if (this.props.formType === 'Sign up') {
       this.props.formAction({

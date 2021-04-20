@@ -5,8 +5,7 @@ import {
 } from '../../actions/modal_actions'
 import SessionForm from './session_form';
 import {
-  login,
-  logout,
+  login
 } from '../../actions/session_actions'
 
 const mSTP = state => ({

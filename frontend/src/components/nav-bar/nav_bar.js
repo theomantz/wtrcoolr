@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom'
-import { openModal, closeModal } from '../modal/modal'
 // import './navbar.css'
 
 class NavBar extends React.Component {
