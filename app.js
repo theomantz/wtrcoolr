@@ -18,10 +18,6 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(bodyParser.json())
 
-
-//models
-const User = require('./models/User');
-
 // Passport / User Auth
 
 const passport = require('passport');
