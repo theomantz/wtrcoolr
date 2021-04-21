@@ -16,9 +16,6 @@ router.get('/current', passport.authenticate('jwt', {session: false}), (req, res
 
 })
 
-router.get('/user', (req, res) => {
-
-})
 
 router.get('/test', (req, res) => {
 
@@ -105,8 +102,10 @@ router.post('/login', (req, res) => {
       bcrypt.compare(password, user.password)
         .then(isMatch => {
           if (isMatch) {
-            const payload = {id: user.id, name: user.name, email: user.email, orgs: user.orgs}
+            
+            User.findByIdAndUpdate(user.id, {$set: {active: true}})
 
+            const payload = {id: user.id, name: user.name, email: user.email, orgs: user.orgs, active: user.active}
             jwt.sign(
               payload,
               keys.secretOrKey,
@@ -118,6 +117,7 @@ router.post('/login', (req, res) => {
                 })
               }
             )
+            
           } else {
             errors.password = "Incorrect password";
             return res.status(400).json(errors)
