@@ -55,7 +55,7 @@ class NavBar extends React.Component {
   render() {
       return (
         <div className="navbar">
-            <div className="nav-logo"><h1>wtrcoolr</h1></div>
+            <Link to={'/dashboard'} className="nav-logo">wtrcoolr</Link>
             { this.getLinks() }
         </div>
       );
