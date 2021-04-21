@@ -1,5 +1,6 @@
 import * as APIUtil from "../util/session_api_util";
 import jwt_decode from "jwt-decode";
+import {getPublicOrgs} from './org_actions';
 
 export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 export const RECEIVE_SESSION_ERRORS = "RECEIVE_SESSION_ERRORS";
@@ -42,7 +43,8 @@ export const login = (user) => (dispatch) => {
       localStorage.setItem("jwtToken", token);
       APIUtil.setAuthToken(token);
       const decoded = jwt_decode(token);
-      dispatch(receiveCurrentUser(decoded));
+      dispatch(getPublicOrgs());
+      dispatch(receiveCurrentUser(decoded));      
     })
     .catch((err) => {
       dispatch(receiveErrors(err.response.data));

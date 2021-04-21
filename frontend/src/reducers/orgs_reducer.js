@@ -1,20 +1,14 @@
-import {
-    RECEIVE_MOVIES,
-    RECEIVE_MOVIE
-  } from '../actions/movie_actions';
+import {RECEIVE_ORGS} from '../actions/org_actions';
   
-  const moviesReducer = (state = {}, action) => {
+  const orgsReducer = (state = {}, action) => {
     Object.freeze(state)
     switch(action.type) {
-      case RECEIVE_MOVIES:
-        return action.movies;
-      case RECEIVE_MOVIE:
-        const newMovie = { [action.movie.id]: action.movie };
-        return Object.assign({}, state, newMovie);
+      case RECEIVE_ORGS:
+        return action.orgs;
       default:
         return state;
     }
   };
   
-  export default moviesReducer;
+  export default orgsReducer;
   

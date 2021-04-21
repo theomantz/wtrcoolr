@@ -5,5 +5,5 @@ export const createOrg = (orgData) => {
 };
 
 export const getPublicOrgs = () => {
-    return axios.get("/api/publicOrgs/");
+    return axios.get("/api/orgs/publicOrgs/");
   };
