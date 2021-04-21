@@ -10,7 +10,7 @@ import {
 
 const mSTP = state => ({
   formType: 'Log in', 
-  sessionErrors: state.errors.sessionErrors
+  errors: state.errors.session
 })
 
 const mDTP = dispatch => ({
