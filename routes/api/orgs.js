@@ -87,7 +87,7 @@ router.patch('/updateUsers', (req, res) =>{
 router.get('/publicOrgs', (req, res) => {
 
   Org.find({ public: true})
-    .then(publicOrgs => res.json(publicOrgs))
+    .then(publicOrgs => res.json(publicOrgs.data))
 
 })
 
