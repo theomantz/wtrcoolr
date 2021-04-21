@@ -53,6 +53,12 @@ class CoolrVideo extends React.Component {
     })
   }
 
+  handleKeyPress = e => {
+    if(e.charCode === 13) {
+      this.submitChatMessage(e)
+    }
+  }
+
   submitChatMessage = e => {
     const { chatMessage } = this.state
     const { user } = this.props
@@ -71,11 +77,14 @@ class CoolrVideo extends React.Component {
   renderMessages() {
     if( !this.state.messages.length ) return null
     const messages = this.state.messages.map(message => {
-      return ( 
-      <li key={uuidv4()} className='message'>
-        {message.name}: {message.chatMessage}
-      </li>
-      )
+      return (
+        <li key={uuidv4()} className="message">
+          <b>{message.name}</b> 
+          <span>
+            {message.chatMessage}
+          </span>
+        </li>
+      );
     })
     return( 
       <ul className='chat-message-list'>
@@ -137,7 +146,7 @@ class CoolrVideo extends React.Component {
                 placeholder='type a message'
                 value={this.state.chatMessage}
                 onChange={this.handleChatChange}
-                onSubmit={this.submitChatMessage} />
+                onKeyPress={this.handleKeyPress} />
               <div id="send-icon">
                 <FontAwesomeIcon icon={faPaperPlane} className='option-button'
                 onClick={this.submitChatMessage}
