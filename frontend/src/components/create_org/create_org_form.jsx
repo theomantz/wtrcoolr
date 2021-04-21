@@ -28,7 +28,10 @@ class CreateOrgForm extends React.Component {
         name: this.state.name,
         public: this.state.public,
       })
-      .then(() => this.props.closeModal())
+      .then(() => {
+        this.props.closeModal();
+        this.props.history.push({pathname: '/dashboard'}) //change to org page
+        })
       .catch(() => {})
   }
 

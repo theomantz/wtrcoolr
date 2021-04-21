@@ -74,7 +74,6 @@ class NextCoolr extends React.Component {
                 }
             }
             targetDate.setDate(targetDate.getDate() + 1);
-            console.log(targetDate.getDay());
             if(targetDate.getDay()===this.state.day){
                 datefound = true;
             }
