@@ -5,13 +5,7 @@ const app = express();
 // Video Server Imports and Constants
 const http = require('http')
 const server = http.createServer(app)
-const io = require("socket.io")(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Access-Control-Allow-Origin"],
-  },
-});
+const io = require("socket.io")(server);
 
 // Video chat routes
 const index = require('./routes/api/chat')
