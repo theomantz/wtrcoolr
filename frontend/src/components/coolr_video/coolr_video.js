@@ -1,8 +1,6 @@
 import './coolr.css'
 import React from 'react';
-import axios from 'axios';
 import openSocket from 'socket.io-client';
-import { Redirect } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
@@ -12,6 +10,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Peer from 'simple-peer';
 import moment from 'moment';
+import { Howl } from 'howler'
+import notificationSound from '../../sounds/chat-notif.mp3'
 
 class CoolrVideo extends React.Component {
   constructor(props) {
@@ -31,14 +31,27 @@ class CoolrVideo extends React.Component {
     this.handleMute = this.handleMute.bind(this)
     
   }
+
+  chatNotificationSound() {
+    return (new Howl({
+      src: [notificationSound],
+      loop: false,
+      preload: true
+    }));
+  }
   
   componentDidMount() {
-    this.socket = openSocket("127.0.0.1:5000", { transports: ["websocket"] });
+    let socketURL = "127.0.0.1:5000"
+    if( process.env.NODE_ENV === 'production') {
+      socketURL = process.env.REACT_APP_SOCKET_URL || "https://wtrcoolr.herokuapp.com/"
+    }
+    this.socket = openSocket(socketURL, { transports: ["websocket"] });
     this.socket.on("FromAPI", data => {
       this.setState({ response: data })
     })
     this.socket.on('receiveChatMessage', message => {
       this.setState({ messages: this.state.messages.concat(message) })
+      this.chatNotificationSound()
     })
   }
 
