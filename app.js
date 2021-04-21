@@ -26,10 +26,10 @@ app.use(passport.initialize());
 require('./config/passport')(passport);
 
 const users =  require('./routes/api/users');
-const orgs = require('./routes/api/orgs')
+const orgs = require('./routes/api/orgs');
 
 app.use("/api/users", users)
-// app.use("/api/orgs", orgs)
+//app.use("/api/orgs", orgs)
 
 
 

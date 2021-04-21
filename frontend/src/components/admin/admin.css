@@ -1,0 +1,35 @@
+.admin-container{
+    display: flex;
+    margin-top: 100px;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    position: absolute;
+    left: 0px;
+}
+
+.org-name-header{
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    transform: translateX(-50%);
+    font-size: 26px;
+    color: #7F3F98;
+}
+
+.admin-members-column{
+    height: 700px;
+    width: 20%;
+    margin: 3%;
+    background-color: #4AC2C5;
+    border-radius: 6px;
+}
+
+.coolr-times-column{
+    height: 700px;
+    width: 40%;
+    margin: 3%;
+    background-color: #4AC2C5;
+    border-radius: 6px;
+}
+
