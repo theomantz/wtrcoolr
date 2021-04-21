@@ -85,10 +85,10 @@ router.patch('/updateUsers', (req, res) =>{
 
 //public orgs get
 router.get('/publicOrgs', (req, res) => {
-
   Org.find({ public: true})
-    .then(publicOrgs => res.json(publicOrgs.data))
-
+    .then(publicOrgs => {
+      res.json(publicOrgs)
+    })
 })
 
 router.delete('/delete', (req, res) => {
