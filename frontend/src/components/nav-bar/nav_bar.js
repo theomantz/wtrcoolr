@@ -26,6 +26,7 @@ class NavBar extends React.Component {
         return (
             <div className="navlinks">
                 <Link className="navlink" to={'/dashboard'}>Dashboard</Link>
+                <Link className="navlink" to={'/coolr'}>Coolr</Link>
                 <Link className="navlink" to={'/profile'}>Orgs</Link>
                 <Link className="navlink" to={'/admin'}>Admin</Link>
                 <button className="logout" onClick={this.logoutUser}>Logout</button>

@@ -4,13 +4,20 @@
   --main-darklg: #1d2635;
   --main-dark: #161d29;
   --primary-color: #2f80ec;
-  --main-light: #eeeeee;
+  --main-light: #ffffff;
+  --primary-light: #D2F9FA;
+  --primary-accent: #F1D9FA;
   font-family: "Poppins", sans-serif;
 }
 
 * {
   margin: 0;
   padding: 0;
+}
+
+.coolr-call.container {
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
@@ -24,6 +31,7 @@
 }
 
 .logo > h3 {
+  font-size: 2.5rem;
   color: var(--main-light);
 }
 
@@ -33,19 +41,19 @@
   display: flex;
 }
 
-.main__left {
+.main-left {
   flex: 0.7;
   display: flex;
   flex-direction: column;
 }
 
-.videos__group {
+#video-grid-container {
   flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  background-color: var(--main-dark);
+  background-color: var(--main-light);
 }
 
 video {
@@ -73,8 +81,9 @@ video {
   margin-left: auto;
 }
 
-.options-button {
+.option-button {
   display: flex;
+  cursor: pointer;
   justify-content: center;
   align-items: center;
   background-color: var(--primary-color);
@@ -84,17 +93,26 @@ video {
   font-size: 1.2rem;
   width: 50px;
   margin: 0 0.5rem;
+  padding: 0 15px;
+  box-sizing: content-box;
+  width: 250px;
+}
+
+#video-icon:hover, #microphone-icon:hover {
+  padding: 0.15rem;
+  border-radius: 8px;
+  background-color: var(--primary-light);
 }
 
 .background-red {
   background-color: #f6484a;
 }
 
-.main__right {
+.main-right {
   display: flex;
   flex-direction: column;
   flex: 0.3;
-  background-color: #242f41;
+  background-color: var(--main-darklg);
 }
 
 .main-chat-window {
@@ -106,14 +124,14 @@ video {
   display: none;
 }
 
-.main__message_container {
+.main-message-container {
   padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.main__message_container > input {
+.main-message-container > input {
   height: 50px;
   flex: 1;
   font-size: 1rem;
@@ -162,7 +180,11 @@ video {
   display: none;
 }
 
-.header__back {
+#send-icon {
+  padding: 1rem;
+}
+
+.header-back {
   display: none;
   position: absolute;
   font-size: 1.3rem;
@@ -171,11 +193,15 @@ video {
   color: #fff;
 }
 
+#chat_message {
+  
+}
+
 @media (max-width: 700px) {
-  .main__right {
+  .main-right {
     display: none;
   }
-  .main__left {
+  .main-left {
     width: 100%;
     flex: 1;
   }
