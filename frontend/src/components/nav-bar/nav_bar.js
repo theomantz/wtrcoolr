@@ -28,6 +28,10 @@ class NavBar extends React.Component {
                 <Link className="navlink" to={'/dashboard'}>Dashboard</Link>
                 <Link className="navlink" to={'/profile'}>Orgs</Link>
                 <Link className="navlink" to={'/admin'}>Admin</Link>
+                <button 
+                  className="nav-button" 
+                  onClick={this.handleClick('createOrg')}
+                  >Create Organization</button>
                 <button className="logout" onClick={this.logoutUser}>Logout</button>
             </div>
         );
