@@ -32,7 +32,7 @@ const getApiAndEmit = socket => {
   socket.emit("From API", response);
 }
 
-server.listen(port, () => console.log(`Listening on port ${port}`))
+// server.listen(port, () => console.log(`Listening on port ${port}`));
 
 // Database Setup
 const mongoose = require('mongoose');
@@ -115,5 +115,6 @@ app.use(express.json());
 // })
 
 
+
 const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`Server is up and running on ${port}`));
+server.listen(port, () => console.log(`Server is up and running on ${port}`));

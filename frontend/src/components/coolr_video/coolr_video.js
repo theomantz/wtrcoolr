@@ -13,12 +13,12 @@ import Peer from 'simple-peer';
 class CoolrVideo extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      response: null
+    }
+    
   }
-
-  // componentDidMount() {
-  //   socket.current = io.connect('/coolr');
-
-  // }
 
 
   render() {
