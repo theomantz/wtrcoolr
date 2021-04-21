@@ -31,11 +31,10 @@ router.post('/',
         
         const newOrg = new Org({
           name: req.body.name,
-          coolrHours: req.body.coolrHours,
+          // coolrHours: req.body.coolrHours,
           admins: [req.body.currentUser],
           members: [req.body.currentUser],
-          public: true
-
+          public: req.body.public
         })
 
         newOrg

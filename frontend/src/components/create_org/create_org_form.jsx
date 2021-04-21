@@ -15,18 +15,21 @@ class CreateOrgForm extends React.Component {
 
   update(field) {
     return (
-      e => this.setState({
-        [field]: e.currentTarget.value
-      })
+      e => {
+        console.log(e.currentTarget.value)
+        this.setState({[field]: e.currentTarget.value})
+      }
     )
   }
 
   handleSubmit(e) {
     e.preventDefault();
     e.stopPropagation();
+    let publicbool = (this.state.public==='Public')
     this.props.formAction({
         name: this.state.name,
-        public: this.state.public,
+        public: publicbool,
+        currentUser: this.props.currentUser
       })
       .then(() => {
         this.props.closeModal();

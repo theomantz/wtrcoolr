@@ -8,7 +8,8 @@ import CreateOrgForm from './create_org_form';
 
 const mSTP = state => ({
   formType: "Create Organization",
-  errors: state.errors.session
+  errors: state.errors.session,
+  currentUser: state.session.user.id
 });
 
 const mDTP = dispatch => ({
