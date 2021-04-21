@@ -1,10 +1,10 @@
 .navbar{
     position: absolute;
-    background-color: rgba(3,197,199,1);
+    background-color: #4AC2C5;
     height: 70px;
     width: 100%;
     display: flex;
-    color: rgba(161,44,176,1);
+    color: #7F3F98;
 }
 
 .nav-logo{
@@ -27,16 +27,16 @@
 }
 
 .navlink{
-    color: rgba(161,44,176,1);
+    color: #7F3F98;
     text-decoration: none;
     margin: 10px;
 }
 
 .logout{
-    background-color: rgba(161,44,176,1);
+    background-color: #7F3F98;
     border-style: none;
     text-decoration: none;
     margin: 10px;
-    color: rgba(3,197,199,1);
+    color: #4AC2C5;
     height: 30px;
 }

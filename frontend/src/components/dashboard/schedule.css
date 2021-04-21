@@ -1,6 +1,6 @@
 .next-coolr-container{
     color: white;
-    background-color: rgba(161,44,176,1);
+    background-color: #7F3F98;
     width: 80%;
     height: 20%;
     margin: auto;
@@ -32,7 +32,7 @@
 }
 
 .calendar-container{
-    background-color: rgba(161,44,176,1);
+    background-color: #7F3F98;
     width: 80%;
     height: 40%;
     margin: auto;
