@@ -12,7 +12,17 @@ router.get('/current', passport.authenticate('jwt', {session: false}), (req, res
 
   return User.findById(req.user.id)
     .populate('orgs')
+    .then(user => res.json(user))
 
+})
+
+router.get('/user', (req, res) => {
+
+})
+
+router.get('/test', (req, res) => {
+
+  res.json("hello world")
 })
 
 router.patch('/edit',(req, res) =>{

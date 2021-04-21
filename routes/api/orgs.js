@@ -5,8 +5,9 @@ const Org = require('../../models/Org')
 const kets = require('../../config/keys')
 const User = require("../../models/User")
 
-router.post('/', 
 
+router.post('/', 
+  
   (req, res) => {
 
   //add error handling
@@ -27,24 +28,29 @@ router.post('/',
 
         // how is the current user getting passed up?
         // if User is returning null, check value type of id in database
-        const firstAdmin = User.findbyid(req.body.currentUser)
+        
         const newOrg = new Org({
           name: req.body.name,
           coolrHours: req.body.coolrHours,
-          admins: [firstAdmin],
-          members: [firstAdmin]
+          admins: [req.body.currentUser],
+          members: [req.body.currentUser],
+          public: true
 
         })
 
         newOrg
           .save()
           .then( org => res.json(org))
-          .catch( err => 
-            res.status(404).json({ orgNotCreated: "Invalid Organization Details"})
+          .catch( err =>
+            console.log(err)
           )
       }
     })
 })
+
+//
+// const firstAdmin = User.findById(req.body.currentUser)
+//  res.status(404).json({ orgNotCreated: "Invalid Organization Details"})
 
 router.patch('/edit',(req, res) =>{
 
@@ -69,6 +75,8 @@ router.delete('/delete', (req, res) => {
   db.collection.remove({_id: org._id})
 
 })
+
+module.exports = router
 
 
 
