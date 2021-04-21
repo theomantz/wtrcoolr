@@ -4,7 +4,7 @@ import {RECEIVE_ORGS} from '../actions/org_actions';
     Object.freeze(state)
     switch(action.type) {
       case RECEIVE_ORGS:
-        return action.orgs;
+        return action.orgs.data;
       default:
         return state;
     }
