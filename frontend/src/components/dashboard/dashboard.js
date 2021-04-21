@@ -1,5 +1,3 @@
-// src/components/profile/profile.js
-
 import React from 'react';
 import './dashboard.css'
 import OrganizationList from './organization_list'
