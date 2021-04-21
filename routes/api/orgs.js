@@ -34,7 +34,7 @@ router.post('/',
           // coolrHours: req.body.coolrHours,
           admins: [req.body.currentUser],
           members: [req.body.currentUser],
-          public: true
+          public: req.body.public
 
         })
 

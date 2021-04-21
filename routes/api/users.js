@@ -33,7 +33,8 @@ router.patch('/edit',(req, res) =>{
 })
 
 router.patch('/logout', (req, res) => {
-  User.findByIdAndUpdate(req.)
+  User.findByIdAndUpdate(req.body.id, {$set: {active: false}})
+    .then(user => res.json(user))
 })
 
 router.post('/register', (req, res)=>{
