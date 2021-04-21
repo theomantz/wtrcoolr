@@ -19,7 +19,7 @@ const App = () => (
     </header>
     <Switch>
       <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-      <ProtectedRoute exact path="/admin" component={Admin} />
+      <ProtectedRoute exact path="/admin" component={AdminContainer} />
       <ProtectedRoute exact path="/coolr" component={CoolrVideoContainer} />
       <ProtectedRoute exact path="/admin/:orgId" component={AdminContainer} />
     </Switch>
