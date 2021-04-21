@@ -1,5 +1,4 @@
 import * as APIUtil from "../util/session_api_util";
-import * as userUtil from "../util/user_upi_util";
 import jwt_decode from "jwt-decode";
 
 export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
