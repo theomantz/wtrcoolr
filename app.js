@@ -18,6 +18,7 @@ app.use(express.json())
 
 // Models
 const User = require('./models/User')
+const Org = require('./models/Org')
 
 // Passport / User Auth
 
@@ -29,7 +30,7 @@ const users =  require('./routes/api/users');
 const orgs = require('./routes/api/orgs')
 
 app.use("/api/users", users)
-// app.use("/api/orgs", orgs)
+app.use("/api/orgs", orgs)
 
 
 
