@@ -99,7 +99,7 @@ video {
 }
 
 #video-icon:hover, #microphone-icon:hover {
-  padding: 0.25 rem;
+  padding: 0.15rem;
   border-radius: 8px;
   background-color: var(--primary-light);
 }
