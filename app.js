@@ -14,7 +14,7 @@ const io = require("socket.io")(server, {
 });
 
 // Video chat routes
-const index = require('./routes/api/coolr')
+const index = require('./routes/api/chat')
 app.use(index)
 
 
