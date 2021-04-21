@@ -133,7 +133,7 @@ video {
 
 .main-chat-window {
   flex-grow: 1;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .main-chat-window::-webkit-scrollbar {
@@ -160,7 +160,8 @@ video {
   display: flex;
   flex-direction: column;
   margin: 1.5rem;
-  height: 95%;
+  
+  height: inherit;
 }
 
 .message {
