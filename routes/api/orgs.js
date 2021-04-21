@@ -35,7 +35,6 @@ router.post('/',
           admins: [req.body.currentUser],
           members: [req.body.currentUser],
           public: req.body.public
-
         })
 
         newOrg
