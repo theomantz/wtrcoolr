@@ -33,11 +33,16 @@ class CoolrVideo extends React.Component {
   }
 
   chatNotificationSound() {
-    return (new Howl({
+    const sound = new Howl({
       src: [notificationSound],
       loop: false,
       preload: true
-    }));
+    });
+    return sound.play()
+  }
+
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" })
   }
   
   componentDidMount() {
@@ -53,6 +58,11 @@ class CoolrVideo extends React.Component {
       this.setState({ messages: this.state.messages.concat(message) })
       this.chatNotificationSound()
     })
+
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom()
   }
 
   componentWillUnmount() {
@@ -133,7 +143,10 @@ class CoolrVideo extends React.Component {
             <div className="options">
               <div className="options-left">
                 <div id="video-icon">
-                  <FontAwesomeIcon icon={faVideo} className="option-button video" />
+                  <FontAwesomeIcon
+                    icon={faVideo}
+                    className="option-button video"
+                  />
                 </div>
                 <div id="microphone-icon">
                   <FontAwesomeIcon
@@ -150,21 +163,29 @@ class CoolrVideo extends React.Component {
             <div className="main-chat-window">
               <div className="messages">
                 <span>{this.state.response}</span>
-                { this.renderMessages() }
+                {this.renderMessages()}
+                <div
+                  ref={(el) => {
+                    this.messagesEnd = el;
+                  }}
+                ></div>
               </div>
             </div>
             <div className="main-message-container">
-              <input 
-                id='chat_message' 
-                type='text' 
-                autoComplete='off' 
-                placeholder='type a message'
+              <input
+                id="chat_message"
+                type="text"
+                autoComplete="off"
+                placeholder="type a message"
                 value={this.state.chatMessage}
                 onChange={this.handleChatChange}
-                onKeyPress={this.handleKeyPress} />
+                onKeyPress={this.handleKeyPress}
+              />
               <div id="send-icon">
-                <FontAwesomeIcon icon={faPaperPlane} className='option-button'
-                onClick={this.submitChatMessage}
+                <FontAwesomeIcon
+                  icon={faPaperPlane}
+                  className="option-button"
+                  onClick={this.submitChatMessage}
                 />
               </div>
             </div>
