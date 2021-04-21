@@ -8,7 +8,6 @@
 
 .dashboard-container{
     display: flex;
-    padding-top: 100px;
     justify-content: center;
     font-family: Arial, Helvetica, sans-serif;
 }

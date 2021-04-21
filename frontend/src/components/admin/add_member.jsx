@@ -1,5 +1,5 @@
 import React from 'react';
-import './create_org_form.css'
+import './add_member.css'
 
 class CreateOrgForm extends React.Component {
 
@@ -7,8 +7,7 @@ class CreateOrgForm extends React.Component {
     super(props)
 
     this.state = {
-      name: '',
-      public: true,
+      email: '',
     }
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -24,48 +23,35 @@ class CreateOrgForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     e.stopPropagation();
-    let publicbool = (this.state.public==='Public')
-    this.props.formAction({
-        name: this.state.name,
-        public: publicbool,
-        currentUser: this.props.currentUser
-      })
-      .then(() => {
+    // this.props.formAction({
+    //     name: this.state.name,
+    //     public: publicbool,
+    //     currentUser: this.props.currentUser
+    //   })
+    //   .then(() => {
         this.props.closeModal();
-        this.props.history.push({pathname: '/dashboard'}) //change to org page
-        })
-      .catch(() => {})
+      //   })
+      // .catch(() => {})
   }
 
   render() {
 
     return (
-      <div className="create-org_form-container">
+      <div className="add-member-container">
         <form 
           onSubmit={this.handleSubmit}
-          className="create-org_form">
+          className="add-member">
           
             <div>
               <input 
-                placeholder="Organization Name" 
+                placeholder="Email Address" 
                 type="text"
-                value={this.state.name}
-                onChange={this.update('name')}
+                value={this.state.email}
+                onChange={this.update('email')}
                 >
               </input>
               <span>{this.props.errors.name}</span>
-            </div>
-
-          <div>
-          <select onChange={this.update('public')}>
-            <option value="Public">Public</option>
-            <option value="Private">Private</option>
-          </select>
-          </div>
-          
-       
-
-         
+            </div>        
          
           <input 
             type="submit" 

@@ -29,24 +29,24 @@ class NavBar extends React.Component {
                 <Link className="navlink" to={'/coolr'}>Coolr</Link>
                 <Link className="navlink" to={'/profile'}>Orgs</Link>
                 <Link className="navlink" to={'/admin'}>Admin</Link>
-                <button 
-                  className="nav-button" 
+                <strong 
+                  className="navlink" 
                   onClick={this.handleClick('createOrg')}
-                  >Create Organization</button>
-                <button className="logout" onClick={this.logoutUser}>Logout</button>
+                  >Create Organization</strong>
+                <strong className="logout" onClick={this.logoutUser}>Logout</strong>
             </div>
         );
       } else {
         return (
             <div className="navlinks">
-                <button 
-                  className="nav-button" 
+                <strong 
+                  className="navlink" 
                   onClick={this.handleClick('signup')}
-                  >Signup</button>
-                <button 
-                  className="nav-button" 
+                  >Signup</strong>
+                <strong 
+                  className="navlink" 
                   onClick={this.handleClick('login')}
-                  >Login</button>
+                  >Login</strong>
             </div>
         );
       }
@@ -55,7 +55,7 @@ class NavBar extends React.Component {
   render() {
       return (
         <div className="navbar">
-            <div className="nav-logo"><h1>wtrcoolr</h1></div>
+            <Link to={'/dashboard'} className="nav-logo">wtrcoolr</Link>
             { this.getLinks() }
         </div>
       );
