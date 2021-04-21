@@ -21,7 +21,7 @@
 .navlinks{
     position: absolute;
     top: 50%;
-    left: 65%;
+    right: 5%;
     transform: translateY(-50%);
 }
 
@@ -29,6 +29,7 @@
     color:white;
     text-decoration: none;
     margin: 10px;
+    transition: all 0.2s;
 }
 
 .navlink:hover{
