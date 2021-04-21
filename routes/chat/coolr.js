@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { v4: uuid } = require('uuid')
+const { uuid } = require('uuidv4')
 
 router.get('/', (req, res) => {
   res.json({ 
     response: 'Route Alive',
-    link: uuidv4() 
+    link: uuid() 
   }).status(200)
 });
 
