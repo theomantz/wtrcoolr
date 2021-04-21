@@ -19,7 +19,7 @@ const App = () => (
       <NavBarContainer />
     </header>
     <Switch>
-
+      
       <ProtectedRoute exact path="/dashboard" component={Dashboard} />
       <ProtectedRoute exact path="/admin" component={Admin} />
       <ProtectedRoute exact path="/coolr" component={CoolrVideoContainer} />
