@@ -27,9 +27,14 @@
 }
 
 .navlink{
-    color: #7F3F98;
+    color:white;
     text-decoration: none;
     margin: 10px;
+}
+
+.navlink:hover{
+    color: #7F3F98;
+    cursor: pointer;
 }
 
 .logout{
@@ -39,4 +44,12 @@
     margin: 10px;
     color: #4AC2C5;
     height: 30px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+}
+
+.logout:hover{
+    background-color: #814599;
+    cursor: pointer;
 }

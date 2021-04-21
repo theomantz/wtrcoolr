@@ -1,6 +1,5 @@
 .admin-container{
     display: flex;
-    margin-top: 100px;
     justify-content: center;
     font-family: Arial, Helvetica, sans-serif;
     width: 100%;
@@ -32,4 +31,26 @@
     background-color: #4AC2C5;
     border-radius: 6px;
 }
+
+.add-member-button{
+    position: relative;
+    text-align: center;
+    margin: 20px;
+    padding: 10px;
+    color: white;
+    font-weight: 700;
+    font-size: 20px;
+    border: 1px solid rgb(101, 101, 101);
+    border-radius: 6px;
+    background-color: #7F3F98;
+}
+
+.add-member-button:hover{
+    cursor: pointer;
+    background-color: #84469c
+}
+
+.add-member-button:focus {
+    outline: none;
+  }
 

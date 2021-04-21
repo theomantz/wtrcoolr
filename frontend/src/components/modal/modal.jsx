@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import LoginFormContainer from "../session/login_form_container";
 import SignupFormContainer from "../session/signup_form_container";
 import CreateOrgFormContainer from "../create_org/create_org_container";
+import AddMemberContainer from '../admin/add_member_container'
 
 function Modal({ modal, closeModal }) {
   if (!modal) {
@@ -21,6 +22,9 @@ function Modal({ modal, closeModal }) {
     case "createOrg":
       component = <CreateOrgFormContainer />;
       break;
+    case "addMember":
+        component = <AddMemberContainer />;
+        break;
     default:
       return null;
   }

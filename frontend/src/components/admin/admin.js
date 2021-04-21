@@ -19,6 +19,10 @@ class Admin extends React.Component {
     componentWillReceiveProps(newState) {
       //  this.setState({ tweets: newState.tweets });
     }   
+
+    handleClick(type) {
+        return () => this.props.openModal(type)
+    }
     
     render() {
 
@@ -28,7 +32,8 @@ class Admin extends React.Component {
                 <div className="admin-container">
                     
                     <div className="admin-members-column">
-                    <h1 className="column-title" >Members Online</h1>               
+                    <h1 className="column-title" >Members Online</h1>
+                    <button onClick={this.handleClick('addMember')} className="add-member-button">Add member</button>               
                     </div>
                     <div className="coolr-times-column">
                     <h1 className="column-title" >Coolr Times</h1>
