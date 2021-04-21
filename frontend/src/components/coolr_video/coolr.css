@@ -68,9 +68,25 @@ video {
 }
 
 .options {
-  padding: 1rem;
+  padding: 1.25rem;
+  height: 60px;
   display: flex;
   background-color: var(--main-darklg);
+}
+
+#video-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#microphone-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
 }
 
 .options-left {
@@ -99,7 +115,7 @@ video {
 }
 
 #video-icon:hover, #microphone-icon:hover {
-  padding: 0.15rem;
+  padding: 0.15rem 0.0rem;
   border-radius: 8px;
   background-color: var(--primary-light);
 }

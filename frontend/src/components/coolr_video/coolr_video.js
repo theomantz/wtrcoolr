@@ -39,7 +39,6 @@ class CoolrVideo extends React.Component {
     })
     this.socket.on('receiveChatMessage', message => {
       this.setState({ messages: this.state.messages.concat(message) })
-      console.log(message)
     })
   }
 
@@ -61,6 +60,9 @@ class CoolrVideo extends React.Component {
 
   submitChatMessage = e => {
     const { chatMessage } = this.state
+    if( chatMessage === '' ) {
+      return null
+    }
     const { user } = this.props
     const { userId, name } = user
     const time = moment();
@@ -118,12 +120,12 @@ class CoolrVideo extends React.Component {
             <div className="options">
               <div className="options-left">
                 <div id="video-icon">
-                  <FontAwesomeIcon icon={faVideo} className="option-button" />
+                  <FontAwesomeIcon icon={faVideo} className="option-button video" />
                 </div>
                 <div id="microphone-icon">
                   <FontAwesomeIcon
                     icon={faMicrophone}
-                    className="option-button"
+                    className="option-button microphone"
                     onClick={this.handleMute}
                   />
                 </div>
