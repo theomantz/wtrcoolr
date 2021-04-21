@@ -87,8 +87,3 @@
 .create-org_form select:disabled:hover, .create-org_form select[aria-disabled=true] {
   border-color: #aaa;
 }
-
-
-body {
-  margin: 2rem;
-}
