@@ -32,6 +32,11 @@ router.patch('/edit',(req, res) =>{
 
 })
 
+router.patch('/logout', (req, res) => {
+  User.findByIdAndUpdate(req.body.id, {$set: {active: false}})
+    .then(user => res.json(user))
+})
+
 router.post('/register', (req, res)=>{
 
   const { errors, isValid } = validateRegisterInput(req.body)
@@ -90,6 +95,7 @@ router.post('/login', (req, res) => {
 
 
   User.findOne({email})
+    .populate('orgs')
     .then(user => {
       if (!user) {
         errors.email = "User not found"
@@ -99,7 +105,7 @@ router.post('/login', (req, res) => {
       bcrypt.compare(password, user.password)
         .then(isMatch => {
           if (isMatch) {
-            const payload = {id: user.id, name: user.name, email: user.email}
+            const payload = {id: user.id, name: user.name, email: user.email, orgs: user.orgs}
 
             jwt.sign(
               payload,
