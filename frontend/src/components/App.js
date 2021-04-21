@@ -1,5 +1,4 @@
 // src/components/app.js
-
 import React from 'react';
 import Modal from './modal/modal'
 import { Switch, Route } from 'react-router-dom';
@@ -19,11 +18,9 @@ const App = () => (
       <NavBarContainer />
     </header>
     <Switch>
-      
       <ProtectedRoute exact path="/dashboard" component={Dashboard} />
       <ProtectedRoute exact path="/admin" component={Admin} />
       <ProtectedRoute exact path="/coolr" component={CoolrVideoContainer} />
-
     </Switch>
   </div>
 );

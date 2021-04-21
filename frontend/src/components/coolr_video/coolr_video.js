@@ -1,15 +1,15 @@
 import './coolr.css'
 import React from 'react';
-import ReactDOM from 'react-dom'
+import axios from 'axios';
 import { io } from 'socket.io-client';
 import { Redirect } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { v4 as uuidv4 } from 'uuid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faVideo, 
   faMicrophone,
   faPaperPlane 
-} from '@fortawesome/free-solid-svg-icons'
+} from '@fortawesome/free-solid-svg-icons';
 import Peer from 'simple-peer';
 
 
@@ -20,16 +20,9 @@ class CoolrVideo extends React.Component {
     this.state = {
       response: null
     }
-    
-
-    this.state = {
-      audio: false,
-      video: false
-    }
 
     this.userVideo = null;
     this.peerVideo = null;
-    this.socket = io('/')
     this.myPeer = null;
     
 
@@ -38,31 +31,11 @@ class CoolrVideo extends React.Component {
   }
   
   componentDidMount() {
-    const { socket } = this
-    this.renderVideo()
-    // socket.current = io.connect('/');
-    // this.props.history.push( uuidv4() );
+    
   }
 
-  renderVideo() {
-    const videoGrid = document.getElementById('video-grid')
-    const userVideo = document.createElement('video')
-    userVideo.muted = true;
-    navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: true
-    })
-    .then(stream => {
-      this.addVideoStream(userVideo, stream, videoGrid)
-    })
-  }
+  handleJoin() {
 
-  addVideoStream(video, stream, videoGrid) {
-    video.srcObect = stream;
-    video.addEventListener("loadedmetadata", () => {
-      video.play();
-      videoGrid.append(video)
-    })
   }
 
   handleMute() {
