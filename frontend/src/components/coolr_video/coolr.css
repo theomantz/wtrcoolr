@@ -144,6 +144,7 @@ video {
   display: flex;
   flex-direction: column;
   margin: 1.5rem;
+  height: 95%;
 }
 
 .message {
@@ -193,8 +194,13 @@ video {
   color: #fff;
 }
 
-#chat_message {
-  
+.chat-message-list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 100%;
+  justify-content: flex-end;
+  padding-left: 0.15rem;
 }
 
 @media (max-width: 700px) {

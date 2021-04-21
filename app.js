@@ -5,8 +5,13 @@ const app = express();
 // Video Server Imports and Constants
 const http = require('http')
 const server = http.createServer(app)
-const socketIo = require('socket.io')
-const io = socketIo(server)
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Access-Control-Allow-Origin"],
+  },
+});
 
 // Video chat routes
 const index = require('./routes/chat/coolr')
@@ -14,7 +19,7 @@ app.use(index)
 
 
 // Video chat port listening
-let inteval;
+let interval;
 io.on('connection', socket => {
   console.log('New Client Connected');
   if(interval) {
@@ -25,11 +30,14 @@ io.on('connection', socket => {
     console.log('Client Disconnected');
     clearInterval(interval)
   })
+  socket.on('sendChatMessage', msg => {
+    return io.emit('receiveChatMessage', msg)
+  })
 })
 
 const getApiAndEmit = socket => {
   const response = new Date()
-  socket.emit("From API", response);
+  socket.emit("FromAPI", response);
 }
 
 // server.listen(port, () => console.log(`Listening on port ${port}`));
