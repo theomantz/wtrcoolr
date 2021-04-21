@@ -42,7 +42,7 @@ class Dashboard extends React.Component {
                     <h2 className="column-subtitle">Most Popular</h2>
                     <h2 className="column-subtitle">Trending</h2>
               </div>
-              {/* <CalendarContainer /> */}
+              <CalendarContainer />
             </div>
           );
     }
