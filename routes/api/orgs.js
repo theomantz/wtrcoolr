@@ -1,12 +1,10 @@
 const express = require("express")
 const router = express.Router()
-const bcrypt = require('bcryptjs')
 const Org = require('../../models/Org')
-const kets = require('../../config/keys')
-const User = require("../../models/User")
+const passport = require('passport');
 
 
-router.post('/', 
+router.post('/', passport.authenticate('jwt', {session: false}),
   
   (req, res) => {
 
@@ -51,14 +49,14 @@ router.post('/',
 // const firstAdmin = User.findById(req.body.currentUser)
 //  res.status(404).json({ orgNotCreated: "Invalid Organization Details"})
 
-router.patch('/edit',(req, res) =>{
+router.patch('/edit', passport.authenticate('jwt', {session: false}),  (req, res) =>{
 
   Org.findByIdAndUpdate(req.body.id, { $set: req.body }, { new: true })
     .then(org => res.json(org))
 
 })
 
-router.patch('/updateUsers', (req, res) =>{
+router.patch('/updateUsers', passport.authenticate('jwt', {session: false}), (req, res) =>{
   console.log(req.body)
   if (req.body.admin === "true"){
     if (req.body.add === "true"){

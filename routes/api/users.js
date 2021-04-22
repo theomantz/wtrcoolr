@@ -18,7 +18,7 @@ router.get('/current', passport.authenticate('jwt', {session: false}), (req, res
 })
 
 
-router.get('/email', (req, res) => {
+router.get('/email', passport.authenticate('jwt', {session: false}), (req, res) => {
 
   email = req.body.email
   User.find({"email": { $regex: email, $options: "i" }})
@@ -26,21 +26,24 @@ router.get('/email', (req, res) => {
 
 })
 
-router.patch('/edit',(req, res) =>{
+router.patch('/edit', passport.authenticate('jwt', {session: false}), (req, res) =>{
 
   User.findByIdAndUpdate(req.body.id, { $set: req.body }, { new: true })
     .then(user => res.json(user))
+    .catch(err => res.status(404).json({userUpdateFailed: "Failed to update User"}))
 
 })
 
-router.patch('/updateOrgs', (req, res) =>{
+router.patch('/updateOrgs', passport.authenticate('jwt', {session: false}), (req, res) =>{
 
   if (req.body.add === true){
     User.findByIdAndUpdate(req.body.userId, { $push: {"orgs": req.body.orgId}}, { new: true })
       .then(user => res.json(user))
+      .cath(err => res.status(404).json({userUpdateFailed: "Failed to update User's Orgs"}))
   } else{
     User.findByIdAndUpdate(req.body.userId, { $pull: {"orgs": req.body.orgId}}, { new: true })
       .then(user => res.json(user))
+      .cath(err => res.status(404).json({userUpdateFailed: "Failed to update User's Orgs"}))
   }
 
 })
@@ -48,6 +51,7 @@ router.patch('/updateOrgs', (req, res) =>{
 router.patch('/logout', (req, res) => {
   User.findByIdAndUpdate(req.body.id, {$set: {active: false}})
     .then(user => res.json(user))
+    .cath(err => res.status(404).json({userUpdateFailed: "Failed to update User"}))
 })
 
 router.post('/register', (req, res)=>{
@@ -143,11 +147,12 @@ router.post('/login', (req, res) => {
     })
 })
 
-router.get('/activeUsers', (req, res) => {
+router.get('/activeUsers', passport.authenticate('jwt', {session: false}), (req, res) => {
   User.find({ active: true})
     .then(activeUsers => {
       res.json(activeUsers)
     })
+    .catch(err => res.status(404).json({noActiveUsers: "No Active Users"}))
 })
 
 
