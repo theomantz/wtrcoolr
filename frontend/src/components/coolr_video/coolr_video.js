@@ -23,17 +23,24 @@ class CoolrVideo extends React.Component {
       response: null,
       chatMessage: "",
       messages: [],
-      socketId: [],
+      socketId: null,
       callActive: false,
-      userToCall: null,
+      userToCall: '',
+      audioMuted: false,
+      videoMuted: false,
+      streamURL: null,
     };
 
-    this.userVideo = null;
-    this.peerVideo = null;
+    this.userVideo = React.createRef();
+    this.peerVideo = React.createRef();
+    this.stream = React.createRef();
     this.myPeer = null;
+    this.remotePeer = null;
 
     this.handleChatChange = this.handleChatChange.bind(this);
     this.handleMute = this.handleMute.bind(this);
+    this.sendCall = this.sendCall.bind(this);
+    this.renderVideo = this.renderVideo.bind(this)
   }
 
   componentDidMount() {
@@ -43,18 +50,14 @@ class CoolrVideo extends React.Component {
         process.env.REACT_APP_SOCKET_URL || "https://wtrcoolr.herokuapp.com/";
     }
     this.socket = openSocket(socketURL, { transports: ["websocket"] });
-    const { user } = this.props
-    this.props.assignSocket({ user: user, socketId: this.socket.id })
-
-    this.socket.on("FromAPI", (data) => {
-      this.setState({ response: data })
-    });
     
+    
+    const { user } = this.props
     this.socket.on('connect', data => {
-      this.setState({ socketId: this.socket.id })
-      this.props.assignSocket({ user: user, socketId: this.state.socketId })
-      console.log(this.socket.id)
-      console.log(this.state.socketId)
+      this.setState({ socketId: this.socket.id || this.state.socketId })
+      if( this.state.socketId ) {
+        this.props.assignSocket({ user: user, socketId: this.state.socketId })
+      }
     })
     
     this.socket.on("receiveChatMessage", (message) => {
@@ -70,6 +73,8 @@ class CoolrVideo extends React.Component {
         });
     });
 
+    this.getUserVideo();
+
     this.scrollToBottom();
   }
 
@@ -78,7 +83,11 @@ class CoolrVideo extends React.Component {
   }
 
   componentWillUnmount() {
-    return () => this.socket.disconnect;
+    this.socket.off('connect');
+    if( this.stream.current ) {
+      this.stream.getTracks()
+        .forEach(track => track.stop())
+    }
   }
 
   chatNotificationSound() {
@@ -87,6 +96,7 @@ class CoolrVideo extends React.Component {
         src: [notificationSound],
         loop: false,
         preload: true,
+        volume: 0.1
       }).play()
     );
   }
@@ -96,7 +106,8 @@ class CoolrVideo extends React.Component {
       new Howl({
         src: [ringtone],
         loop: true,
-        preload: true
+        preload: true,
+        volume: 0.1
       }).play()
     )
   }
@@ -115,11 +126,6 @@ class CoolrVideo extends React.Component {
     this.setState({
       userToCall: e.currentTarget.value
     })
-  }
-
-  handleUserInputSubmit(e) {
-    const { userToCall } = this.state
-    
   }
 
   handleKeyPress = (e) => {
@@ -170,44 +176,97 @@ class CoolrVideo extends React.Component {
   sendCall(e) {
     e.preventDefault()
     this.setState({ 
-      callActive: true 
+      callActive: true
     })
-    this.handleCall()
+  }
+
+  constructPeer(stream) {
+    this.myPeer = new Peer({
+      initiator: true,
+      stream: stream,
+    });
+    if( this.myPeer ) {
+      this.sendPeerSignal()
+    }
+  }
+
+  sendPeerSignal() {
+    const { user } = this.props;
+    const { userToCall } = this.state;
+    this.myPeer.on("signal", (data) => {
+      this.socket.emit("callUser", {
+        userToCall: userToCall,
+        signalData: data,
+        from: user,
+      });
+    });
+  }
+
+  getUserVideo() {
+    navigator.mediaDevices
+    .getUserMedia({ video: true, audio: true })
+    .then((stream) => {
+
+      console.log(stream)
+      
+      this.userVideo = stream;
+      
+      debugger
+      
+      this.setState({ 
+        streamURL: window.URL.createObjectURL(stream)
+      })
+      
+      this.constructPeer(stream)
+    })
+    .catch((err) => console.log(err));
+  }
+
+  renderUserVideo() {
+    console.log(this.userVideo)
+    return (
+      <div className='user-video-container'>
+        <video
+          className='user-video'
+          playsInline
+          muted
+          ref={el => this.userVideo = el} 
+          autoPlay>
+            <source src={this.stream}/>
+          </video>
+      </div>
+    )
+  }
+
+  renderVideo() {
+    debugger
+    if( !this.stream.current ) return null
+    return (
+      <div id="video-grid">
+        {this.renderUserVideo()}
+      </div>
+    );
   }
 
   handleCall() {
     if( !this.state.callActive ) {
       return (
         <div className='call-prompt container'>
-          <label className='call-label'>Who Are you Calling?
+          <label className='call-label'>Whomst've?
             <form 
               onSubmit={this.sendCall}
               className='call-form'>
                 <input
                   type='text'
                   name='peer'
-                  value={this.state.ca}
+                  value={this.state.userToCall}
+                  onChange={e => this.setState({userToCall: e.currentTarget.value})}
                   />
+            <button className='submit-button'>Call</button>
             </form>
           </label>
         </div>
       )
-    } else {
-      navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((stream) => {
-        const peer = new Peer({
-          initiator: true,
-          stream: stream,
-        });
-        
-        peer.on("signal", (data) => {
-          this.socket.current.emit("callUser", { 
-            user: this.state.userToCall, stream: stream
-          });
-        });
-      })
-      .catch((err) => console.log(err));
     }
   }
 
@@ -222,9 +281,8 @@ class CoolrVideo extends React.Component {
         <div className="video main">
           <div className="main-left">
             <div id="video-grid-container">
-              <div id="video-grid">
                 {this.handleCall()}
-              </div>
+                {this.renderVideo()}
             </div>
             <div className="options">
               <div className="options-left">

@@ -191,6 +191,8 @@ video {
 #video-grid {
   display: flex;
   justify-content: center;
+  height: 100%;
+  width: 100%;
   flex-wrap: wrap;
 }
 
@@ -218,6 +220,14 @@ video {
   height: 100%;
   justify-content: flex-end;
   padding-left: 0.15rem;
+}
+
+.user-video-container {
+  background-color: black;
+}
+
+.user-video {
+  z-index: 99;
 }
 
 @media (max-width: 700px) {

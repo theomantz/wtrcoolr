@@ -18,22 +18,33 @@ io.on('connection', socket => {
   if(interval) {
     clearInterval(inteval);
   }
+  
   inteval = setInterval(() => getApiAndEmit(socket), 1000);
+
   socket.on('disconnect', () => {
     console.log('Client Disconnected');
     clearInterval(interval)
   })
+  
   socket.on('sendChatMessage', msg => {
     return io.emit('receiveChatMessage', msg)
   })
+  
   socket.on('callUser', data => {
-    const user = User.findById(data.user.id)
-    io.to(user).emit('coolr!', { 
-      signal: data.stream, 
-      from: data.from 
-    })
+    console.log(data)
+    User.findOne({ email: data.userToCall }).then((user) => {
+      io.to(user.socket).emit('coolr!', { 
+        signal: data.stream, 
+        from: data.from 
+      })
+    });
   })
 })
+
+const getApiAndEmit = (socket) => {
+  const response = new Date();
+  socket.emit("FromAPI", response);
+};
 
 // Database Setup
 const mongoose = require('mongoose');
@@ -78,12 +89,6 @@ mongoose
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
-
-const getApiAndEmit = socket => {
-  const response = new Date()
-  socket.emit("FromAPI", response);
-}
 
 const port = process.env.PORT || 5000;
 server.listen(port, () => console.log(`Server is up and running on ${port}`));
