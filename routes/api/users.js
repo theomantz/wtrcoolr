@@ -18,13 +18,15 @@ router.get('/current', passport.authenticate('jwt', {session: false}), (req, res
 })
 
 
-router.get('/email', passport.authenticate('jwt', {session: false}), (req, res) => {
+router.get('/email/:email', passport.authenticate('jwt', {session: false}), (req, res) => {
 
-  email = req.body.email
-  User.find({"email": { $regex: email, $options: "i" }})
+  useremail = req.params.email
+  User.find({email: { $regex: useremail, $options: "i" }})
     .then(users => res.json(users))
 
 })
+
+
 
 router.patch('/edit', passport.authenticate('jwt', {session: false}), (req, res) =>{
 

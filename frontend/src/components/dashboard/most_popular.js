@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import './trends.css'
 
 
 class NavBar extends React.Component {

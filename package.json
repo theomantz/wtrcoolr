@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/theomantz/wtrcoolr#readme",
   "dependencies": {
+    "asyncawait": "^3.0.0",
     "axois": "0.0.1-security",
     "bcryptjs": "^2.4.3",
     "concurrently": "^6.0.2",
