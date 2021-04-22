@@ -1,12 +1,14 @@
 import { connect } from 'react-redux';
-import Calendar from './calendar'
+import Calendar from './calendar';
+import * as TCUtil from '../../util/time_coversion_util'
 
 
 
 const mSTP = state => {
   
   return ({
-    orgs: state.session.user.orgs 
+    orgs: state.session.user.orgs,
+    TCUtil: TCUtil
   })
 }
 

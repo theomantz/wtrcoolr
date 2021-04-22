@@ -1,7 +1,8 @@
 .dashboard-column{
     height: 700px;
-    width: 20%;
-    margin: 3%;
+    width: 28%;
+    margin: 2%;
+    margin-top: 4%;
     background-color: #4AC2C5;
     border-radius: 6px;
 }

@@ -30,7 +30,7 @@ class Dashboard extends React.Component {
                   <NextCoolr />
                   <h2 className="column-subtitle">Calendar</h2>
                   <div className="calendar-container">
-                    {/* <CalendarContainer /> */}
+                    <CalendarContainer />
                   </div>
                 </div>
 
