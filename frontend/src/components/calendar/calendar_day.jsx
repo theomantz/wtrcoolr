@@ -1,6 +1,6 @@
 import React from 'react';
 import CoolrHour from './coolr_hour';
-import applyUTCoffset from '../../util/time_coversion_util';
+import { applyUTCoffset } from '../../util/time_util';
 
 class CalendarDay extends React.Component {
   constructor(props) {

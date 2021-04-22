@@ -7,9 +7,14 @@ import {
   UPDATE_USER,
  } from "../actions/users_actions";
 
+ import {
+   RECEIVE_MATCH
+ } from '../actions/match_actions'
+
 const initialState = {
   isAuthenticated: false,
   user: {},
+  match: {}
 };
 
 const sessionReducer = (state = initialState, action) => {
@@ -25,11 +30,16 @@ const sessionReducer = (state = initialState, action) => {
       return {
         isAuthenticated: false,
         user: undefined,
+        match: {}
       };
     case UPDATE_USER:
       let newState = Object.assign({},state)
       newState['user']['orgs'] = action.currentUser.data.orgs
       return newState
+    case RECEIVE_MATCH:
+      return Object.assign({}, state, {match: action.matchData})
+    case CLEAR_MATCH:
+      return Object.assign({}, state, {match: {}})
     default:
       return state;
   }
