@@ -226,8 +226,19 @@ video {
   background-color: black;
 }
 
-.user-video {
+#user-video {
   z-index: 99;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+#peer-video {
+  z-index: 99;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  background-color: #161d29;
 }
 
 @media (max-width: 700px) {

@@ -14,6 +14,15 @@ import { Howl } from 'howler'
 import notificationSound from '../../sounds/chat-notif.mp3'
 import notificationSound2 from '../../sounds/chat-notif-2.mp3'
 import ringtone from '../../sounds/ringtone.mp3'
+import { Rnd } from 'react-rnd'
+
+const style = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  border: "none",
+  background: "#fffff",
+};
 
 class CoolrVideo extends React.Component {
   constructor(props) {
@@ -224,7 +233,6 @@ class CoolrVideo extends React.Component {
         video.play();
       };
 
-      debugger
       this.constructPeer(stream)
     })
     .catch((err) => console.log(err));
@@ -269,10 +277,29 @@ class CoolrVideo extends React.Component {
         <div className="video main">
           <div className="main-left">
             <div id="video-grid-container">
-                {this.handleCall()}
               <div id="video-grid">
-                <video id='user-video' playsInline muted autoPlay/>
-                <video id='peer-video' playsInline muted autoPlay/>
+                <Rnd
+                  style={style}
+                  default={{
+                    x: 0,
+                    y: 0,
+                    width: 320,
+                    height: 200,
+                  }}
+                >
+                  <video id="user-video" playsInline muted autoPlay />
+                </Rnd>
+                <Rnd
+                  style={style}
+                  default={{
+                    x: 0,
+                    y: 0,
+                    width: 320,
+                    height: 200,
+                  }}
+                >
+                  <video id="peer-video" playsInline muted autoPlay />
+                </Rnd>
               </div>
             </div>
             <div className="options">
@@ -290,6 +317,7 @@ class CoolrVideo extends React.Component {
                     onClick={this.handleMute}
                   />
                 </div>
+                {this.handleCall()}
               </div>
               <div className="options-right"></div>
             </div>
