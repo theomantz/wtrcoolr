@@ -2,8 +2,9 @@ import React from 'react';
 import './dashboard.css'
 import OrganizationList from './organization_list'
 import NextCoolr from './next_coolr'
-import Calendar from './calendar'
 import MostPopularContainer from './most_popular_container'
+import CalendarContainer from '../calendar/calendar_container'
+
 
 
 class Dashboard extends React.Component {
@@ -36,7 +37,9 @@ class Dashboard extends React.Component {
                   <h2 className="column-subtitle">Next Coolr Time</h2>
                   <NextCoolr />
                   <h2 className="column-subtitle">Calendar</h2>
-                  <div className="calendar-container"></div>
+                  <div className="calendar-container">
+                    <CalendarContainer />
+                  </div>
                 </div>
 
                 <div className="dashboard-column">
@@ -45,7 +48,6 @@ class Dashboard extends React.Component {
                     <MostPopularContainer />
                     <h2 className="column-subtitle">Trending</h2>
               </div>
-              <Calendar />
             </div>
           );
     }
