@@ -1,9 +1,7 @@
 import * as APIUsersUtil from '../util/users_util';
-import {
-  RECEIVE_CURRENT_USER
-} from '../actions/session_actions'
 
 export const RECEIVE_USERS = 'RECEIVE_USERS';
+export const RECEIVE_SOCKET = 'RECEIVE_SOCKET';
 
 const receiveUsers = users => {
   return {
@@ -12,9 +10,9 @@ const receiveUsers = users => {
   }
 }
 
-const receiveUser = currentUser => {
+const receiveSocket = currentUser => {
   return {
-    type: RECEIVE_CURRENT_USER,
+    type: RECEIVE_SOCKET,
     currentUser
   }
 }
@@ -27,6 +25,6 @@ export const fetchUsers = () => dispatch => {
 
 export const assignSocket = userData => dispatch => {
   return APIUsersUtil.assignSocket(userData)
-    .then(user => dispatch(receiveUser(user)))
+    .then(user => dispatch(receiveSocket(user)))
     .catch(err => console.log(err))
 }

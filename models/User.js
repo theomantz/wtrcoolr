@@ -13,7 +13,7 @@ const UserSchema = new Schema(
     },
     active: {type: Boolean},
     socket: {
-      type: Number,
+      type: String,
       required: false,
     },
     password: {

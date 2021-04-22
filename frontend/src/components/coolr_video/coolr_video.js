@@ -52,6 +52,7 @@ class CoolrVideo extends React.Component {
       this.setState({ socketId: this.socket.id })
       this.props.assignSocket({ user: user, socketId: this.state.socketId })
       console.log(this.socket.id)
+      console.log(this.state.socketId)
     })
     
     this.socket.on("receiveChatMessage", (message) => {
