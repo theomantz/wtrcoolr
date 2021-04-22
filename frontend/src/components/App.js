@@ -5,7 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from '../util/route_utils';
 import NavBarContainer from './nav-bar/nav_bar_container';
 import CoolrVideoContainer from './coolr_video/coolr_video_container'
-import Dashboard from './dashboard/dashboard'
+import DashboardContainer from './dashboard/dashboard_container'
 import AdminContainer from './admin/admin_container'
 import './css_reset.css'
 
@@ -18,8 +18,8 @@ const App = () => (
       <NavBarContainer />
     </header>
     <Switch>
-      <ProtectedRoute exact path="/" component={Dashboard} />
-      <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+      <ProtectedRoute exact path="/" component={DashboardContainer} />
+      <ProtectedRoute exact path="/dashboard" component={DashboardContainer} />
       <ProtectedRoute exact path="/admin" component={AdminContainer} />
       <ProtectedRoute exact path="/coolr" component={CoolrVideoContainer} />
       <ProtectedRoute exact path="/admin/:orgId" component={AdminContainer} />

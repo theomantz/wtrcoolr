@@ -3,6 +3,7 @@ import './dashboard.css'
 import OrganizationList from './organization_list'
 import NextCoolr from './next_coolr'
 import Calendar from './calendar'
+import MostPopularContainer from './most_popular_container'
 
 
 class Dashboard extends React.Component {
@@ -15,6 +16,7 @@ class Dashboard extends React.Component {
     }
     
     componentWillMount() {
+      this.props.getPublicOrgs();
     }
 
     componentWillReceiveProps(newState) {
@@ -27,7 +29,7 @@ class Dashboard extends React.Component {
             <div className="dashboard-container">
                 <div className="dashboard-column">
                   <h1 className="column-title" >Organizations</h1>
-                  <OrganizationList />                  
+                  <OrganizationList state={this.props.state}/>                  
                 </div>
                 <div className="dashboard-column">
                   <h1 className="column-title" >Schedule</h1>
@@ -40,6 +42,7 @@ class Dashboard extends React.Component {
                 <div className="dashboard-column">
                     <h1 className="column-title" >Trends</h1>
                     <h2 className="column-subtitle">Most Popular</h2>
+                    <MostPopularContainer />
                     <h2 className="column-subtitle">Trending</h2>
               </div>
               <Calendar />

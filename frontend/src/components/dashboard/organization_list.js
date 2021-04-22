@@ -4,19 +4,24 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import './organization_list.css'
 
 // fake data generator
-const getItems = count => {
-    return ([
-        {id: '1', content: 'App Academy Alumni'},
-        {id: '2', content: 'Bowling Group'},
-        {id: '3', content: 'Google'},
-        {id: '4', content: 'Church Group'},
-        {id: '5', content: 'Avengers'},
-        {id: '6', content: 'Joe\'s Circle'},
-        {id: '7', content: 'Dubnation'},
-        {id: '8', content: 'Thai Food Enthusiasts'},
-        {id: '9', content: 'Cat People'},
-        {id: '10', content: 'PTA Group'}
-    ])
+const getItems = props => {
+    let userOrgs = props.state.session.user.orgs
+    let itemArr = userOrgs.map(org => (
+      {id: String(org._id), content: org.name}
+    ))
+    // return ([
+    //     {id: '1', content: 'App Academy Alumni'},
+    //     {id: '2', content: 'Bowling Group'},
+    //     {id: '3', content: 'Google'},
+    //     {id: '4', content: 'Church Group'},
+    //     {id: '5', content: 'Avengers'},
+    //     {id: '6', content: 'Joe\'s Circle'},
+    //     {id: '7', content: 'Dubnation'},
+    //     {id: '8', content: 'Thai Food Enthusiasts'},
+    //     {id: '9', content: 'Cat People'},
+    //     {id: '10', content: 'PTA Group'}
+    // ])
+    return itemArr;
 
 
 }
@@ -51,7 +56,7 @@ class OrganizationList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: getItems(10)
+      items: getItems(props)
     };
     this.onDragEnd = this.onDragEnd.bind(this);
   }

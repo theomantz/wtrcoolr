@@ -25,6 +25,7 @@ router.get('/test', (req, res) => {
 router.patch('/edit',(req, res) =>{
 
   User.findByIdAndUpdate(req.body.id, { $set: req.body }, { new: true })
+    .populate('orgs')
     .then(user => res.json(user))
 
 })
