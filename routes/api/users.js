@@ -31,16 +31,7 @@ router.patch('/edit',(req, res) =>{
 
 router.patch('/logout', (req, res) => {
   User.findByIdAndUpdate(req.body.id, {$set: {active: false}})
-    .then(user => {
-      const payload = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        orgs: user.orgs,
-        active: user.active,
-        socket: user.socket
-      };
-    })
+    .then(user => res.json(user))
 })
 
 router.patch('/sockets', (req, res) => {

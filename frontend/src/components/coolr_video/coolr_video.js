@@ -44,6 +44,7 @@ class CoolrVideo extends React.Component {
   }
 
   componentDidMount() {
+    
     let socketURL = "127.0.0.1:5000";
     if (process.env.NODE_ENV === "production") {
       socketURL =
@@ -203,6 +204,7 @@ class CoolrVideo extends React.Component {
   }
 
   getUserVideo() {
+    debugger
     navigator.mediaDevices
     .getUserMedia({ video: true, audio: true })
     .then((stream) => {
