@@ -30,6 +30,11 @@ export const getPublicOrgs = () => (dispatch) =>{
     ))
 }
 
+export const updateOrgUsers = (org) => dispatch => {
+    return APIUtil.updateOrgUsers(org)
+      .catch((err) => console.log(err))
+  }
+
 
 
 

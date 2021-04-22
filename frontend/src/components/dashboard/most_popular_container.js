@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import MostPopular from './most_popular';
 import {updateUser} from '../../actions/users_actions'
+import {updateOrgUsers,getPublicOrgs} from '../../actions/org_actions'
 
 
 const mapStateToProps = state => {
     //let mostPopular = state.entities.publicOrgs
-    console.log(state.entities.publicOrgs)
     let mostPopular = [];
     if(state.entities.publicOrgs.length>0){
         mostPopular = state.entities.publicOrgs.map((x) => x);
@@ -31,6 +31,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     updateUser: (user) => dispatch(updateUser(user)),
+    updateOrgUsers: (org) => dispatch(updateOrgUsers(org)),
+    getPublicOrgs: () => dispatch(getPublicOrgs()),
 })
 
 export default connect(
