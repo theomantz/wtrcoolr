@@ -34,7 +34,9 @@ class Dashboard extends React.Component {
                   <h2 className="column-subtitle">Next Coolr Time</h2>
                   <NextCoolr />
                   <h2 className="column-subtitle">Calendar</h2>
-                  <div className="calendar-container"></div>
+                  <div className="calendar-container">
+                    <CalendarContainer />
+                  </div>
                 </div>
 
                 <div className="dashboard-column">
@@ -42,7 +44,6 @@ class Dashboard extends React.Component {
                     <h2 className="column-subtitle">Most Popular</h2>
                     <h2 className="column-subtitle">Trending</h2>
               </div>
-              <CalendarContainer />
             </div>
           );
     }

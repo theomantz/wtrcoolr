@@ -1,5 +1,6 @@
 import React from 'react';
 import CalendarDay from './calendar_day'
+import './calendar.scss'
 
 
 class Calendar extends React.Component {
@@ -27,6 +28,7 @@ class Calendar extends React.Component {
     }
 
     render() {
+        // console.log(this.state.orgs)
         return (
             <div className="calendar-container">
                 <div className="week-header">
@@ -37,9 +39,14 @@ class Calendar extends React.Component {
                     <span>Time</span>
                     <span>Org.</span>
                 </div>
-                {this.state.days.map(day => {
-                    <CalendarDay day={day} orgs={this.state.orgs} />
-                })}
+                <div className="days-container">
+                    {this.state.days.map(day => {
+                        return <CalendarDay 
+                            day={day} orgs={this.state.orgs} 
+                            key={`calendarday-${day}`}
+                        />
+                    })}
+                </div>
             </div>
         )
     }

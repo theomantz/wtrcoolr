@@ -1,15 +1,17 @@
 import React from 'react';
-import CoolrTime from './coolr_time';
+import CoolrHour from './coolr_hour';
 
 class CalendarDay extends React.Component {
   constructor(props) {
     super(props)
 
     this.state ={
-      sortedCoolrTimes: []
+      sortedCoolrTimes: [],
+      today: this.todayInWords() 
     }
 
-    this.todayCoolrTimesList = this.todayCoolrTimesList.bind(this)
+    this.todaysCoolrTimesList = this.todaysCoolrTimesList.bind(this)
+    this.todayInWords = this.todayInWords.bind(this)
   }
 
   todayInWords() {
@@ -35,13 +37,11 @@ class CalendarDay extends React.Component {
 
   todaysCoolrTimesList() {
     const todaysTimes = []
-    
     this.props.orgs.forEach(org => {
-      org.coolrTimes.forEach(coolrTime => {
-        if(JSON.parse(coolrTime[0]) === JSON.parse(this.props.day)) {
-          todaysTimes.push([coolrTime, org.name])
+      // console.log(org)
+        if(JSON.parse(org.coolrHours[0]) === JSON.parse(this.props.day)) {
+          todaysTimes.push([org.coolrHours, org.name])
         }
-      })
     })
 
     function sortTimes(a, b) {
@@ -53,26 +53,25 @@ class CalendarDay extends React.Component {
           return 0;
       }
     }
-
+    // console.log(todaysTimes.sort(sortTimes))
     return todaysTimes.sort(sortTimes)
   }
 
   render() {
+    
     return (
-      <div className={`calendar-${this.todayInWords()}`}>
-        <div>{this.props.day}</div>
+      <div className="calendar-day-container">
+        <div className="day">{this.state.today}</div>
 
-        <div>
-          <ul>
-            {this.state.sortedCoolrTimes.map(arr => {
-              <CoolrTime time={arr[0]} />
+        <div className="calendar-day-content">
+          <ul className="coolr-hour-list">
+            {this.state.sortedCoolrTimes.map(coolrHour => {
+              return <CoolrHour coolrHour={coolrHour[0]} />
             })}
           </ul>
-          <ul>
+          <ul className="org-name-list">
             {this.state.sortedCoolrTimes.map(arr => {
-              <li>
-                {arr[1]}
-              </li>
+              return <li>{arr[1]}</li>
             })}
           </ul>
         </div>  

@@ -5,12 +5,8 @@ import Calendar from './calendar'
 
 const mSTP = state => {
   
-  const userOrgs = state.session.user.orgs.map(org => 
-    // state.entities.orgs[org.id]
-    null
-  )
   return ({
-    orgs: userOrgs 
+    orgs: state.session.user.orgs 
   })
 }
 
