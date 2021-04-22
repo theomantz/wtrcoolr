@@ -12,147 +12,189 @@ import Peer from 'simple-peer';
 import moment from 'moment';
 import { Howl } from 'howler'
 import notificationSound from '../../sounds/chat-notif.mp3'
-// import notificationSound2 from '../../sounds/chat-notif-2.mp3'
+import notificationSound2 from '../../sounds/chat-notif-2.mp3'
+import ringtone from '../../sounds/ringtone.mp3'
 
 class CoolrVideo extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       response: null,
-      chatMessage: '',
+      chatMessage: "",
       messages: [],
-    }
+      socketId: [],
+    };
 
     this.userVideo = null;
     this.peerVideo = null;
     this.myPeer = null;
-    
-    this.handleChatChange = this.handleChatChange.bind(this)
-    this.handleMute = this.handleMute.bind(this)
-    
+
+    this.handleChatChange = this.handleChatChange.bind(this);
+    this.handleMute = this.handleMute.bind(this);
   }
 
-  chatNotificationSound() {
-    const sound = new Howl({
-      src: [notificationSound],
-      loop: false,
-      preload: true
-    });
-    return sound.play()
-  }
-
-  ringtoneSound() {
-
-  }
-
-  scrollToBottom = () => {
-    this.messagesEnd.scrollIntoView({ behavior: "smooth" })
-  }
-  
   componentDidMount() {
-    debugger
-    let socketURL = "127.0.0.1:5000"
-    if( process.env.NODE_ENV === 'production') {
-      socketURL = process.env.REACT_APP_SOCKET_URL || "https://wtrcoolr.herokuapp.com/"
+    let socketURL = "127.0.0.1:5000";
+    if (process.env.NODE_ENV === "production") {
+      socketURL =
+        process.env.REACT_APP_SOCKET_URL || "https://wtrcoolr.herokuapp.com/";
     }
     this.socket = openSocket(socketURL, { transports: ["websocket"] });
-    this.socket.on("FromAPI", data => {
-      this.setState({ response: data })
-    })
-    this.socket.on('receiveChatMessage', message => {
-      this.setState({ messages: this.state.messages.concat(message) })
-      this.chatNotificationSound()
-    })
-    // this.socket.on('coolr!', data => {
+    const { user } = this.props
+    this.props.assignSocket({ user: user, socketId: this.socket.id })
 
-    // })
-    this.scrollToBottom()
+    this.socket.on("FromAPI", (data) => {
+      this.setState({ response: data })
+    });
+    
+    this.socket.on('connect', data => {
+      this.setState({ socketId: this.socket.id })
+      this.props.assignSocket({ user: user, socketId: this.state.socketId })
+      console.log(this.socket.id)
+    })
+    
+    this.socket.on("receiveChatMessage", (message) => {
+      this.setState({ messages: this.state.messages.concat(message) });
+      this.chatNotificationSound();
+    });
+
+    this.socket.on("coolr!", (data) => {
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+          const peer = new Peer({});
+        });
+    });
+
+    this.scrollToBottom();
   }
 
   componentDidUpdate() {
-    this.scrollToBottom()
+    this.scrollToBottom();
   }
 
   componentWillUnmount() {
-    return () => this.socket.disconnect
+    return () => this.socket.disconnect;
   }
 
-  handleChatChange = e => {
-    this.setState({
-      chatMessage: e.currentTarget.value
-    })
+  chatNotificationSound() {
+    return (
+      new Howl({
+        src: [notificationSound],
+        loop: false,
+        preload: true,
+      }).play()
+    );
   }
 
-  handleKeyPress = e => {
-    if(e.charCode === 13) {
-      this.submitChatMessage(e)
-    }
-  }
-
-  submitChatMessage = e => {
-    const { chatMessage } = this.state
-    if( chatMessage === '' ) {
-      return null
-    }
-    const { user } = this.props
-    const { userId, name } = user
-    const time = moment();
-    e.preventDefault();
-    this.socket.emit('sendChatMessage', {
-      chatMessage,
-      userId,
-      name,
-      time
-    })
-    this.setState({ chatMessage: '' })
-  }
-
-  renderMessages() {
-    debugger
-    if( !this.state.messages.length ) return null
-    const messages = this.state.messages.map(message => {
-      return (
-        <li key={uuidv4()} className="message">
-          <b>{message.name}</b> 
-          <span>
-            {message.chatMessage}
-          </span>
-        </li>
-      );
-    })
-    return( 
-      <ul className='chat-message-list'>
-        { messages }
-      </ul>
+  ringtoneSound() {
+    return (
+      new Howl({
+        src: [ringtone],
+        loop: true,
+        preload: true
+      }).play()
     )
   }
 
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+  };
+
+  handleChatChange = (e) => {
+    this.setState({
+      chatMessage: e.currentTarget.value,
+    });
+  };
+
+  handleUserInputChange = e => {
+    this.setState({
+      userToCall: e.currentTarget.value
+    })
+  }
+
+  handleUserInputSubmit(e) {
+    const { userToCall } = this.state
+    
+  }
+
+  handleKeyPress = (e) => {
+    if (e.charCode === 13) {
+      this.submitChatMessage(e);
+    }
+  };
+
+  submitChatMessage = (e) => {
+    const { chatMessage } = this.state;
+    if (chatMessage === "") {
+      return null;
+    }
+    const { user } = this.props;
+    const { userId, name } = user;
+    const time = moment();
+    e.preventDefault();
+    this.socket.emit("sendChatMessage", {
+      chatMessage,
+      userId,
+      name,
+      time,
+    });
+    this.setState({ chatMessage: "" });
+  };
+
+  renderMessages() {
+    if (!this.state.messages.length) return null;
+    const messages = this.state.messages.map((message) => {
+      return (
+        <li key={uuidv4()} className="message">
+          <b>{message.name}</b>
+          <span>{message.chatMessage}</span>
+        </li>
+      );
+    });
+    return <ul className="chat-message-list">{messages}</ul>;
+  }
+
   handleMute() {
-    this.setState({ audio: !this.state.audio })
+    this.setState({ audio: !this.state.audio });
   }
 
   handleVideo() {
-    this.setState({ video: !this.state.video })
+    this.setState({ video: !this.state.video });
   }
 
   handleCall() {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-      .then(stream => {
+    if( !this.state.call ) {
+      return (
+        <div className='call-prompt container'>
+          <form 
+            onSubmit={this.handleCall}
+            className='call-form'>
+              <input
+                type='text'
+                name='peer'/>
+
+          </form>
+        </div>
+      )
+    }
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then((stream) => {
         const peer = new Peer({
           initiator: true,
-          stream: stream
-        })
+          stream: stream,
+        });
 
-        peer.on('signal', data => {
-          this.socket.current.emit('callUser', { })
-        })
+        peer.on("signal", (data) => {
+          this.socket.current.emit("callUser", {});
+        });
       })
-      .catch(err => console.log(err))
+      .catch((err) => console.log(err));
   }
 
   render() {
-    debugger
     return (
       <div className="coolr-call container">
         <div className="header">

@@ -16,7 +16,8 @@ export const login = (userData) => {
   return axios.post("/api/users/login", userData);
 };
 
-// export const logout = user => {
-//   debugger
-//   return axios.patch('/logout', user)
-// }
+export const logout = user => {
+  return axios.patch('/logout', user)
+}
+
+

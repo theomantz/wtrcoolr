@@ -11,7 +11,29 @@ const io = require("socket.io")(server);
 const index = require('./routes/api/chat')
 app.use(index)
 
-
+// Video chat port listening
+let interval;
+io.on('connection', socket => {
+  console.log('New Client Connected');
+  if(interval) {
+    clearInterval(inteval);
+  }
+  inteval = setInterval(() => getApiAndEmit(socket), 1000);
+  socket.on('disconnect', () => {
+    console.log('Client Disconnected');
+    clearInterval(interval)
+  })
+  socket.on('sendChatMessage', msg => {
+    return io.emit('receiveChatMessage', msg)
+  })
+  socket.on('callUser', data => {
+    const user = User.findById(data.user.id)
+    io.to(user).emit('coolr!', { 
+      signal: data.stream, 
+      from: data.from 
+    })
+  })
+})
 
 // Database Setup
 const mongoose = require('mongoose');
@@ -57,30 +79,6 @@ mongoose
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-
-// Video chat port listening
-let interval;
-io.on('connection', socket => {
-  console.log('New Client Connected');
-  if(interval) {
-    clearInterval(inteval);
-  }
-  inteval = setInterval(() => getApiAndEmit(socket), 1000);
-  socket.on('disconnect', () => {
-    console.log('Client Disconnected');
-    clearInterval(interval)
-  })
-  socket.on('sendChatMessage', msg => {
-    return io.emit('receiveChatMessage', msg)
-  })
-  // socket.on('callUser', data => {
-  //   const user = User.findById(data.user.id)
-  //   io.to(user).emit('coolr!', { 
-  //     signal: data.stream, 
-  //     from: data.from 
-  //   })
-  // })
-})
 
 const getApiAndEmit = socket => {
   const response = new Date()

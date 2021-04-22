@@ -34,6 +34,11 @@ router.patch('/logout', (req, res) => {
     .then(user => res.json(user))
 })
 
+router.patch('/sockets', (req, res) => {
+  User.findByIdAndUpdate(req.body.user.id, {$set: { socket: req.body.socketId }})
+    .then((user) => console.log(req.body));
+})
+
 router.post('/register', (req, res)=>{
 
   const { errors, isValid } = validateRegisterInput(req.body)
