@@ -234,7 +234,7 @@ video {
 }
 
 #peer-video {
-  z-index: 99;
+  z-index: 80;
   height: 100%;
   width: 100%;
   object-fit: cover;

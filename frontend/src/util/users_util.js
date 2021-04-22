@@ -7,3 +7,13 @@ export const usersLoggedIn = () => {
 export const assignSocket = userData => {
   return axios.patch('/api/users/sockets', userData)
 }
+
+export const nullifySocket = user => {
+  return axios.patch('/api/users/sockets/null', user)
+}
+
+export const fetchSocket = email => {
+  return axios ({
+    method: 'GET',
+    url: `/api/users/sockets/${email}`}) 
+}

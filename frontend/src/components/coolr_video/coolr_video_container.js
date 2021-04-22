@@ -4,20 +4,25 @@ import {
   dispatchMessage
 } from '../../actions/chat_actions';
 import {
-  assignSocket
+  assignSocket,
+  nullSocket,
+  fetchSocket
 } from '../../actions/users_actions'
 
 import { withRouter } from 'react-router-dom';
 
 
-const mapStateToProps = ({ session, messages }) => ({
+const mapStateToProps = ({ session, messages, entities }) => ({
   user: session.user,
-  messages: messages
+  messages: messages,
+  userMatch: entities.users
 });
 
 const mapDispatchToProps = dispatch => ({
   dispatchMessage: message => dispatch(dispatchMessage(message)),
-  assignSocket: userData => dispatch(assignSocket(userData))
+  assignSocket: userData => dispatch(assignSocket(userData)),
+  removeSocket: user => dispatch(nullSocket(user)),
+  fetchSocket: email => dispatch(fetchSocket(email))
 });
 
 export default withRouter(connect( mapStateToProps, mapDispatchToProps )(CoolrVideo))

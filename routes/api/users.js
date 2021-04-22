@@ -30,12 +30,33 @@ router.patch('/edit',(req, res) =>{
 })
 
 router.patch('/logout', (req, res) => {
-  User.findByIdAndUpdate(req.body.id, {$set: {active: false}})
+  User.findByIdAndUpdate(req.body.id, {$set: {active: false, socket: null } })
     .then(() => res.status(200).json())
 })
 
+router.get('/sockets/:email', (req, res) => {
+  const email = req.params.email
+  User.findOne({ email: email })
+    .then(user => {
+      if( user ) {
+        res.status(200).json(user)
+      }
+    })
+}) 
+
 router.patch('/sockets', (req, res) => {
   User.findByIdAndUpdate(req.body.user.id, {$set: { socket: req.body.socketId }})
+    .then((user) => {
+      const payload = {
+        id: user.id,
+        name: user.name,
+        socket: user.socket
+      }
+    });
+})
+
+router.patch('/sockets/null', (req, res) => {
+  User.findByIdAndUpdate(req.body.user.id, {$set: { socket: null }})
     .then((user) => res.json(user));
 })
 

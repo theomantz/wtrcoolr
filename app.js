@@ -15,11 +15,11 @@ app.use(index)
 let interval;
 io.on('connection', socket => {
   console.log('New Client Connected');
-  if(interval) {
-    clearInterval(inteval);
-  }
-  
-  inteval = setInterval(() => getApiAndEmit(socket), 1000);
+
+
+  socket.on('peerAssigned', () => {
+
+  })
 
   socket.on('disconnect', () => {
     console.log('Client Disconnected');
@@ -27,24 +27,23 @@ io.on('connection', socket => {
   })
   
   socket.on('sendChatMessage', msg => {
+    console.log('New Chat Message')
     return io.emit('receiveChatMessage', msg)
   })
   
-  socket.on('callUser', data => {
-    console.log(data)
+  socket.on("callUser", (data) => {
+    console.log("Sending Peer Request!");
+    console.log(`Sending request to peer ${data.userToCall}`);
+    console.log(data);
     User.findOne({ email: data.userToCall }).then((user) => {
-      io.to(user.socket).emit('coolr!', { 
-        signal: data.stream, 
-        from: data.from 
-      })
+      io.to(user.socket).emit("coolr!", {
+        signal: data.stream,
+        from: data.from,
+      });
     });
-  })
+  });
 })
 
-const getApiAndEmit = (socket) => {
-  const response = new Date();
-  socket.emit("FromAPI", response);
-};
 
 // Database Setup
 const mongoose = require('mongoose');

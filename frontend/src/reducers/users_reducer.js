@@ -1,5 +1,6 @@
 import { 
-  RECEIVE_USERS
+  RECEIVE_USERS,
+  RECEIVE_USER_MATCH_SOCKET
 } from '../actions/users_actions'
 
 const UsersReducer = ( state = {}, action ) => {
@@ -7,6 +8,8 @@ const UsersReducer = ( state = {}, action ) => {
   switch(action.type) {
     case RECEIVE_USERS:
       return action.users;
+    case RECEIVE_USER_MATCH_SOCKET:
+      return action.user.data;
     default:
       return state;
   }

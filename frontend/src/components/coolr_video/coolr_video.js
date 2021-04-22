@@ -75,11 +75,7 @@ class CoolrVideo extends React.Component {
     });
 
     this.socket.on("coolr!", (data) => {
-      navigator.mediaDevices
-        .getUserMedia({ video: true, audio: true })
-        .then((stream) => {
-          const peer = new Peer({});
-        });
+      
     });
 
     this.getUserVideo();
@@ -89,6 +85,7 @@ class CoolrVideo extends React.Component {
 
   componentDidUpdate() {
     this.scrollToBottom();
+    this.sendPeerSignal();
   }
 
   componentWillUnmount() {
@@ -183,10 +180,13 @@ class CoolrVideo extends React.Component {
   }
 
   sendCall(e) {
+    debugger
     e.preventDefault()
-    this.setState({ 
-      callActive: true
-    })
+    if (!this.props.userMatch.length) {
+      this.props.fetchSocket(this.state.userToCall);
+    } else if (this.myPeer && this.props.userMatch) {
+      this.sendPeerSignal();
+    }
   }
 
   constructPeer(stream) {
@@ -200,15 +200,19 @@ class CoolrVideo extends React.Component {
   }
 
   sendPeerSignal() {
-    const { user } = this.props;
-    const { userToCall } = this.state;
-    this.myPeer.on("signal", (data) => {
-      this.socket.emit("callUser", {
-        userToCall: userToCall,
-        signalData: data,
-        from: user,
+    const { user, userMatch } = this.props;
+    debugger
+    const { socket } = userMatch
+    if( !!socket && !!this.myPeer ) {
+      this.myPeer.on("signal", (data) => {
+        console.log('here')
+        this.socket.emit("callUser", {
+          userToCall: socket,
+          signalData: data,
+          from: user,
+        });
       });
-    });
+    }
   }
 
   getUserVideo() {
@@ -245,7 +249,7 @@ class CoolrVideo extends React.Component {
   }
 
   handleCall() {
-    if( !this.state.callActive ) {
+    // if( !this.state.callActive ) {
       return (
         <div className='call-prompt container'>
           <label className='call-label'>Whomst've?
@@ -263,7 +267,7 @@ class CoolrVideo extends React.Component {
           </label>
         </div>
       )
-    }
+    // }
   }
 
   render() {
@@ -281,24 +285,24 @@ class CoolrVideo extends React.Component {
                 <Rnd
                   style={style}
                   default={{
-                    x: 0,
-                    y: 0,
-                    width: 320,
-                    height: 200,
+                    x: 600,
+                    y: -10,
+                    width: 500,
+                    height: 470,
                   }}
                 >
-                  <video id="user-video" playsInline muted autoPlay />
+                  <video id="peer-video" playsInline muted autoPlay />
                 </Rnd>
                 <Rnd
                   style={style}
                   default={{
-                    x: 0,
-                    y: 0,
-                    width: 320,
-                    height: 200,
+                    x: 40,
+                    y: -10,
+                    width: 500,
+                    height: 470,
                   }}
                 >
-                  <video id="peer-video" playsInline muted autoPlay />
+                  <video id="user-video" playsInline muted autoPlay />
                 </Rnd>
               </div>
             </div>
