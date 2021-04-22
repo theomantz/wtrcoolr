@@ -22,7 +22,7 @@ class Dashboard extends React.Component {
     }   
     
     render() {
-
+      debugger
           return (
             <div className="dashboard-container">
                 <div className="dashboard-column">

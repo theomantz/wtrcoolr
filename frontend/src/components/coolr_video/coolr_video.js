@@ -12,6 +12,7 @@ import Peer from 'simple-peer';
 import moment from 'moment';
 import { Howl } from 'howler'
 import notificationSound from '../../sounds/chat-notif.mp3'
+// import notificationSound2 from '../../sounds/chat-notif-2.mp3'
 
 class CoolrVideo extends React.Component {
   constructor(props) {
@@ -41,11 +42,16 @@ class CoolrVideo extends React.Component {
     return sound.play()
   }
 
+  ringtoneSound() {
+
+  }
+
   scrollToBottom = () => {
     this.messagesEnd.scrollIntoView({ behavior: "smooth" })
   }
   
   componentDidMount() {
+    debugger
     let socketURL = "127.0.0.1:5000"
     if( process.env.NODE_ENV === 'production') {
       socketURL = process.env.REACT_APP_SOCKET_URL || "https://wtrcoolr.herokuapp.com/"
@@ -58,7 +64,10 @@ class CoolrVideo extends React.Component {
       this.setState({ messages: this.state.messages.concat(message) })
       this.chatNotificationSound()
     })
+    // this.socket.on('coolr!', data => {
 
+    // })
+    this.scrollToBottom()
   }
 
   componentDidUpdate() {
@@ -100,6 +109,7 @@ class CoolrVideo extends React.Component {
   }
 
   renderMessages() {
+    debugger
     if( !this.state.messages.length ) return null
     const messages = this.state.messages.map(message => {
       return (
@@ -126,8 +136,23 @@ class CoolrVideo extends React.Component {
     this.setState({ video: !this.state.video })
   }
 
+  handleCall() {
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+      .then(stream => {
+        const peer = new Peer({
+          initiator: true,
+          stream: stream
+        })
+
+        peer.on('signal', data => {
+          this.socket.current.emit('callUser', { })
+        })
+      })
+      .catch(err => console.log(err))
+  }
 
   render() {
+    debugger
     return (
       <div className="coolr-call container">
         <div className="header">
