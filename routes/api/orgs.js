@@ -59,21 +59,21 @@ router.patch('/edit',(req, res) =>{
 })
 
 router.patch('/updateUsers', (req, res) =>{
-
-  if (req.body.admin === true){
-    if (req.body.add === true){
-      Org.findByIdAndUpdate(req.body.orgId, { $push: {"admins": req.body.userId}}, { new: true })
+  console.log(req.body)
+  if (req.body.admin === "true"){
+    if (req.body.add === "true"){
+      Org.findByIdAndUpdate(req.body.orgId, { $push: {"admins": req.body.userId, "members": req.body.userId}}, { new: true })
         .then(org => res.json(org))
     } else{
       Org.findByIdAndUpdate(req.body.orgId, { $pull: {"admins": req.body.userId}}, { new: true })
       .then(org => res.json(org))
     }
   } else {
-    if (req.body.add === true){
+    if (req.body.add === "true"){
       Org.findByIdAndUpdate(req.body.orgId, { $push: {"members": req.body.userId}}, { new: true })
       .then(org => res.json(org))
     } else {
-      Org.findByIdAndUpdate(req.body.orgId, { $pull: {"admins": req.body.userId}}, { new: true })
+      Org.findByIdAndUpdate(req.body.orgId, { $pull: {"members": req.body.userId, "admins": req.body.userId}}, { new: true })
       .then(org => res.json(org))
     }
 
