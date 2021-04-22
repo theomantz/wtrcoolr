@@ -24,6 +24,8 @@ class CoolrVideo extends React.Component {
       chatMessage: "",
       messages: [],
       socketId: [],
+      callActive: false,
+      userToCall: null,
     };
 
     this.userVideo = null;
@@ -165,34 +167,48 @@ class CoolrVideo extends React.Component {
     this.setState({ video: !this.state.video });
   }
 
+  sendCall(e) {
+    e.preventDefault()
+    this.setState({ 
+      callActive: true 
+    })
+    this.handleCall()
+  }
+
   handleCall() {
-    if( !this.state.call ) {
+    if( !this.state.callActive ) {
       return (
         <div className='call-prompt container'>
-          <form 
-            onSubmit={this.handleCall}
-            className='call-form'>
-              <input
-                type='text'
-                name='peer'/>
-
-          </form>
+          <label className='call-label'>Who Are you Calling?
+            <form 
+              onSubmit={this.sendCall}
+              className='call-form'>
+                <input
+                  type='text'
+                  name='peer'
+                  value={this.state.ca}
+                  />
+            </form>
+          </label>
         </div>
       )
-    }
-    navigator.mediaDevices
+    } else {
+      navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((stream) => {
         const peer = new Peer({
           initiator: true,
           stream: stream,
         });
-
+        
         peer.on("signal", (data) => {
-          this.socket.current.emit("callUser", {});
+          this.socket.current.emit("callUser", { 
+            user: this.state.userToCall, stream: stream
+          });
         });
       })
       .catch((err) => console.log(err));
+    }
   }
 
   render() {
@@ -206,7 +222,9 @@ class CoolrVideo extends React.Component {
         <div className="video main">
           <div className="main-left">
             <div id="video-grid-container">
-              <div id="video-grid"></div>
+              <div id="video-grid">
+                {this.handleCall()}
+              </div>
             </div>
             <div className="options">
               <div className="options-left">
