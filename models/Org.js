@@ -27,6 +27,9 @@ const OrgSchema = new Schema(
     public: {
       type: Boolean,
       required: true
+    },
+    previousMembers: {
+      type: Number
     }
   }, 
   {
