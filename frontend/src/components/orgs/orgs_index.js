@@ -11,7 +11,7 @@ class OrgsIndex extends React.Component {
         this.props.getPublicOrgs();
     }
 
-    componentWillMount() {
+    componentDidMount(){
         this.props.getPublicOrgs();
       }
 
@@ -75,20 +75,25 @@ class OrgsIndex extends React.Component {
       }
 
     render() {
+        if(this.props.orgs.map){
         let currentUser = this.props.currentUser
           return (
             <div className="org-index">
                 <h1>Public Organizations</h1>
                 <ul>
                     {this.props.orgs.map((org) => (
-                        <li className="org-index-listing">
+                        <li key={org.id} className="org-index-listing">
                             <button onClick={this.handleClick(org,currentUser)} className="join-org-button">{this.checkJoined(org)? 'Leave': 'Join'}</button>
                             <strong>{org.name}</strong>
-                        </li> ))
-                    }
+                        </li> ))}
                 </ul>
             </div>
-          );
+          );}
+        else{
+            return(
+                <div></div>
+            )
+        }
     }
       
 }
