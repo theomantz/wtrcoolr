@@ -14,7 +14,7 @@ router.get('/current', passport.authenticate('jwt', {session: false}), (req, res
   return User.findById(req.user.id)
     .populate('orgs')
     .then(user => res.json(user))
-
+    .catch(err => res.status(404).json({noCurrentUser: "No Current User"}))
 })
 
 
@@ -23,6 +23,8 @@ router.get('/email', passport.authenticate('jwt', {session: false}), (req, res) 
   email = req.body.email
   User.find({"email": { $regex: email, $options: "i" }})
     .then(users => res.json(users))
+    .catch(err => res.status(404).json({userNotFound: "User not found"}))
+
 
 })
 
@@ -40,11 +42,11 @@ router.patch('/updateOrgs', passport.authenticate('jwt', {session: false}), (req
   if (req.body.add === true){
     User.findByIdAndUpdate(req.body.userId, { $push: {"orgs": req.body.orgId}}, { new: true })
       .then(user => res.json(user))
-      .cath(err => res.status(404).json({userUpdateFailed: "Failed to update User's Orgs"}))
+      .catch(err => res.status(404).json({userUpdateFailed: "Failed to update User's Orgs"}))
   } else{
     User.findByIdAndUpdate(req.body.userId, { $pull: {"orgs": req.body.orgId}}, { new: true })
       .then(user => res.json(user))
-      .cath(err => res.status(404).json({userUpdateFailed: "Failed to update User's Orgs"}))
+      .catch(err => res.status(404).json({userUpdateFailed: "Failed to update User's Orgs"}))
   }
 
 })
@@ -52,7 +54,7 @@ router.patch('/updateOrgs', passport.authenticate('jwt', {session: false}), (req
 router.patch('/logout', (req, res) => {
   User.findByIdAndUpdate(req.body.id, {$set: {active: false}})
     .then(user => res.json(user))
-    .cath(err => res.status(404).json({userUpdateFailed: "Failed to update User"}))
+    .catch(err => res.status(404).json({userUpdateFailed: "Failed to update User"}))
 })
 
 router.post('/register', (req, res)=>{
