@@ -12,6 +12,11 @@
   justify-content: space-between;
   margin: 5px;
   width: 100%;
+  // border: 1px solid rgb(255, 255, 255);
+
+  span{;
+    padding: 3px
+  }
 }
 
 .days-container{
@@ -19,13 +24,20 @@
   justify-content: left;
   flex-direction: column;
   width: 100%;
+  margin: 0 5px 5px 5px;
 }
 
 .calendar-day-container{
   display: grid;
-  grid-template-columns: 30% 70%;
+  grid-template-columns: 35% 65%;
   text-align: left;
   width: 100%;
+  border-top: 1px solid white;
+  height: fit-content;
+
+  div{
+    padding: 3px;
+  }
 }
 
 .calendar-day-content{
@@ -35,3 +47,18 @@
 }
 
 
+.org-name-list {
+
+  li{
+    width: 100%;
+  }
+  
+}
+
+.coolr-hour-list{
+  
+  li{
+    width: 100%;
+    }
+
+}

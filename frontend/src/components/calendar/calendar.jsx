@@ -32,11 +32,11 @@ class Calendar extends React.Component {
         return (
             <div className="calendar-container">
                 <div className="week-header">
-                    <span>WEEKGOESHERE</span>
+                    <span>4/18/21 -- 4/24/21</span>
                 </div>
                 <div className="calendar-header">
                     <span>Date</span>
-                    <span>Time</span>
+                    <span>Start Time</span>
                     <span>Org.</span>
                 </div>
                 <div className="days-container">
@@ -44,6 +44,7 @@ class Calendar extends React.Component {
                         return <CalendarDay 
                             day={day} orgs={this.state.orgs} 
                             key={`calendarday-${day}`}
+                            tcUtil={this.props.TCUtil}
                         />
                     })}
                 </div>

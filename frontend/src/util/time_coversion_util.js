@@ -1,77 +1,46 @@
-const fromStringToUTCDate = (dbString) => {
-  const yearNow = new Date().getFullYear();
-  const monthNow = new Date().getMonth();
-  const dateNow = new Date().getDate();
-  const dayNow = new Date().getDay();
-  const dbHours = dbString[1] * 10 + dbString[2] 
-  const dbMins = dbString[3] * 10 + dbString[4] 
+export default (str) => {
 
+  const localTime = new Date();
+  const offset = localTime.getTimezoneOffset();
+  const offsetHours = offset / 60;
+  const offsetMins = offset % 60;
+  const strHours = parseInt(str[1] + str[2]);
+  const strMins = parseInt(str[3] + str[4]);
+  let adjHours = strHours - offsetHours;
+  let adjMins = strMins - offsetMins;
+  let adjDay = parseInt(str[0]);
 
-  const dbDay = dbString[0]
-
-  const difference = dbDay - dateNow
-  const newDate = dateNow + difference
-
-  const thirtyOne = [0, 2, 4, 6, 7, 9, 11]
-  const twentyNine = [1]
-  const thirty = [3, 5, 8, 10]
-
-  let newMonth;
-  let newYear;
-  if(thirtyOne.includes(monthNow)) {
-    if(newDate > 30) {
-      newMonth = monthNow + 1
-    } else if (newDate < 0) {
-      newMonth = monthNow - 1
-    } else {
-      newMonth
-    }
-  } else if(monthNow === 1) {
-    if (newDate > 28) {
-      newMonth = monthNow + 1
-    } else if (newDate < 0) {
-      newMonth = monthNow - 1
-    } else {
-      newMonth
-    }
-  } else {
-    if (newDate > 29) {
-      newMonth = monthNow + 1
-    } else if (newDate < 0) {
-      newMonth = monthNow - 1
-    } else {
-      newMonth
-    }
-  };
-
-  if (newMonth > 11) {
-    newYear = yearNow + 1
-  } else if (newMonth < 0) {
-    newYear = yearNow - 1
-  } else {
-    newYear = yearNow
+  if (adjMins > 59) {
+    adjMins = adjMins % 60;
+    adjHours += 1;
+  } else if (adjMins < 0) {
+    adjMins = 60 - (Math.abs(adjMins));
+    adjHours -= 1;
   }
 
-  return new Date(newYear, newMonth, newDate, dbHours, dbMins)
-}
+  if (adjHours > 23) {
+    adjHours = adjHours % 24;
+    adjDay += 1;
+  } else if (adjHours < 0) {
+    adjHours = 24 - (Math.abs(adjHours));
+    adjDay -= 1;
+  }
+
+  if (adjDay < 0) {
+    adjDay = 6 - (Math.abs(adjDay));
+  }
 
 
+  const fixToStr = (num) => {
+    if (num < 10) {
+      return "0" + num.toString()
+    } else {
+      return num.toString()
+    }
+  }
+  const finalHours = fixToStr(adjHours)
+  const finalMins = fixToStr(adjMins)
 
-const getLocalTimeString = (utcdate) => {
-  const fullStr = utcdate.toLocaleTimeString('en-US');
-  let fullStrArr = fullStr.split(':');
-  let letters = fullStrArr[2].split(' ')[1]
-  let shortStr = [fullStrArr[0], fullStrArr[1]].join(":");
-  let result = [shortStr, letters].join(" ");
-  return result
-}
-
-const getLocalDayofWeek = utcdate => {
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  const fullStr = utcdate.toLocaleTimeString(undefined, options);
-  return fullStr.split(" ")[0]
-}
-
-const fromUTCDateToString = (utcdate) => {
-  
+  const adjStr = `${adjDay}${finalHours}${finalMins}${str.slice(5)}`
+  return adjStr
 }

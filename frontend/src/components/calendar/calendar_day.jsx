@@ -1,5 +1,6 @@
 import React from 'react';
 import CoolrHour from './coolr_hour';
+import applyUTCoffset from '../../util/time_coversion_util';
 
 class CalendarDay extends React.Component {
   constructor(props) {
@@ -26,7 +27,6 @@ class CalendarDay extends React.Component {
         'Sat.'
       ][this.props.day]
     )
-
   }
 
   componentDidMount() {
@@ -38,10 +38,23 @@ class CalendarDay extends React.Component {
   todaysCoolrTimesList() {
     const todaysTimes = []
     this.props.orgs.forEach(org => {
-      // console.log(org)
-        if(JSON.parse(org.coolrHours[0]) === JSON.parse(this.props.day)) {
-          todaysTimes.push([org.coolrHours, org.name])
-        }
+      if(org.coolrHours.length > 0) {
+        org.coolrHours.map(coolrHour => {
+          const daysWords = {
+            'Sunday': 0, 
+            'Monday': 1, 
+            'Tuesday': 2, 
+            'Wednesday': 3, 
+            'Thursday': 4, 
+            'Friday': 5, 
+            'Saturday': 6
+          }
+          const adjCoolrHour = applyUTCoffset(coolrHour)
+          if (JSON.parse(adjCoolrHour[0]) === JSON.parse(this.props.day)) {
+            todaysTimes.push([adjCoolrHour, org.name])
+          }
+        })
+      }
     })
 
     function sortTimes(a, b) {
@@ -53,7 +66,6 @@ class CalendarDay extends React.Component {
           return 0;
       }
     }
-    // console.log(todaysTimes.sort(sortTimes))
     return todaysTimes.sort(sortTimes)
   }
 
