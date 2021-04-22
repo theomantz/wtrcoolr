@@ -7,6 +7,7 @@ const keys = require('../../config/keys')
 const validateRegisterInput = require('../../validation/register')
 const validateLoginInput = require('../../validation/login')
 const passport = require('passport');
+const { db } = require("../../models/User");
 
 router.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
 
@@ -17,15 +18,30 @@ router.get('/current', passport.authenticate('jwt', {session: false}), (req, res
 })
 
 
-router.get('/test', (req, res) => {
+router.get('/email', (req, res) => {
 
-  res.json("hello world")
+  email = req.body.email
+  User.find({"email": { $regex: email, $options: "i" }})
+    .then(users => res.json(users))
+
 })
 
 router.patch('/edit',(req, res) =>{
 
   User.findByIdAndUpdate(req.body.id, { $set: req.body }, { new: true })
     .then(user => res.json(user))
+
+})
+
+router.patch('/updateOrgs', (req, res) =>{
+
+  if (req.body.add === true){
+    User.findByIdAndUpdate(req.body.userId, { $push: {"orgs": req.body.orgId}}, { new: true })
+      .then(user => res.json(user))
+  } else{
+    User.findByIdAndUpdate(req.body.userId, { $pull: {"orgs": req.body.orgId}}, { new: true })
+      .then(user => res.json(user))
+  }
 
 })
 
