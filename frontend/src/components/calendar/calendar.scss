@@ -14,8 +14,8 @@
   width: 100%;
   // border: 1px solid rgb(255, 255, 255);
 
-  span{;
-    padding: 3px
+  span{
+    padding: 3px;
   }
 }
 
@@ -57,8 +57,13 @@
 
 .coolr-hour-list{
   
+
   li{
     width: 100%;
     }
 
+}
+
+.week-header{
+  font-weight: 600;
 }
