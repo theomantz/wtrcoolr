@@ -28,7 +28,7 @@ class CoolrVideo extends React.Component {
       userToCall: '',
       audioMuted: false,
       videoMuted: false,
-      streamURL: null,
+      streamSource: null,
     };
 
     this.userVideo = React.createRef();
@@ -40,7 +40,7 @@ class CoolrVideo extends React.Component {
     this.handleChatChange = this.handleChatChange.bind(this);
     this.handleMute = this.handleMute.bind(this);
     this.sendCall = this.sendCall.bind(this);
-    this.renderVideo = this.renderVideo.bind(this)
+
   }
 
   componentDidMount() {
@@ -74,8 +74,8 @@ class CoolrVideo extends React.Component {
     });
 
     this.getUserVideo();
-
     this.scrollToBottom();
+    this.renderUserVideo();
   }
 
   componentDidUpdate() {
@@ -206,17 +206,25 @@ class CoolrVideo extends React.Component {
     navigator.mediaDevices
     .getUserMedia({ video: true, audio: true })
     .then((stream) => {
-
-      console.log(stream)
       
       this.userVideo = stream;
       
-      debugger
-      
+      const streamSource = new MediaStream(stream)
+
       this.setState({ 
-        streamURL: window.URL.createObjectURL(stream)
+        streamSource: streamSource
       })
       
+
+      const video = document.getElementById('user-video')
+      video.srcObject = streamSource
+      
+      
+      video.onloadedmetadata = e => {
+        video.play();
+      };
+
+      debugger
       this.constructPeer(stream)
     })
     .catch((err) => console.log(err));
@@ -224,28 +232,8 @@ class CoolrVideo extends React.Component {
 
   renderUserVideo() {
     console.log(this.userVideo)
-    return (
-      <div className='user-video-container'>
-        <video
-          className='user-video'
-          playsInline
-          muted
-          ref={el => this.userVideo = el} 
-          autoPlay>
-            <source src={this.stream}/>
-          </video>
-      </div>
-    )
-  }
-
-  renderVideo() {
-    debugger
-    if( !this.stream.current ) return null
-    return (
-      <div id="video-grid">
-        {this.renderUserVideo()}
-      </div>
-    );
+    const video = document.getElementById('user-video')
+    video.srcObject = this.state.streamSource
   }
 
   handleCall() {
@@ -282,7 +270,10 @@ class CoolrVideo extends React.Component {
           <div className="main-left">
             <div id="video-grid-container">
                 {this.handleCall()}
-                {this.renderVideo()}
+              <div id="video-grid">
+                <video id='user-video' playsInline muted autoPlay/>
+                <video id='peer-video' playsInline muted autoPlay/>
+              </div>
             </div>
             <div className="options">
               <div className="options-left">

@@ -31,16 +31,7 @@ router.patch('/edit',(req, res) =>{
 
 router.patch('/logout', (req, res) => {
   User.findByIdAndUpdate(req.body.id, {$set: {active: false}})
-    .then(user => {
-      const payload = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        orgs: user.orgs,
-        active: user.active,
-        socket: user.socket
-      };
-    })
+    .then(() => res.status(200).json())
 })
 
 router.patch('/sockets', (req, res) => {
@@ -56,7 +47,7 @@ router.post('/register', (req, res)=>{
     return res.status(400).json(errors)
   }
 
-  User.findOne({ email: req.body.email })
+  User.findOne({ name: req.body.name })
     .then(user => {
       if (user) {
         errors.name = "User already exists"
@@ -76,13 +67,7 @@ router.post('/register', (req, res)=>{
             newUser
               .save()
               .then(user => {
-                const payload = {
-                  id: user.id,
-                  name: user.name,
-                  email: user.email,
-                  orgs: user.orgs,
-                  active: user.active,
-                };
+                const payload = {id: user.id, name: user.name, email: user.email, orgs: user.orgs, active: user.active}
 
                 jwt.sign(payload, keys.secretOrKey, {expiresIn: 3600}, (err, token) =>{
                   res.json({

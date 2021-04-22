@@ -17,7 +17,7 @@ export const login = (userData) => {
 };
 
 export const logout = user => {
-  return axios.patch('/logout', user)
+  return axios.patch('/api/users/logout', user)
 }
 
 
