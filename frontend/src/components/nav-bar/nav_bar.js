@@ -27,8 +27,8 @@ class NavBar extends React.Component {
             <div className="navlinks">
                 <Link className="navlink" to={'/dashboard'}>Dashboard</Link>
                 <Link className="navlink" to={'/coolr'}>Coolr</Link>
-                <Link className="navlink" to={'/profile'}>Orgs</Link>
-                <Link className="navlink" to={'/admin'}>Admin</Link>
+                <Link className="navlink" to={'/orgs'}>Orgs</Link>
+                <Link className="navlink" to={'/admin/60806939679ab353cf133e93'}>Admin</Link>
                 <strong 
                   className="navlink" 
                   onClick={this.handleClick('createOrg')}

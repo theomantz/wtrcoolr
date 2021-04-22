@@ -124,6 +124,7 @@ class OrganizationList extends React.Component {
                       )}
                     >
                       {item.content}
+                      
                     </div>
                   )}
                 </Draggable>
