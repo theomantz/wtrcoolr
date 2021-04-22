@@ -1,46 +1,20 @@
-// src/components/profile/profile.js
-
-import React from 'react';
-import './dashboard.css'
-import OrganizationList from './organization_list'
-import NextCoolr from './next_coolr'
+import { connect } from 'react-redux';
+import Dashboard from './dashboard';
+import {getPublicOrgs} from '../../actions/org_actions';
 
 
-class Dashboard extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            tweets: []
-        }
+const mapStateToProps = state => {
+    //let mostPopular = state.entities.publicOrgs
+    return {
+      state: state,
     }
-    
-    componentWillMount() {
-    }
+};
 
-    componentWillReceiveProps(newState) {
-      //  this.setState({ tweets: newState.tweets });
-    }   
-    
-    render() {
+const mapDispatchToProps = dispatch => ({
+  getPublicOrgs: () => dispatch(getPublicOrgs())
+})
 
-          return (
-            <div className="dashboard-container">
-                <div className="dashboard-column">
-                  <h1 className="column-title" >Organizations</h1>
-                  <OrganizationList />                  
-                </div>
-                <div className="dashboard-column">
-                  <h1 className="column-title" >Schedule</h1>
-                  <h2 className="column-subtitle">Next Coolr Time</h2>
-                  <NextCoolr />
-                </div>
-
-              <div className="dashboard-column"><h1 className="column-title" >Trends</h1></div>
-            </div>
-          );
-    }
-      
-}
-
-export default Dashboard;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dashboard);
