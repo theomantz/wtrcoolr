@@ -62,17 +62,21 @@ router.patch('/updateUsers', passport.authenticate('jwt', {session: false}), (re
     if (req.body.add === true){
       Org.findByIdAndUpdate(req.body.orgId, { $push: {"admins": req.body.userId, "members": req.body.userId}}, { new: true })
         .then(org => res.json(org))
+        .catch(err => res.status(404).json({userUpdateFailed: "Failed to update Org"}))
     } else{
       Org.findByIdAndUpdate(req.body.orgId, { $pull: {"admins": req.body.userId}}, { new: true })
-      .then(org => res.json(org))
+        .then(org => res.json(org))
+        .catch(err => res.status(404).json({userUpdateFailed: "Failed to update Org"}))
     }
   } else {
     if (req.body.add === true){
       Org.findByIdAndUpdate(req.body.orgId, { $push: {"members": req.body.userId}}, { new: true })
-      .then(org => res.json(org))
+        .then(org => res.json(org))
+        .catch(err => res.status(404).json({userUpdateFailed: "Failed to update Org"}))
     } else {
       Org.findByIdAndUpdate(req.body.orgId, { $pull: {"members": req.body.userId, "admins": req.body.userId}}, { new: true })
-      .then(org => res.json(org))
+        .then(org => res.json(org))
+        .catch(err => res.status(404).json({userUpdateFailed: "Failed to update Org"}))
     }
 
   }
@@ -87,12 +91,15 @@ router.get('/publicOrgs', (req, res) => {
     .then(publicOrgs => {
       res.json(publicOrgs)
     })
+    .catch(err => res.status(404).json({publicOrgs: "No Public Orgs found"}))
 })
 
 router.delete('/delete', (req, res) => {
 
   const org = Org.findbyid(req.body.id)
   db.collection.remove({_id: org._id})
+    .then(deletedOrg => res.json(deletedOrg))
+    .catch(err => res.status(404).json({deleteOrg: "Failed to delete Org"}))
 
 })
 
