@@ -1,4 +1,4 @@
-import * as APIUtil from "../util/org_upi_util";
+import * as APIUtil from "../util/orgs_api_util";
 
 
 export const RECEIVE_SESSION_ERRORS = "RECEIVE_SESSION_ERRORS";

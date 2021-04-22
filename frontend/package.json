@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
+    "asyncawait": "^3.0.0",
     "axios": "^0.21.1",
     "howler": "^2.2.1",
     "moment": "^2.29.1",
@@ -51,5 +52,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000/"
+  "proxy": "http://localhost:5000"
 }
