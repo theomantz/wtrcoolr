@@ -81,3 +81,15 @@ app.use(express.json());
 
 const port = process.env.PORT || 5000;
 server.listen(port, () => console.log(`Server is up and running on ${port}`));
+
+const cron = require('node-cron')
+
+cron.schedule('0 0 0 * * *', function() {
+  Org.find({}).then(orgs => {
+      orgs.forEach((org) =>{
+        let prev = (org.members.length)
+        Org.findByIdAndUpdate(org.id, { $set: {"previousMembers": prev}})
+          .exec()
+    })
+  })
+})

@@ -58,8 +58,8 @@ router.patch('/edit', passport.authenticate('jwt', {session: false}),  (req, res
 
 router.patch('/updateUsers', passport.authenticate('jwt', {session: false}), (req, res) =>{
   console.log(req.body)
-  if (req.body.admin === "true"){
-    if (req.body.add === "true"){
+  if (req.body.admin === true){
+    if (req.body.add === true){
       Org.findByIdAndUpdate(req.body.orgId, { $push: {"admins": req.body.userId, "members": req.body.userId}}, { new: true })
         .then(org => res.json(org))
     } else{
@@ -67,7 +67,7 @@ router.patch('/updateUsers', passport.authenticate('jwt', {session: false}), (re
       .then(org => res.json(org))
     }
   } else {
-    if (req.body.add === "true"){
+    if (req.body.add === true){
       Org.findByIdAndUpdate(req.body.orgId, { $push: {"members": req.body.userId}}, { new: true })
       .then(org => res.json(org))
     } else {
