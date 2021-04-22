@@ -4,24 +4,25 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import './organization_list.css'
 
 // fake data generator
+
 const getItems = props => {
-    let userOrgs = props.state.session.user.orgs
-    let itemArr = userOrgs.map(org => (
-      {id: String(org._id), content: org.name}
-    ))
-    // return ([
-    //     {id: '1', content: 'App Academy Alumni'},
-    //     {id: '2', content: 'Bowling Group'},
-    //     {id: '3', content: 'Google'},
-    //     {id: '4', content: 'Church Group'},
-    //     {id: '5', content: 'Avengers'},
-    //     {id: '6', content: 'Joe\'s Circle'},
-    //     {id: '7', content: 'Dubnation'},
-    //     {id: '8', content: 'Thai Food Enthusiasts'},
-    //     {id: '9', content: 'Cat People'},
-    //     {id: '10', content: 'PTA Group'}
-    // ])
-    return itemArr;
+  let userOrgs = props.state.session.user.orgs
+  let itemArr = userOrgs.map(org => (
+    {id: String(org._id), content: org.name}
+  ))
+  // return ([
+  //     {id: '1', content: 'App Academy Alumni'},
+  //     {id: '2', content: 'Bowling Group'},
+  //     {id: '3', content: 'Google'},
+  //     {id: '4', content: 'Church Group'},
+  //     {id: '5', content: 'Avengers'},
+  //     {id: '6', content: 'Joe\'s Circle'},
+  //     {id: '7', content: 'Dubnation'},
+  //     {id: '8', content: 'Thai Food Enthusiasts'},
+  //     {id: '9', content: 'Cat People'},
+  //     {id: '10', content: 'PTA Group'}
+  // ])
+  return itemArr;
 
 
 }
@@ -61,6 +62,8 @@ class OrganizationList extends React.Component {
     this.onDragEnd = this.onDragEnd.bind(this);
   }
 
+
+
   onDragEnd(result) {
     // dropped outside the list
     if (!result.destination) {
@@ -81,6 +84,25 @@ class OrganizationList extends React.Component {
   // Normally you would want to split things out into separate components.
   // But in this example everything is just done in one place for simplicity
   render() {
+
+      let userOrgs = this.props.state.session.user.orgs
+      let itemArr = userOrgs.map(org => (
+        {id: String(org._id), content: org.name}
+      ))
+      // return ([
+      //     {id: '1', content: 'App Academy Alumni'},
+      //     {id: '2', content: 'Bowling Group'},
+      //     {id: '3', content: 'Google'},
+      //     {id: '4', content: 'Church Group'},
+      //     {id: '5', content: 'Avengers'},
+      //     {id: '6', content: 'Joe\'s Circle'},
+      //     {id: '7', content: 'Dubnation'},
+      //     {id: '8', content: 'Thai Food Enthusiasts'},
+      //     {id: '9', content: 'Cat People'},
+      //     {id: '10', content: 'PTA Group'}
+      // ])
+
+
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Droppable droppableId="droppable">
@@ -89,7 +111,7 @@ class OrganizationList extends React.Component {
               {...provided.droppableProps}
               ref={provided.innerRef}
               className="organization-list-container">
-              {this.state.items.map((item, index) => (
+              {itemArr.map((item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => (
                     <div

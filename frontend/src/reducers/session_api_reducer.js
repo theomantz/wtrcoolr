@@ -27,13 +27,16 @@ const sessionReducer = (state = initialState, action) => {
         user: undefined,
       };
     case UPDATE_USER:
-      return {
-        ...state,
-        user: action.currentUser.data
-      }
+      let newState = Object.assign({},state)
+      newState['user']['orgs'] = action.currentUser.data.orgs
+      return newState
     default:
       return state;
   }
 };
 
 export default sessionReducer
+
+
+
+// {user: action.currentUser.data.orgs}
