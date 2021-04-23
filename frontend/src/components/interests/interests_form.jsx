@@ -48,6 +48,7 @@ class InterestsForm extends React.Component{
       if (this.state[field].length < 3){
         let newItem = this.state[field.slice(0, field.length-1).concat('ToAdd')]
         let newField = this.state[field].concat(newItem)
+        debugger
         return (
           e => this.setState({
             [field]: newField
@@ -58,7 +59,7 @@ class InterestsForm extends React.Component{
         // error handling
         // this.props.re
       }
-
+      
     }
   }
 
