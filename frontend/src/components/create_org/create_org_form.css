@@ -46,11 +46,13 @@
 
 .create-org_form input[type="submit"] {
   cursor: pointer;
-  background-color: #4ac2c5;
+  background-color: #7F3F98;
+  color: white;
+  border: none;
 }
 
 .create-org_form input[type="submit"]:hover {
-  background-color: #d2f9fa;
+  background-color: #88579b;
 }
 
 /* select */
