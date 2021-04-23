@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import NextCoolr from './next_coolr';
-import * as TCUtil from '../../util/time_coversion_util'
+import * as TCUtil from '../../util/time_conversion_util'
 
 
 

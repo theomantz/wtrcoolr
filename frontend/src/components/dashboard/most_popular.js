@@ -76,7 +76,7 @@ class NavBar extends React.Component {
       return (
         <div className="most-popular">
             <ul>
-                {this.props.mostPopular.slice(0,10).map((org) => (
+                {this.props.mostPopular.slice(0,5).map((org) => (
                     <li className="org-listing">
                         <button onClick={this.handleClick(org,currentUser)} className="join-org-button">{this.checkJoined(org)? 'Leave': 'Join'}</button>
                         <strong>{org.name}</strong>
