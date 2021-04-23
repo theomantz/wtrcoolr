@@ -4,6 +4,7 @@ import Modal from './modal/modal'
 import { Switch, Route } from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from '../util/route_utils';
 import NavBarContainer from './nav-bar/nav_bar_container';
+import CTWWContainer from './match_router/coolr_time_watcher_wrapper_container';
 import CoolrVideoContainer from './coolr_video/coolr_video_container'
 import DashboardContainer from './dashboard/dashboard_container'
 import AdminContainer from './admin/admin_container'
@@ -14,6 +15,7 @@ import './css_reset.css'
 
 const App = () => (
   <div>
+    <CTWWContainer />
     <Modal />
     <header>
       <NavBarContainer />

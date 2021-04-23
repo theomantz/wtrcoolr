@@ -8,10 +8,12 @@ import {
 const mapStateToProps = (state, { match }) => {
   const orgId = match.params.orgId || ''
   const org = selectAdminOrg(state.session.user.orgs, orgId) || {};
+  const user = state.session.user
   
   return {
     orgId,
     org,
+    user
   };
 };
 

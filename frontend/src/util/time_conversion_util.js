@@ -27,7 +27,7 @@ export default (str) => {
   }
 
   if (adjDay < 0) {
-    adjDay = 6 - (Math.abs(adjDay));
+    adjDay = 7 - (Math.abs(adjDay));
   }
 
 
