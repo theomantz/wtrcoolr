@@ -2,6 +2,7 @@ import React from 'react';
 import '../dashboard/dashboard.css'
 import './admin.css'
 import {activeUsers} from '../../util/users_api_util'
+import ManageCoolrTimesContainer from '../manage_coolr_times/manage_coolr_times_container';
 
 
 
@@ -30,12 +31,15 @@ class Admin extends React.Component {
 
         updateState = updateState.bind(this)
 
+        
         async function getActiveUsers(){
             let aU = await activeUsers().then(users=>(users.data));
             updateState(aU)
         }
 
+        if(this.props.org.name){
          getActiveUsers()
+        }
          
          
     }
@@ -77,8 +81,7 @@ class Admin extends React.Component {
                     <div className="coolr-times-column">
                     <h1 className="column-title" >Coolr Times</h1>
                     <h2 className="column-subtitle">Add Coolr Time</h2>
-                    <h2 className="column-subtitle">Current Coolr Times</h2>
-                    <div className="calendar-container"></div>
+                        <ManageCoolrTimesContainer org={this.props.org} user={this.props.user}/>
                     </div>
                 </div>
             </div>
