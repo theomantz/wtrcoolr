@@ -11,21 +11,8 @@ const getItems = props => {
   let itemArr = userOrgs.map(org => (
     {id: String(org._id), content: org.name}
   ))
-  // return ([
-  //     {id: '1', content: 'App Academy Alumni'},
-  //     {id: '2', content: 'Bowling Group'},
-  //     {id: '3', content: 'Google'},
-  //     {id: '4', content: 'Church Group'},
-  //     {id: '5', content: 'Avengers'},
-  //     {id: '6', content: 'Joe\'s Circle'},
-  //     {id: '7', content: 'Dubnation'},
-  //     {id: '8', content: 'Thai Food Enthusiasts'},
-  //     {id: '9', content: 'Cat People'},
-  //     {id: '10', content: 'PTA Group'}
-  // ])
+
   return itemArr;
-
-
 }
 
 
@@ -82,6 +69,7 @@ class OrganizationList extends React.Component {
     this.setState({
       items
     });
+
   }
 
   // Normally you would want to split things out into separate components.
@@ -92,18 +80,7 @@ class OrganizationList extends React.Component {
       let itemArr = userOrgs.map(org => (
         {id: String(org._id), content: org.name}
       ))
-      // return ([
-      //     {id: '1', content: 'App Academy Alumni'},
-      //     {id: '2', content: 'Bowling Group'},
-      //     {id: '3', content: 'Google'},
-      //     {id: '4', content: 'Church Group'},
-      //     {id: '5', content: 'Avengers'},
-      //     {id: '6', content: 'Joe\'s Circle'},
-      //     {id: '7', content: 'Dubnation'},
-      //     {id: '8', content: 'Thai Food Enthusiasts'},
-      //     {id: '9', content: 'Cat People'},
-      //     {id: '10', content: 'PTA Group'}
-      // ])
+
 
 
     return (

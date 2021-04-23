@@ -1,7 +1,7 @@
 .admin-container{
     display: flex;
     justify-content: center;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     width: 100%;
     position: absolute;
     left: 0px;
@@ -43,6 +43,7 @@
     border: 1px solid rgb(101, 101, 101);
     border-radius: 6px;
     background-color: #7F3F98;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .add-member-button:hover{
