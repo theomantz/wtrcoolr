@@ -34,7 +34,7 @@
 .calendar-container{
     background-color: #7F3F98;
     width: 80%;
-    height: 40%;
+    height: fit-content;
     margin: auto;
     margin-top:10px;
     border-radius: 5px;

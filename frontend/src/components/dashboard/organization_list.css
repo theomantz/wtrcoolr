@@ -24,5 +24,18 @@
 	font-size: 14px;
 }
 
+.dashboard-org-list{
+
+user-select: "none";
+padding: 16px;
+margin: 0 0 8px 0;
+color: white;
+border-radius: 5px;
+display: flex;
+justify-content: space-between;
+background-color: #7F3F98;
+
+}
+
 
 

@@ -92,23 +92,26 @@ class OrganizationList extends React.Component {
               ref={provided.innerRef}
               className="organization-list-container">
               {itemArr.map((item, index) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
-                  {(provided, snapshot) => (
-                    <div
-                      className="list-items-orgs"
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style
-                      )}
-                    >
-                      <strong>{item.content}</strong><Link className="admin-button" to={`admin/${item.id}`}>Admin</Link>
+                // <Draggable key={item.id} draggableId={item.id} index={index}>
+                //   {(provided, snapshot) => (
+                //     <div
+                //       className="list-items-orgs"
+                //       ref={provided.innerRef}
+                //       {...provided.draggableProps}
+                //       {...provided.dragHandleProps}
+                //       style={getItemStyle(
+                //         snapshot.isDragging,
+                //         provided.draggableProps.style
+                //       )}
+                //     >
+                //       <strong>{item.content}</strong><Link className="admin-button" to={`admin/${item.id}`}>Admin</Link>
                       
-                    </div>
-                  )}
-                </Draggable>
+                //     </div>
+                //   )}
+                // </Draggable>
+                <div className="dashboard-org-list">
+                  <strong>{item.content}</strong><Link className="admin-button" to={`admin/${item.id}`}>Admin</Link>
+                </div>
               ))}
               {provided.placeholder}
             </div>
