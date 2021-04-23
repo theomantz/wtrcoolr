@@ -12,6 +12,7 @@
 .org-listing{
     width: 80%;
     padding: 16px;
+
     color: black;
     border-radius: 16px;
     font-family: 'Monteserrat', sans-serif;
@@ -19,6 +20,12 @@
     background-color: var(--primary-light);
     margin: auto;
     margin-top: 8px;
+}
+
+
+.org-listing-name{
+    position: relative;
+    left: -60px;
 }
 
 .most-popular{
