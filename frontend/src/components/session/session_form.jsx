@@ -38,14 +38,23 @@ class SessionForm extends React.Component {
         password: this.state.password,
         password2: this.state.password2
       })
-      .then(() => this.props.closeModal())
+      .then((res) => {
+        debugger
+        if (!res.isAxiosError){
+          this.props.openModal("addInterests")
+        }
+      })
       .catch(() => {})
     } else if (this.props.formType === 'Log in') {
       this.props.formAction({
         email: this.state.email,
         password: this.state.password
       })
-      .then(() => this.props.closeModal())
+      .then((res) => {
+        if (!res.isAxiosError){
+          this.props.closeModal()
+        }
+      })
       .catch(() => {})
     }
   }

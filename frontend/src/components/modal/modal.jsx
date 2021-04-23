@@ -6,6 +6,7 @@ import LoginFormContainer from "../session/login_form_container";
 import SignupFormContainer from "../session/signup_form_container";
 import CreateOrgFormContainer from "../create_org/create_org_container";
 import AddMemberContainer from '../admin/add_member_container'
+import AddInterestsContainer from '../interests/interests_form_container'
 
 function Modal({ modal, closeModal }) {
   if (!modal) {
@@ -23,8 +24,11 @@ function Modal({ modal, closeModal }) {
       component = <CreateOrgFormContainer />;
       break;
     case "addMember":
-        component = <AddMemberContainer />;
-        break;
+      component = <AddMemberContainer />;
+      break;
+    case "addInterests":
+      component = <AddInterestsContainer />
+      break;
     default:
       return null;
   }

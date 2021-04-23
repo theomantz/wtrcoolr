@@ -21,7 +21,6 @@ const updateCurrentUser = (currentUser) => {
 };
 
 
-
 export const fetchUsers = () => dispatch => {
   return APIUsersUtil.usersLoggedIn()
     .then(users => dispatch(receiveUsers(users)))
