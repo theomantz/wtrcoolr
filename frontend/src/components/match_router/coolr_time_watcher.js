@@ -12,7 +12,7 @@ import {
   applyUTCoffset, 
   happeningNow, 
   calcEndAndStartStrings 
-} from '../../util/time_util';
+} from '../../util/time_conversion_util';
 import { openModal } from '../../actions/modal_actions';
 import { withRouter } from 'react-router-dom';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import './schedule.css'
-import applyUTCoffset from '../../util/time_conversion_util';
+import { applyUTCoffset } from '../../util/time_conversion_util';
 
 
 class NextCoolr extends React.Component {
