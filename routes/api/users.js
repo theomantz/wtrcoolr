@@ -8,6 +8,7 @@ const validateRegisterInput = require('../../validation/register')
 const validateLoginInput = require('../../validation/login')
 const passport = require('passport');
 const { db } = require("../../models/User");
+const Org = require('../../models/Org')
 
 router.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
 
@@ -21,11 +22,32 @@ router.get('/current', passport.authenticate('jwt', {session: false}), (req, res
 router.get('/email', passport.authenticate('jwt', {session: false}), (req, res) => {
 
   email = req.body.email
-  User.find({"email": { $regex: email, $options: "i" }})
+  User.find({email: { $regex: email, $options: "i" }})
     .then(users => res.json(users))
     .catch(err => res.status(404).json({userNotFound: "User not found"}))
 
+})
 
+// passport.authenticate('jwt', {session: false}),
+
+router.patch('/matchUsers',  (req, res) =>{
+
+  Org.findById(req.body.orgId, {members: 1})
+    .populate({path: 'members', match: {active: true, socket: null, _id: { $not: { $eq: req.body.userId}}}})
+    .then(org => {
+        User.findByIdAndUpdate(req.body.userId, {$set: {"socket": "hold"}}).exec()
+        let length = org.members.length
+        let index;
+        if (length > 1){
+          index = Math.floor(Math.random()* length-1) + 1
+        } else{
+          index = 0
+        }
+        let member = org.members[index]
+        User.findByIdAndUpdate(member.id, {$set: {"socket": "hold"}}).exec()
+        res.json(member.email)
+    })
+    .catch(err => res.status(404).json({noMatchMade: "No online users in this group!"}))
 })
 
 router.patch('/edit', passport.authenticate('jwt', {session: false}), (req, res) =>{
