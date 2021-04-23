@@ -7,6 +7,7 @@ import SignupFormContainer from "../session/signup_form_container";
 import CreateOrgFormContainer from "../create_org/create_org_container";
 import AddMemberContainer from '../admin/add_member_container';
 import PairPrompt from '../match_router/pair_prompt';
+import CoolrPrompt from '../match_router/coolr_prompt';
 import { 
   unpauseCounter,
   addToNotified,
@@ -21,7 +22,7 @@ class Modal extends React.Component {
   }
 
   handleClick() {
-    if (this.props.modal === 'coolr') {
+    if (this.props.modal === 'pairMatch') {
       this.props.addToNotified(this.props.currentCoolrs)
       this.props.removeCurrentCoolrs(this.props.currentCoolrs)
     }
@@ -48,8 +49,11 @@ class Modal extends React.Component {
       case "addMember":
           component = <AddMemberContainer />;
         break;
-      case 'coolr':
+      case 'pairMatch':
           component = <PairPrompt />;
+        break;
+      case 'coolr':
+          component = <CoolrPrompt />;
         break;
       default:
         return null;
@@ -70,7 +74,8 @@ class Modal extends React.Component {
 const mapStateToProps = (state) => {
   return {
     modal: state.ui.modal,
-    currentCoolrs: state.ui.currentCoolrs
+    currentCoolrs: state.ui.currentCoolrs,
+    matched: state.entities.users.match
   };
 };
 

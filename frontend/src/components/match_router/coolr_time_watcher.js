@@ -33,7 +33,7 @@ class CoolrTimeWatcher extends React.Component {
   }
 
   componentDidMount() {
-    this.backgroundInterval = setInterval(this.interval, 10000)
+    this.backgroundInterval = setInterval(this.interval, 1000)
     this.setState({
       localCoolrHoursStartAndEnd: this.usersCoolrTimesListLocal(this.props.user.orgs)
     })
@@ -97,16 +97,6 @@ class CoolrTimeWatcher extends React.Component {
       this.props.removeCurrentCoolrs(removeCoolrs)
     }
   }
-  //Set clock for session
-  //Set variables for users orgs+coolerHours adjusted for local time
-  //Clock runs + if its value enters coolrHours then it sends `props.queryMatch`
-
-  //In result check to see if match !== {}, and then open modal with match modal
-
-  //Clear clock for session
-
-  //build match modal that alerts user to a current coolrHour, asks them to generate match,
-  //If match is generated
 
   render() {
 
@@ -135,7 +125,7 @@ const mDTP = dispatch => ({
   queryMatch: userData => dispatch(queryMatch(userData)),
   addCurrentCoolrs: currentCoolrs => dispatch(addCurrentCoolrs(currentCoolrs)),
   removeCurrentCoolrs: currentCoolrs => dispatch(removeCurrentCoolrs(currentCoolrs)),
-  openModal: () => dispatch(openModal('coolr')),
+  openModal: () => dispatch(openModal('pairMatch')),
   pause: () => dispatch(pauseCounter()),
   receiveRouted: () => dispatch(receiveRouted()),
   addToNotified: (coolrHours) => dispatch(addToNotified(coolrHours))

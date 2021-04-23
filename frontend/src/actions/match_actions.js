@@ -1,4 +1,6 @@
 import matchUsers from '../util/match_util';
+import { openModal } from './modal_actions';
+
 
 export const RECEIVE_SESSION_ERRORS = "RECEIVE_SESSION_ERRORS";
 export const RECEIVE_MATCH = "RECEIVE_MATCH";
@@ -10,6 +12,7 @@ export const UNPAUSE_COUNTER = "UNPAUSE_COUNTER"
 export const RECEIVE_ROUTED = "RECEIE_ROUTED"
 export const PROMPTED_USER = "PROMPTED_USER"
 export const ADD_TO_NOTIFIED = "MOVE_TO_NOTIFIED"
+export const SET_MATCH_ATTEMPTED = "SET_MATCH_ATTEMPTED"
 
 export const receieveMatch = (matchEmail) => ({
   type: RECEIVE_MATCH,
@@ -37,6 +40,10 @@ export const unpauseCounter = () => ({
   type: UNPAUSE_COUNTER
 })
 
+// export const receiveMatchAttempted = () => ({
+//   type: SET_MATCH_ATTEMPTED
+// })
+
 const receiveErrors = (errors) => ({
   type: RECEIVE_SESSION_ERRORS,
   errors,
@@ -55,8 +62,18 @@ export const removeCurrentCoolrs = (currentCoolrs) => ({
 export const queryMatch = (userId, orgId) => dispatch => {
   return (
     matchUsers(userId, orgId)
-      .then(matchEmail => dispatch(receieveMatch(matchEmail)))
-      .catch(errs => dispatch(receiveErrors(errs)))
+      .then(matchEmail => {
+        dispatch(receieveMatch(matchEmail));
+        // dispatch(receiveMatchAttempted());
+        dispatch(openModal('coolr'));
+        return (matchEmail)
+      })
+      .catch(errs => {
+        dispatch(receiveErrors(errs));
+        // dispatch(receiveMatchAttempted())
+        dispatch(openModal('coolr'));
+        return (errs)
+      })
   )
 }
 
