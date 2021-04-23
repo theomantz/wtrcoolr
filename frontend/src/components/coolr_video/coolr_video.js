@@ -34,21 +34,22 @@ class CoolrVideo extends React.Component {
       messages: [],
       socketId: null,
       callActive: false,
+      receivingCall: false,
       userToCall: '',
       audioMuted: false,
       videoMuted: false,
       streamSource: null,
+      hasPeer: true
     };
 
     this.userVideo = React.createRef();
-    this.peerVideo = React.createRef();
+    this.remoteVideo = React.createRef();
     this.stream = React.createRef();
-    this.myPeer = null;
+    this.userPeer = null;
     this.remotePeer = null;
 
     this.handleChatChange = this.handleChatChange.bind(this);
     this.handleMute = this.handleMute.bind(this);
-    this.sendCall = this.sendCall.bind(this);
 
   }
 
@@ -71,21 +72,36 @@ class CoolrVideo extends React.Component {
     
     this.socket.on("receiveChatMessage", (message) => {
       this.setState({ messages: this.state.messages.concat(message) });
-      this.chatNotificationSound();
+      this.chatNotificationSound().play();
     });
 
     this.socket.on("coolr!", (data) => {
-      
+      this.setState({
+        callActive: true,
+        receivingCall: true,
+        hasPeer: true
+      })
+      this.remoteVideo = data.signalData;
+      this.remotePeer = data.from;
+      this.ringtoneSound().play()
     });
 
-    this.getUserVideo();
+    this.props.fetchSocket('theo@example.com')
     this.scrollToBottom();
-    this.renderUserVideo();
+    this.initiateCall();
   }
 
   componentDidUpdate() {
     this.scrollToBottom();
-    this.sendPeerSignal();
+    this.acceptCallPrompt();
+  }
+
+  acceptCallPrompt() {
+    if( this.state.receivingCall ) {
+      return (
+        null
+      )
+    }
   }
 
   componentWillUnmount() {
@@ -103,7 +119,7 @@ class CoolrVideo extends React.Component {
         loop: false,
         preload: true,
         volume: 0.1
-      }).play()
+      })
     );
   }
 
@@ -114,7 +130,7 @@ class CoolrVideo extends React.Component {
         loop: true,
         preload: true,
         volume: 0.1
-      }).play()
+      })
     )
   }
 
@@ -179,95 +195,42 @@ class CoolrVideo extends React.Component {
     this.setState({ video: !this.state.video });
   }
 
-  sendCall(e) {
-    debugger
-    e.preventDefault()
-    if (!this.props.userMatch.length) {
-      this.props.fetchSocket(this.state.userToCall);
-    } else if (this.myPeer && this.props.userMatch) {
-      this.sendPeerSignal();
-    }
-  }
 
-  constructPeer(stream) {
-    this.myPeer = new Peer({
-      initiator: true,
-      stream: stream,
-    });
-    if( this.myPeer ) {
-      this.sendPeerSignal()
-    }
-  }
-
-  sendPeerSignal() {
-    const { user, userMatch } = this.props;
-    debugger
-    const { socket } = userMatch
-    if( !!socket && !!this.myPeer ) {
-      this.myPeer.on("signal", (data) => {
-        console.log('here')
-        this.socket.emit("callUser", {
-          userToCall: socket,
-          signalData: data,
-          from: user,
-        });
-      });
-    }
-  }
-
-  getUserVideo() {
+  initiateCall(socket) {
     navigator.mediaDevices
     .getUserMedia({ video: true, audio: true })
     .then((stream) => {
-      
-      this.userVideo = stream;
-      
-      const streamSource = new MediaStream(stream)
 
-      this.setState({ 
-        streamSource: streamSource
-      })
+      const streamSource = new MediaStream(stream)
+      this.userVideo = streamSource
       
 
       const video = document.getElementById('user-video')
-      video.srcObject = streamSource
+      video.srcObject = this.userVideo
       
       
       video.onloadedmetadata = e => {
         video.play();
       };
 
-      this.constructPeer(stream)
+      this.userPeer = new Peer({
+        initiator: true,
+        stream: streamSource,
+      });
+
+      const { user, userMatch } = this.props;
+      const { socket } = userMatch
+
+      this.userPeer.on("signal", (data) => {
+        this.socket.emit("callUser", {
+          userToCall: socket,
+          signalData: data,
+          from: user,
+        });
+      });
+
     })
     .catch((err) => console.log(err));
-  }
-
-  renderUserVideo() {
-    console.log(this.userVideo)
-    const video = document.getElementById('user-video')
-    video.srcObject = this.state.streamSource
-  }
-
-  handleCall() {
-    // if( !this.state.callActive ) {
-      return (
-        <div className='call-prompt container'>
-          <label className='call-label'>Whomst've?
-            <form 
-              onSubmit={this.sendCall}
-              className='call-form'>
-                <input
-                  type='text'
-                  name='peer'
-                  value={this.state.userToCall}
-                  onChange={e => this.setState({userToCall: e.currentTarget.value})}
-                  />
-            <button className='submit-button'>Call</button>
-            </form>
-          </label>
-        </div>
-      )
-    // }
   }
 
   render() {
@@ -321,7 +284,6 @@ class CoolrVideo extends React.Component {
                     onClick={this.handleMute}
                   />
                 </div>
-                {this.handleCall()}
               </div>
               <div className="options-right"></div>
             </div>

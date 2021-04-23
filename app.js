@@ -32,16 +32,13 @@ io.on('connection', socket => {
   })
   
   socket.on("callUser", (data) => {
-    console.log("Sending Peer Request!");
-    console.log(`Sending request to peer ${data.userToCall}`);
-    console.log(data);
-    User.findOne({ email: data.userToCall }).then((user) => {
-      io.to(user.socket).emit("coolr!", {
-        signal: data.stream,
-        from: data.from,
-      });
+    console.log('Trying user for coolr request')
+    io.to(data.userToCall).emit("coolr!", {
+      signal: data.stream,
+      from: data.from,
     });
   });
+
 })
 
 
