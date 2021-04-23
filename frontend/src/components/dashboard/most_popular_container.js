@@ -5,7 +5,9 @@ import {updateOrgUsers,getPublicOrgs} from '../../actions/org_actions'
 
 
 const mapStateToProps = state => {
-    //let mostPopular = state.entities.publicOrgs
+
+  
+    //Most Popular
     let mostPopular = [];
     if(state.entities.publicOrgs.length>0){
         mostPopular = state.entities.publicOrgs.map((x) => x);
@@ -20,12 +22,35 @@ const mapStateToProps = state => {
         }
         return 0;
     }
-      
+
+    
+    
     mostPopular.sort(compare);
+
+
+    //Trending
+    let trending = [];
+
+    if(state.entities.publicOrgs.length>0){
+      trending = state.entities.publicOrgs.map((x) => x);
+    }
+
+    function trendCompare( a, b ) {
+      if ( (a.members.length-a.previousMembers)/a.previousMembers < (b.members.length-b.previousMembers)/b.previousMembers ){
+        return -1;
+      }
+      if ( (a.members.length-a.previousMembers)/a.previousMembers > (b.members.length-b.previousMembers)/b.previousMembers ){
+        return 1;
+      }
+      return 0;
+    }
+
+    trending.sort(trendCompare)
 
   return {
     mostPopular: mostPopular,
-    currentUser: state.session.user
+    currentUser: state.session.user,
+    trending: trending
   }
 };
 
