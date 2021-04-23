@@ -11,10 +11,15 @@ const io = require("socket.io")(server);
 const index = require('./routes/api/chat')
 app.use(index)
 
+
 // Video chat port listening
 let interval;
+const clients = {}
 io.on('connection', socket => {
-  console.log('New Client Connected');
+
+  console.log('Server Side Connection');
+  console.log(socket.id)
+  debugger
 
 
   socket.on('peerAssigned', () => {
@@ -27,8 +32,9 @@ io.on('connection', socket => {
   })
   
   socket.on('sendChatMessage', msg => {
-    console.log('New Chat Message')
-    return io.emit('receiveChatMessage', msg)
+    console.log(`New Chat Message from ${msg.name} at socket: ${msg.sendSocket} to socket: ${msg.receiveSocket}`)
+    console.log(msg)
+    return io.to(msg.receiveSocket).emit('receiveChatMessage', msg)
   })
   
   socket.on("callUser", (data) => {

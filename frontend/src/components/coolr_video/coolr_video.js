@@ -1,6 +1,6 @@
 import './coolr.css'
 import React from 'react';
-import openSocket from 'socket.io-client';
+import openSocket, { io } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
@@ -32,7 +32,8 @@ class CoolrVideo extends React.Component {
       response: null,
       chatMessage: "",
       messages: [],
-      socketId: null,
+      sendSocket: null,
+      receiveSocket: null,
       callActive: false,
       receivingCall: false,
       userToCall: '',
@@ -59,22 +60,29 @@ class CoolrVideo extends React.Component {
       socketURL =
         process.env.REACT_APP_SOCKET_URL || "https://wtrcoolr.herokuapp.com/";
     }
-    this.socket = openSocket(socketURL, { transports: ["websocket"] });
+    this.socket = io(socketURL, { transports: ["websocket"] });
     
     
     const { user } = this.props
     this.socket.on('connect', data => {
-      this.setState({ socketId: this.socket.id || this.state.socketId })
-      if( this.state.socketId ) {
-        this.props.assignSocket({ user: user, socketId: this.state.socketId })
+      this.setState({ sendSocket: this.socket.id })
+      console.log("Client side connection")
+      console.log(this.socket.id)
+      if( this.socket.id ) {
+        console.log(this.socket.id)
+        this.props.assignSocket({ user: user, sendSocket: this.socket.id })
       }
     })
+
     
     this.socket.on("receiveChatMessage", (message) => {
       this.setState({ messages: this.state.messages.concat(message) });
+      if( this.props.userMatch.socket !== message.sendSocket ) {
+        this.setState({ receiveSocket: message.sendSocket })
+      }
       this.chatNotificationSound().play();
     });
-
+    
     this.socket.on("coolr!", (data) => {
       this.setState({
         callActive: true,
@@ -83,12 +91,33 @@ class CoolrVideo extends React.Component {
       })
       this.remoteVideo = data.signalData;
       this.remotePeer = data.from;
-      this.ringtoneSound().play()
+      // this.ringtoneSound().play()
     });
 
-    this.props.fetchSocket('theo@example.com')
+    this.socket.on('handshake', data => {
+      if( data.sendSocket !== this.props.userMatch.socket &&
+        data.targetEmail === this.props.user.email ) {
+        this.setState({ receiveSocket: data.sendSocket })
+      }
+    })
+    
+    let socketToFetch = 
+    this.props.user.email === 'theo@example.com' ? 
+    'theo2@example.com' : 
+    'theo@example.com'
+    
+    this.props.fetchSocket(socketToFetch)
     this.scrollToBottom();
     this.initiateCall();
+
+    if( !this.state.receiveSocket ) {
+      this.socket.emit('handshake', {
+        sendSocket: this.socket.id,
+        receiveSocket: this.props.userMatch.socket,
+        targetEmail: socketToFetch
+      })
+    }
+    
   }
 
   componentDidUpdate() {
@@ -157,20 +186,27 @@ class CoolrVideo extends React.Component {
   };
 
   submitChatMessage = (e) => {
-    const { chatMessage } = this.state;
+    const { chatMessage, sendSocket } = this.state;
+    const { userMatch } = this.props
+    const { socket } = userMatch
     if (chatMessage === "") {
       return null;
     }
     const { user } = this.props;
     const { userId, name } = user;
+    console.log(socket)
     const time = moment();
     e.preventDefault();
-    this.socket.emit("sendChatMessage", {
+    const message = {
+      sendSocket: sendSocket,
+      receiveSocket: this.state.receiveSocket || socket,
       chatMessage,
       userId,
       name,
       time,
-    });
+    }
+    this.socket.emit("sendChatMessage", message);
+    this.setState({ messages: this.state.messages.concat(message) })
     this.setState({ chatMessage: "" });
   };
 
@@ -196,7 +232,7 @@ class CoolrVideo extends React.Component {
   }
 
 
-  initiateCall(socket) {
+  initiateCall() {
     navigator.mediaDevices
     .getUserMedia({ video: true, audio: true })
     .then((stream) => {
