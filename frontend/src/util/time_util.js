@@ -53,8 +53,7 @@ export const happeningNow = (startStr, endStr, currentLocalDate) =>  {
   const localMinsStr = fixToStr(currentLocalMins);
   const localHoursStr = fixToStr(currentLocalHours);
 
-  const currentLocalStr = `${currentLocalDay}${currentLocalMins}${currentLocalHour}`
-
+  const currentLocalStr = `${currentLocalDay}${localHoursStr}${localMinsStr}`
   const localTimeNum = parseInt(currentLocalStr)
   const startNum = parseInt(startStr)
   const endNum = parseInt(endStr)
@@ -79,15 +78,15 @@ export const calcEndAndStartStrings = localCoolrHour => {
     endMinsNum = endMinsNum % 60
   }
   if(endHoursNum > 23) {
-    endDayNum += Math.floor(endHours/24)
+    endDayNum += Math.floor(endHoursNum/24)
     endHoursNum = endHoursNum % 24
   }
   endDayNum = endDayNum % 6
 
-  endMinsStr = fixToStr(endMinsNum)
-  endHoursStr = fixToStr(endHoursNum)
+  let endMinsStr = fixToStr(endMinsNum)
+  let endHoursStr = fixToStr(endHoursNum)
 
   const endStr = `${endDayNum.toString()}${endHoursStr}${endMinsStr}`
-  const startStr = localCoolrHour.slice(0, 6)
+  const startStr = localCoolrHour.slice(0, 5)
   return ({startStr, endStr})
 }
