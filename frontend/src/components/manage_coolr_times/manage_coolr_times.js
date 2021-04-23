@@ -18,9 +18,10 @@ class ManageCoolrTimes extends React.Component {
             duration: '0060',
             time: '09:00'
         }
-
+        
         this.handleSubmit = this.handleSubmit.bind(this)
         this.listTimes = this.listTimes.bind(this)
+        this.handleRemove = this.handleRemove.bind(this)
 
         
 
@@ -108,7 +109,6 @@ class ManageCoolrTimes extends React.Component {
             +this.state.duration
 
         coolrString = reverseUTCoffset(coolrString)
-        console.log(this.props.currentUser)
         let newCoolrHours = []
         newCoolrHours = this.props.org.coolrHours.slice(0,this.props.org.coolrHours.length)
         newCoolrHours.push(coolrString)
@@ -117,8 +117,6 @@ class ManageCoolrTimes extends React.Component {
             id: this.props.org._id
           })
           .then((org) => {
-            //console.log(org)
-            console.log(this.props.currentUser)
             let orgsArr = this.props.currentUser.orgs.slice(0,this.props.currentUser.orgs.length)
             
             for(let i =0;i<orgsArr.length;i++){
@@ -135,6 +133,38 @@ class ManageCoolrTimes extends React.Component {
             //this.props.history.push({pathname: `/admin/${org.id}`}) //change to org page
             })
           .catch(() => {})
+      }
+
+      handleRemove(index) {
+          
+        return (
+          e => {
+            e.preventDefault();
+            let newCoolrHours = []
+            newCoolrHours = this.props.org.coolrHours.slice(0,index).concat(this.props.org.coolrHours.slice(index+1,this.props.org.coolrHours.length))
+            editOrg({
+                coolrHours: newCoolrHours,
+                id: this.props.org._id
+            })
+            .then((org) => {
+                let orgsArr = this.props.currentUser.orgs.slice(0,this.props.currentUser.orgs.length)
+                
+                for(let i =0;i<orgsArr.length;i++){
+                    if(orgsArr[i]._id===org.data._id){
+                        orgsArr[i].coolrHours.splice(index,1)
+                    }
+                }
+                this.props.getPublicOrgs();
+                this.props.updateUser({
+                orgs: orgsArr,
+                id: this.props.currentUser.id
+                })
+                this.listTimes();
+                //this.props.history.push({pathname: `/admin/${org.id}`}) //change to org page
+                })
+            .catch(() => {})
+            }
+        )
       }
     
     
@@ -177,12 +207,15 @@ class ManageCoolrTimes extends React.Component {
 
                 <ul className="coolr-time-list">
                     <h2 className="column-subtitle">Current Coolr Times</h2>
-                    {this.state.coolrTimes.map((coolrTime) => (
-                        <li className="coolr-listing">
-                            <strong className="coolr-time-info">{coolrTime[0]}</strong>
-                            <strong className="coolr-time-info">{coolrTime[1]}</strong>
-                            <strong className="coolr-time-info">{coolrTime[2]}</strong>
-                        </li> ))
+                    {this.state.coolrTimes.map((coolrTime,index) => (
+                        <li className = "coolr-row">
+                            <div className="coolr-listing">
+                                <strong className="coolr-time-info">{coolrTime[0]}</strong>
+                                <strong className="coolr-time-info">{coolrTime[1]}</strong>
+                                <strong className="coolr-time-info">{coolrTime[2]}</strong>
+                            </div>
+                            <button onClick={this.handleRemove(index)} className="remove-coolr">Remove</button>
+                        </li>))
                     }
                 </ul>
             </div>
