@@ -1,5 +1,17 @@
+
+
+:root {
+  --main-darklg: #1d2635;
+  --main-dark: #161d29;
+  --primary-color: #2f80ec;
+  --main-light: #ffffff;
+  --primary-light: #D2F9FA;
+  --primary-accent: #F1D9FA;
+  --purple-accent: #7F3F98;
+}
+
 .organization-list-container{
-	background: #4AC2C5;
+	background: var(--main-light);
 	padding: 8px;
 	width: 80%;
 	margin: auto;
@@ -7,17 +19,15 @@
 	font-family: 'Montserrat', sans-serif;
 }
 
-
-
 .admin-button{
-    position: relative;
-    right: 10px;
-    width: 15%;
-    height: 90%;
-    padding: 5px;
-    border-style: none;
-    background-color: white;
-    border-radius: 5px;
+	position: relative;
+	right: 10px;
+	width: 15%;
+	height: 90%;
+	padding: 5px;
+	border-style: none;
+	background-color: white;
+	border-radius: 5px;
 	text-decoration: none;
 	color: black;
 	text-align: center;
@@ -26,15 +36,14 @@
 
 .dashboard-org-list{
 
-user-select: "none";
-padding: 16px;
-margin: 0 0 8px 0;
-color: white;
-border-radius: 5px;
-display: flex;
-justify-content: space-between;
-background-color: #7F3F98;
-
+	user-select: "none";
+	padding: 16px;
+	margin: 10px 9px;
+	color: var(--purple-accent);
+	border-radius: 16px;
+	display: flex;
+	justify-content: space-between;
+	background-color: var(--primary-light);
 }
 
 

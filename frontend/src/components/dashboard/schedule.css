@@ -1,9 +1,21 @@
+:root {
+  --main-darklg: #1d2635;
+  --main-dark: #161d29;
+  --primary-color: #2f80ec;
+  --main-light: #ffffff;
+  --primary-light: #D2F9FA;
+  --primary-accent: #F1D9FA;
+  --purple-accent: #7F3F98;
+}
+
 .next-coolr-container{
     color: white;
-    background-color: #7F3F98;
+    background-color: var(--primary-light);
+    color: var(--purple-accent);
     width: 80%;
     height: 20%;
     margin: auto;
+    border-radius: 16px;
     margin-top:10px;
     display: flex;
     flex-direction: column;
@@ -37,7 +49,7 @@
     height: fit-content;
     margin: auto;
     margin-top:10px;
-    border-radius: 5px;
+    border-radius: 16px;
 }
 
 
