@@ -1,4 +1,9 @@
-export const selectAdminOrg = ({ orgs }, orgId) => {
-    return orgs[orgId];
+export const selectAdminOrg = (orgs, orgId) => {
+  for(let i=0;i<orgs.length;i++){
+    if(orgs[i]._id===orgId){
+        return orgs[i];
+    }
+  }
+  return null;
   };
   

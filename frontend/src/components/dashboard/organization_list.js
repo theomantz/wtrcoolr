@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import './organization_list.css'
+import { Link } from "react-router-dom";
 
 // fake data generator
 
@@ -46,6 +47,8 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   margin: `0 0 ${grid}px 0`,
   color: "white",
   borderRadius: "5px",
+  display: "flex",
+  justifyContent: "space-between",
   // change background colour if dragging
   background: isDragging ? "gray" : "#7F3F98",
 
@@ -115,6 +118,7 @@ class OrganizationList extends React.Component {
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => (
                     <div
+                      className="list-items-orgs"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
@@ -123,7 +127,8 @@ class OrganizationList extends React.Component {
                         provided.draggableProps.style
                       )}
                     >
-                      {item.content}
+                      <strong>{item.content}</strong><Link className="admin-button" to={`admin/${item.id}`}>Admin</Link>
+                      
                     </div>
                   )}
                 </Draggable>

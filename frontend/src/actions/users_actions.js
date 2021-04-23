@@ -1,4 +1,4 @@
-import * as APIUsersUtil from '../util/users_util';
+import * as APIUsersUtil from '../util/users_api_util';
 import {getPublicOrgs} from './org_actions';
 
 export const RECEIVE_USERS = 'RECEIVE_USERS';
@@ -32,6 +32,10 @@ export const updateUser = (user) => dispatch => {
   return APIUsersUtil.updateUser(user)
     .then(user => dispatch(updateCurrentUser(user)))
     .catch((err) => console.log(err))
+}
+
+export const getUserFromEmail = (email) => dispatch => {
+  return APIUsersUtil.searchEmail(email)
 }
 
 

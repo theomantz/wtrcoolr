@@ -1,5 +1,6 @@
 import React from 'react';
 import './add_member.css'
+import {searchEmail} from '../../util/users_api_util'
 
 class CreateOrgForm extends React.Component {
 
@@ -23,15 +24,26 @@ class CreateOrgForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     e.stopPropagation();
-    // this.props.formAction({
-    //     name: this.state.name,
-    //     public: publicbool,
-    //     currentUser: this.props.currentUser
-    //   })
-    //   .then(() => {
-        this.props.closeModal();
-      //   })
-      // .catch(() => {})
+      searchEmail(this.state.email)
+      .then(user =>{
+        let orgsArr = user.data[0].orgs
+        orgsArr.push(this.props.org)
+        this.props.updateOrgUsers({
+          userId: user.data[0]._id,
+          orgId: this.props.org._id,
+          admin: false,
+          add: true
+        })
+        this.props.updateUser({
+          orgs: orgsArr,
+          id: user.data[0]._id
+        })
+        this.props.getPublicOrgs();
+
+
+      })
+    this.props.closeModal();
+
   }
 
   render() {
