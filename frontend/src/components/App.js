@@ -7,14 +7,14 @@ import NavBarContainer from './nav-bar/nav_bar_container';
 import CoolrVideoContainer from './coolr_video/coolr_video_container';
 import DashboardContainer from './dashboard/dashboard_container';
 import AdminContainer from './admin/admin_container';
-import CoolrTimeWatcher from './match_router/coolr_time_watcher';
+import CTWWContainer from './match_router/coolr_time_watcher_wrapper_container';
 import './css_reset.css'
 
 
 
 const App = () => (
   <div>
-    <CoolrTimeWatcher />
+    <CTWWContainer />
     <Modal />
     <header>
       <NavBarContainer />

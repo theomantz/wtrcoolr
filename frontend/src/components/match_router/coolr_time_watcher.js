@@ -28,7 +28,7 @@ class CoolrTimeWatcher extends React.Component {
   }
 
   componentDidMount() {
-    this.backgroundInterval = setInterval(this.interval, 10000)
+    this.backgroundInterval = setInterval(this.interval, 60000)
     this.setState({
       localCoolrHoursStartAndEnd: this.usersCoolrTimesListLocal(this.props.user.orgs)
     })
@@ -55,6 +55,7 @@ class CoolrTimeWatcher extends React.Component {
   interval() {
     const localTime = new Date();
     this.checkForCoolrTimes(localTime, this.state.localCoolrHoursStartAndEnd)
+    console.log(localTime)
   }
 
   checkForCoolrTimes(localTime, coolrHours) {
