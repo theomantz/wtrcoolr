@@ -4,7 +4,7 @@ import {
 } from '../actions/match_actions';
 
 
-const pausedReducer = (state = false) => {
+const pausedReducer = (state = false, action) => {
   switch (action.type) {
     case UNPAUSE_COUNTER:
       return false;

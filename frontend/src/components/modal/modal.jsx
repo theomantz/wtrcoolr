@@ -5,56 +5,81 @@ import { connect } from "react-redux";
 import LoginFormContainer from "../session/login_form_container";
 import SignupFormContainer from "../session/signup_form_container";
 import CreateOrgFormContainer from "../create_org/create_org_container";
-import AddMemberContainer from '../admin/add_member_container'
+import AddMemberContainer from '../admin/add_member_container';
+import PairPrompt from '../match_router/pair_prompt';
+import { 
+  unpauseCounter,
+  addToNotified,
+  removeCurrentCoolrs
+ } from '../../actions/match_actions';
 
-function Modal({ modal, closeModal }) {
-  if (!modal) {
+class Modal extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    if (this.props.modal === 'coolr') {
+      this.props.addToNotified(this.props.currentCoolrs)
+      this.props.removeCurrentCoolrs(this.props.currentCoolrs)
+    }
+    this.props.closeModal();
+    this.props.unpause();
+  }
+  
+  render() {
+
+    if (!this.props.modal) {
     return null;
-  }
-  let component;
-  switch (modal) {
-    case "login":
-      component = <LoginFormContainer />;
+    }
+    let component;
+    switch (this.props.modal) {
+      case "login":
+        component = <LoginFormContainer />;
       break;
-    case "signup":
-      component = <SignupFormContainer />;
-      break;
-    case "createOrg":
-      component = <CreateOrgFormContainer />;
-      break;
-    case "addMember":
-        component = <AddMemberContainer />;
+      case "signup":
+        component = <SignupFormContainer />;
         break;
-    case 'coolr':
-        component = <PairPrompt />;
+      case "createOrg":
+        component = <CreateOrgFormContainer />;
         break;
-    default:
-      return null;
-  }
-  return (
-    <div 
-      className="modal-background" 
-      onClick={(e) => {
-        closeModal();
-        unpause();
-        }}>
-      <div className="modal-child" onClick={(e) => e.stopPropagation()}>
-        {component}
+      case "addMember":
+          component = <AddMemberContainer />;
+        break;
+      case 'coolr':
+          component = <PairPrompt />;
+        break;
+      default:
+        return null;
+    }
+    return (
+      <div 
+        className="modal-background" 
+        onClick={this.handleClick}
+      >
+        <div className="modal-child" onClick={(e) => e.stopPropagation()}>
+          {component}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 const mapStateToProps = (state) => {
   return {
     modal: state.ui.modal,
+    currentCoolrs: state.ui.currentCoolrs
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     closeModal: () => dispatch(closeModal()),
-    unpause: () => dispatch(unpause())
+    unpause: () => dispatch(unpauseCounter()),
+    addToNotified: (coolrHours) => dispatch(addToNotified(coolrHours)),
+    removeCurrentCoolrs: (coolrHours) => dispatch(removeCurrentCoolrs(coolrHours))
   };
 };
 

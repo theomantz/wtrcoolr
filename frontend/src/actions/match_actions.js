@@ -7,14 +7,26 @@ export const ADD_CURRENT_COOLRS = "ADD_CURRENT_COOLRS";
 export const REMOVE_CURRENT_COOLRS = "REMOVE_CURRENT_COOLRS";
 export const PAUSE_COUNTER = "PAUSE_COUNTER"
 export const UNPAUSE_COUNTER = "UNPAUSE_COUNTER"
+export const RECEIVE_ROUTED = "RECEIE_ROUTED"
+export const PROMPTED_USER = "PROMPTED_USER"
+export const ADD_TO_NOTIFIED = "MOVE_TO_NOTIFIED"
 
-export const receieveMatch = (matchData) => ({
+export const receieveMatch = (matchEmail) => ({
   type: RECEIVE_MATCH,
-  matchData
+  matchEmail
+})
+
+export const receiveRouted = () => ({
+  type: RECEIVE_ROUTED
 })
 
 export const clearMatch = () => ({
   type: CLEAR_MATCH
+})
+
+export const addToNotified = (coolrHours) => ({
+  type: ADD_TO_NOTIFIED,
+  coolrHours
 })
 
 export const pauseCounter = () => ({
@@ -40,10 +52,10 @@ export const removeCurrentCoolrs = (currentCoolrs) => ({
   currentCoolrs
 })
 
-export const queryMatch = (userData) => dispatch => {
+export const queryMatch = (userId, orgId) => dispatch => {
   return (
-    matchUsers(userData)
-      .then(matchData => dispatch(receieveMatch(matchData)))
+    matchUsers(userId, orgId)
+      .then(matchEmail => dispatch(receieveMatch(matchEmail)))
       .catch(errs => dispatch(receiveErrors(errs)))
   )
 }

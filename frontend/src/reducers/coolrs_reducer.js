@@ -1,6 +1,7 @@
 import {
   ADD_CURRENT_COOLRS,
-  REMOVE_CURRENT_COOLRS
+  PROMPTED_USER,
+  REMOVE_CURRENT_COOLRS,
 } from '../actions/match_actions';
 
 
@@ -15,6 +16,13 @@ const coolrReducer = (state = [], action) => {
       return altState.filter(
         clr => !action.currentCoolrs.includes(clr)
       );
+    case PROMPTED_USER:
+      let difState = state.concat([])
+      return difState.map( clr => {
+        if(action.coolrHours.includes(clr)) {
+          return [clr[0], clr[1], {notified: true}] 
+        }
+      })
     default:
       return state;
   }
