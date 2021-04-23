@@ -60,7 +60,7 @@ router.patch('/updateUsers', passport.authenticate('jwt', {session: false}), (re
   console.log(req.body)
   if (req.body.admin === true){
     if (req.body.add === true){
-      Org.findByIdAndUpdate(req.body.orgId, { $push: {"admins": req.body.userId, "members": req.body.userId}}, { new: true })
+      Org.findByIdAndUpdate(req.body.orgId, { $addToSet: {"admins": req.body.userId, "members": req.body.userId}}, { new: true })
         .then(org => res.json(org))
         .catch(err => res.status(404).json({userUpdateFailed: "Failed to update Org"}))
     } else{
