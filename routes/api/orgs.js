@@ -8,13 +8,13 @@ router.post('/', passport.authenticate('jwt', {session: false}),
   
   (req, res) => {
 
-  //add error handling
 
-  // const { errors, isValid } = validateRegisterInput(req.body)
+  const {errors, isValid } = validateRegisterInput(req.body)
 
-  // if (!isValid) {
-  //   return res.status(400).json(errors)
-  // }
+  if (!isValid) {
+    return res.status(400).json(errors)
+  }
+
   Org.findOne({ name: req.body.name })
     .then(org => {
 
