@@ -1,0 +1,33 @@
+.org-index-listing{
+    width: 20%;
+    padding: 16px;
+    color: white;
+    border-radius: "5px";
+    background-color: #7F3F98;
+    margin: auto;
+    margin-top: 8px;
+}
+
+.most-popular{
+    margin: auto
+}
+
+.join-org-button{
+    position: relative;
+    left: 80%;
+    width: 20%;
+    height: 90%;
+    padding: 5px;
+    border-style: none;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.join-org-button:hover{
+    cursor: pointer;
+    background-color: rgb(240, 240, 240);
+}
+
+.join-org-button:focus{
+    outline: none;
+}

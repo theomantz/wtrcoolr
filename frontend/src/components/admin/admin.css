@@ -54,3 +54,10 @@
     outline: none;
   }
 
+.unauthorized{
+    position: relative;
+    text-align: center;
+    top: 300px;
+    font-size: 30px
+}
+

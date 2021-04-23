@@ -1,4 +1,4 @@
-import * as APIUsersUtil from '../util/users_util';
+import * as APIUsersUtil from '../util/users_api_util';
 import {getPublicOrgs} from './org_actions';
 
 export const RECEIVE_USERS = 'RECEIVE_USERS';
@@ -21,7 +21,6 @@ const updateCurrentUser = (currentUser) => {
 };
 
 
-
 export const fetchUsers = () => dispatch => {
   return APIUsersUtil.usersLoggedIn()
     .then(users => dispatch(receiveUsers(users)))
@@ -29,9 +28,14 @@ export const fetchUsers = () => dispatch => {
 }
 
 export const updateUser = (user) => dispatch => {
+  debugger
   return APIUsersUtil.updateUser(user)
     .then(user => dispatch(updateCurrentUser(user)))
     .catch((err) => console.log(err))
+}
+
+export const getUserFromEmail = (email) => dispatch => {
+  return APIUsersUtil.searchEmail(email)
 }
 
 

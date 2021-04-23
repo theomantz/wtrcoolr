@@ -19,10 +19,11 @@ router.get('/current', passport.authenticate('jwt', {session: false}), (req, res
 })
 
 
-router.get('/email', passport.authenticate('jwt', {session: false}), (req, res) => {
+router.get('/email/:email', passport.authenticate('jwt', {session: false}), (req, res) => {
 
-  email = req.body.email
-  User.find({email: { $regex: email, $options: "i" }})
+
+  useremail = req.params.email
+  User.find({email: { $regex: useremail, $options: "i" }})
     .then(users => res.json(users))
     .catch(err => res.status(404).json({userNotFound: "User not found"}))
 
@@ -50,11 +51,16 @@ router.patch('/matchUsers', passport.authenticate('jwt', {session: false}), (req
     .catch(err => res.status(404).json({noMatchMade: "No online users in this group!"}))
 })
 
+
+
 router.patch('/edit', passport.authenticate('jwt', {session: false}), (req, res) =>{
 
   User.findByIdAndUpdate(req.body.id, { $set: req.body }, { new: true })
     .populate('orgs')
-    .then(user => res.json(user))
+    .then(user => {
+      console.log(user)
+      res.json(user)
+    })
     .catch(err => res.status(404).json({userUpdateFailed: "Failed to update User"}))
 
 })
