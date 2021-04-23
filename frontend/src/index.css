@@ -11,3 +11,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+@font-face {
+  font-family: 'Monteserrat';
+  src: url('./assets/Montserrat/Montserrat-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Monteserrat Permaent_Marker';
+  src: url('./assets/Montserrat,Permanent_Marker/Permanent_Marker/PermanentMarker-Regular.ttf');
+}

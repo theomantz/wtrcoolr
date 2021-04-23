@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
 
 :root {
   --main-darklg: #1d2635;
@@ -7,6 +9,7 @@
   --main-light: #ffffff;
   --primary-light: #D2F9FA;
   --primary-accent: #F1D9FA;
+  --purple-accent: #7F3F98;
   font-family: "Poppins", sans-serif;
 }
 
@@ -31,8 +34,9 @@
 }
 
 .logo > h3 {
-  font-size: 2.5rem;
-  color: var(--main-light);
+  font-size: 3.5rem;
+  font-family: 'Permanent Marker', cursive;
+  color: var(--purple-accent);
 }
 
 .main {

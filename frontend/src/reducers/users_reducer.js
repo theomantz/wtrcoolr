@@ -1,11 +1,11 @@
-import { 
-  RECEIVE_USERS
-} from '../actions/users_actions';
+import {
+  RECEIVE_USERS,
+  RECEIVE_USER_MATCH_SOCKET,
+} from "../actions/users_actions";
 import {
   RECEIVE_MATCH,
   RECEIVE_ROUTED,
   SET_MATCH_ATTEMPTED,
-  RECEIVE_USER_MATCH_SOCKET
 } from '../actions/match_actions';
 
 const initState = {

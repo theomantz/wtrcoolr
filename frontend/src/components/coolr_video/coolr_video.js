@@ -250,9 +250,7 @@ class CoolrVideo extends React.Component {
     if (chatMessage === "") {
       return null;
     }
-    if ( !this.state.receiveSocket ) {
-      this.handshake();
-    }
+
     const { user } = this.props;
     const { userId, name } = user;
     const time = moment();
@@ -285,7 +283,7 @@ class CoolrVideo extends React.Component {
 
   handleMute() {
     if(this.stream) {
-      this.setState({ muted: !this.state.audioMuted })
+      this.setState({ audioMuted: !this.state.audioMuted })
       this.stream.getAudioTracks()[0].enabled = this.state.audioMuted
     }
   }
