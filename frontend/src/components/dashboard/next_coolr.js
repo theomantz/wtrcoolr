@@ -7,40 +7,51 @@ class NextCoolr extends React.Component {
     constructor(props) {
         super(props);
 
-        if(this.props.org){
-        this.todaysCoolrTimesList = this.todaysCoolrTimesList.bind(this)
-
-
-        let timesArray = this.todaysCoolrTimesList().map(info => [info[0].slice(0,1),info[0].slice(1,5),info[1]])
-        let earliestTime=[];
-        let timeNow = new Date();
-        let time = [];
-        for(let i=0;i<timesArray.length;i++){
-            time = timesArray[i]
-            if(time[0]>timeNow.getDay()){
-                earliestTime = time;
-                break;
-            }
-            else if(time[0]>=timeNow.getDay() && parseInt(time[1])/100 >timeNow.getHours()){
-                earliestTime = time;
-                break;
-            }
-            else if(time[0]>=timeNow.getDay() && parseInt(time[1])/100 >= timeNow.getHours() && parseInt(time[1])%100 > timeNow.getMinutes()){
-                earliestTime = time;
-                break;
-            }
-        }
-        if(earliestTime.length<1){
-            earliestTime = timesArray[0];
-        }
-
-        let d = [4,'1600','0045']
         this.state = {
-            organization: earliestTime[2],
-            day: parseInt(earliestTime[0]),
-            time: earliestTime[1],
-            duration: earliestTime[2]
+            organization: "",
+            day: "1",
+            time: "0900",
+            duration: "0100",
+            populated: false
         }
+        if(this.props.orgs){
+                    this.todaysCoolrTimesList = this.todaysCoolrTimesList.bind(this)
+                    let tempArray = this.todaysCoolrTimesList()
+
+
+                    if(tempArray.length>0){
+
+                    let timesArray = tempArray.map(info => [info[0].slice(0,1),info[0].slice(1,5),info[1]])
+                    let earliestTime=[];
+                    let timeNow = new Date();
+                    let time = [];
+                    for(let i=0;i<timesArray.length;i++){
+                        time = timesArray[i]
+                        if(time[0]>timeNow.getDay()){
+                            earliestTime = time;
+                            break;
+                        }
+                        else if(time[0]>=timeNow.getDay() && parseInt(time[1])/100 >timeNow.getHours()){
+                            earliestTime = time;
+                            break;
+                        }
+                        else if(time[0]>=timeNow.getDay() && parseInt(time[1])/100 >= timeNow.getHours() && parseInt(time[1])%100 > timeNow.getMinutes()){
+                            earliestTime = time;
+                            break;
+                        }
+                    }
+                    if(earliestTime.length<1){
+                        earliestTime = timesArray[0];
+                    }
+
+                    this.state = {
+                        organization: earliestTime[2],
+                        day: parseInt(earliestTime[0]),
+                        time: earliestTime[1],
+                        duration: earliestTime[2],
+                        populated: true
+                    }
+                }
         }
     }
     
@@ -143,7 +154,7 @@ class NextCoolr extends React.Component {
 
 
     render() {
-        if(this.props.org){
+        if(this.state.populated){
           return (
             <div className="next-coolr-container">
                 <h1>{this.state.organization}</h1>
