@@ -30,7 +30,7 @@ router.get('/email', passport.authenticate('jwt', {session: false}), (req, res) 
 
 // passport.authenticate('jwt', {session: false}),
 
-router.patch('/matchUsers',  (req, res) =>{
+router.patch('/matchUsers', passport.authenticate('jwt', {session: false}), (req, res) =>{
 
   Org.findById(req.body.orgId, {members: 1})
     .populate({path: 'members', match: {active: true, socket: null, _id: { $not: { $eq: req.body.userId}}}})
@@ -62,7 +62,7 @@ router.patch('/edit', passport.authenticate('jwt', {session: false}), (req, res)
 router.patch('/updateOrgs', passport.authenticate('jwt', {session: false}), (req, res) =>{
 
   if (req.body.add === true){
-    User.findByIdAndUpdate(req.body.userId, { $push: {"orgs": req.body.orgId}}, { new: true })
+    User.findByIdAndUpdate(req.body.userId, { $addToSet: {"orgs": req.body.orgId}}, { new: true })
       .then(user => res.json(user))
       .catch(err => res.status(404).json({userUpdateFailed: "Failed to update User's Orgs"}))
   } else{
