@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 import LoginFormContainer from "../session/login_form_container";
 import SignupFormContainer from "../session/signup_form_container";
 import CreateOrgFormContainer from "../create_org/create_org_container";
-import AddMemberContainer from '../admin/add_member_container';
+import AddMemberContainer from '../admin/add_member_container'
+import AddInterestsContainer from '../interests/interests_form_container'
 import PairPrompt from '../match_router/pair_prompt';
 import CoolrPrompt from '../match_router/coolr_prompt';
 import { 
@@ -13,6 +14,7 @@ import {
   addToNotified,
   removeCurrentCoolrs
  } from '../../actions/match_actions';
+
 
 class Modal extends React.Component {
   constructor(props) {
@@ -40,23 +42,29 @@ class Modal extends React.Component {
       case "login":
         component = <LoginFormContainer />;
       break;
-      case "signup":
-        component = <SignupFormContainer />;
-        break;
-      case "createOrg":
-        component = <CreateOrgFormContainer />;
-        break;
-      case "addMember":
-          component = <AddMemberContainer />;
-        break;
-      case 'pairMatch':
-          component = <PairPrompt />;
-        break;
-      case 'coolr':
-          component = <CoolrPrompt />;
-        break;
-      default:
-        return null;
+    case "addMember":
+      component = <AddMemberContainer />;
+      break;
+    case "addInterests":
+      component = <AddInterestsContainer />
+      break;
+    case "signup":
+      component = <SignupFormContainer />;
+      break;
+    case "createOrg":
+      component = <CreateOrgFormContainer />;
+      break;
+    case "addMember":
+        component = <AddMemberContainer />;
+      break;
+    case 'pairMatch':
+        component = <PairPrompt />;
+      break;
+    case 'coolr':
+        component = <CoolrPrompt />;
+      break;
+    default:
+      return null;
     }
     return (
       <div 

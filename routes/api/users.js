@@ -34,7 +34,10 @@ router.patch('/edit', passport.authenticate('jwt', {session: false}), (req, res)
 
   User.findByIdAndUpdate(req.body.id, { $set: req.body }, { new: true })
     .populate('orgs')
-    .then(user => res.json(user))
+    .then(user => {
+      console.log(user)
+      res.json(user)
+    })
     .catch(err => res.status(404).json({userUpdateFailed: "Failed to update User"}))
 
 })

@@ -29,6 +29,8 @@ const sessionReducer = (state = initialState, action) => {
     case UPDATE_USER:
       let newState = Object.assign({}, state)
       newState['user']['orgs'] = action.currentUser.data.orgs
+      newState['user']['interests'] = action.currentUser.data.interests
+      newState['user']['nonStarters'] = action.currentUser.data.nonStarters
       return newState
     default:
       return state;

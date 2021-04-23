@@ -14,7 +14,7 @@ const mSTP = state => ({
 const mDTP = dispatch => ({
   formAction: (user) => dispatch(signup(user)),
   closeModal: () => dispatch(closeModal()),
-  openModal: () => dispatch(openModal('login'))
+  openModal: (modal) => dispatch(openModal(modal))
 });
 
 export default connect(mSTP, mDTP)(SessionForm)
