@@ -11,6 +11,7 @@ import {
   happeningNow, 
   calcEndAndStartStrings 
 } from '../../util/time_util';
+import { openModal } from '../../actions/modal_actions';
 
 class CoolrTimeWatcher extends React.Component {
 
@@ -25,10 +26,12 @@ class CoolrTimeWatcher extends React.Component {
     this.interval = this.interval.bind(this);
     this.usersCoolrTimesListLocal = this.usersCoolrTimesListLocal.bind(this);
     this.checkForCoolrTimes = this.checkForCoolrTimes.bind(this);
+    this.pause = this.pause.bind(this)
+    this.unpause = this.unpause.bind(this)
   }
 
   componentDidMount() {
-    this.backgroundInterval = setInterval(this.interval, 60000)
+    this.backgroundInterval = setInterval(this.interval, 10000)
     this.setState({
       localCoolrHoursStartAndEnd: this.usersCoolrTimesListLocal(this.props.user.orgs)
     })
@@ -41,7 +44,7 @@ class CoolrTimeWatcher extends React.Component {
         org.coolrHours.forEach(coolrHour => {
           const adjCoolrHour = applyUTCoffset(coolrHour)
           const startAndEnd = calcEndAndStartStrings(adjCoolrHour)
-          localCoolrTimes.push([startAndEnd, org.name])
+          localCoolrTimes.push([startAndEnd, org.name, {notified: false}])
         })
       }
     })}
@@ -53,9 +56,11 @@ class CoolrTimeWatcher extends React.Component {
   }
 
   interval() {
-    const localTime = new Date();
-    this.checkForCoolrTimes(localTime, this.state.localCoolrHoursStartAndEnd)
-    console.log(localTime)
+    if(!this.props.paused) {
+      const localTime = new Date();
+      this.checkForCoolrTimes(localTime, this.state.localCoolrHoursStartAndEnd)
+      console.log(localTime)
+    }
   }
 
   checkForCoolrTimes(localTime, coolrHours) {
@@ -95,20 +100,35 @@ class CoolrTimeWatcher extends React.Component {
   //If match is generated
 
   render() {
+    if(this.props.currentCoolrs.length > 0) {
+      let count = 0;
+      this.props.currentCoolrs.forEach(cl => {
+        if(cl[2]) {
+          count += 1
+        }
+      })
+      if (count > 0) {
+        this.props.pause();
+        this.props.openModal();
+      }
+    }
+
     return null
   }
-
 }
 
 const mSTP = state => ({
   user: state.session.user,
-  currentCoolrs: state.ui.currentCoolrs
+  currentCoolrs: state.ui.currentCoolrs,
+  paused: state.ui.paused
 })
 
 const mDTP = dispatch => ({
   queryMatch: userData => dispatch(queryMatch(userData)),
   addCurrentCoolrs: currentCoolrs => dispatch(addCurrentCoolrs(currentCoolrs)),
-  removeCurrentCoolrs: currentCoolrs => dispatch(removeCurrentCoolrs(currentCoolrs))
+  removeCurrentCoolrs: currentCoolrs => dispatch(removeCurrentCoolrs(currentCoolrs)),
+  openModal: () => dispatch(openModal('coolr')),
+  pause: () => dispatch(pauseCounter())
 })
 
 export default connect(mSTP, mDTP)(CoolrTimeWatcher);

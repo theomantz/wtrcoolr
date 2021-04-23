@@ -25,11 +25,19 @@ function Modal({ modal, closeModal }) {
     case "addMember":
         component = <AddMemberContainer />;
         break;
+    case 'coolr':
+        component = <PairPrompt />;
+        break;
     default:
       return null;
   }
   return (
-    <div className="modal-background" onClick={closeModal}>
+    <div 
+      className="modal-background" 
+      onClick={(e) => {
+        closeModal();
+        unpause();
+        }}>
       <div className="modal-child" onClick={(e) => e.stopPropagation()}>
         {component}
       </div>
@@ -46,6 +54,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     closeModal: () => dispatch(closeModal()),
+    unpause: () => dispatch(unpause())
   };
 };
 
