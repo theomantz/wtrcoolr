@@ -8,6 +8,7 @@ const validateRegisterInput = require('../../validation/register')
 const validateLoginInput = require('../../validation/login')
 const passport = require('passport');
 const { db } = require("../../models/User");
+const Org = require('../../models/Org')
 
 router.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
 
@@ -20,12 +21,34 @@ router.get('/current', passport.authenticate('jwt', {session: false}), (req, res
 
 router.get('/email/:email', passport.authenticate('jwt', {session: false}), (req, res) => {
 
+
   useremail = req.params.email
   User.find({email: { $regex: useremail, $options: "i" }})
     .then(users => res.json(users))
     .catch(err => res.status(404).json({userNotFound: "User not found"}))
 
+})
 
+// passport.authenticate('jwt', {session: false}),
+
+router.patch('/matchUsers', passport.authenticate('jwt', {session: false}), (req, res) =>{
+
+  Org.findById(req.body.orgId, {members: 1})
+    .populate({path: 'members', match: {active: true, socket: null, _id: { $not: { $eq: req.body.userId}}}})
+    .then(org => {
+        User.findByIdAndUpdate(req.body.userId, {$set: {"socket": "hold"}}).exec()
+        let length = org.members.length
+        let index;
+        if (length > 1){
+          index = Math.floor(Math.random()* length-1) + 1
+        } else{
+          index = 0
+        }
+        let member = org.members[index]
+        User.findByIdAndUpdate(member.id, {$set: {"socket": "hold"}}).exec()
+        res.json(member.email)
+    })
+    .catch(err => res.status(404).json({noMatchMade: "No online users in this group!"}))
 })
 
 
@@ -45,7 +68,7 @@ router.patch('/edit', passport.authenticate('jwt', {session: false}), (req, res)
 router.patch('/updateOrgs', passport.authenticate('jwt', {session: false}), (req, res) =>{
 
   if (req.body.add === true){
-    User.findByIdAndUpdate(req.body.userId, { $push: {"orgs": req.body.orgId}}, { new: true })
+    User.findByIdAndUpdate(req.body.userId, { $addToSet: {"orgs": req.body.orgId}}, { new: true })
       .then(user => res.json(user))
       .catch(err => res.status(404).json({userUpdateFailed: "Failed to update User's Orgs"}))
   } else{

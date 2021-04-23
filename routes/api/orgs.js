@@ -8,13 +8,13 @@ router.post('/', passport.authenticate('jwt', {session: false}),
   
   (req, res) => {
 
-  //add error handling
 
-  // const { errors, isValid } = validateRegisterInput(req.body)
+  const {errors, isValid } = validateRegisterInput(req.body)
 
-  // if (!isValid) {
-  //   return res.status(400).json(errors)
-  // }
+  if (!isValid) {
+    return res.status(400).json(errors)
+  }
+
   Org.findOne({ name: req.body.name })
     .then(org => {
 
@@ -59,7 +59,7 @@ router.patch('/edit', passport.authenticate('jwt', {session: false}),  (req, res
 router.patch('/updateUsers', passport.authenticate('jwt', {session: false}), (req, res) =>{
   if (req.body.admin === true){
     if (req.body.add === true){
-      Org.findByIdAndUpdate(req.body.orgId, { $push: {"admins": req.body.userId, "members": req.body.userId}}, { new: true })
+      Org.findByIdAndUpdate(req.body.orgId, { $addToSet: {"admins": req.body.userId, "members": req.body.userId}}, { new: true })
         .then(org => res.json(org))
         .catch(err => res.status(404).json({userUpdateFailed: "Failed to update Org"}))
     } else{
