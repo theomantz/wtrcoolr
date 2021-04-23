@@ -6,6 +6,8 @@ import { applyUTCoffset } from '../../util/time_conversion_util';
 class NextCoolr extends React.Component {
     constructor(props) {
         super(props);
+
+        if(this.props.org){
         this.todaysCoolrTimesList = this.todaysCoolrTimesList.bind(this)
 
 
@@ -39,7 +41,7 @@ class NextCoolr extends React.Component {
             time: earliestTime[1],
             duration: earliestTime[2]
         }
-        
+        }
     }
     
     todaysCoolrTimesList() {
@@ -141,13 +143,21 @@ class NextCoolr extends React.Component {
 
 
     render() {
-
+        if(this.props.org){
           return (
             <div className="next-coolr-container">
                 <h1>{this.state.organization}</h1>
                 <h2>{this.dateText()}</h2>
             </div>
           );
+        }
+        else{
+            return(
+                <div className="next-coolr-container">
+                <h1>No Cooler Times</h1>
+            </div>
+            )
+        }
     }
       
 }
