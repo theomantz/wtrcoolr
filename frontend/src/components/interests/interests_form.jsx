@@ -1,12 +1,14 @@
 import React from 'react'
+import './interests_form.css'
 
-class InterestForm extends React.Component{
+class InterestsForm extends React.Component{
   constructor(props){
     super(props)
 
     this.state = {
-      interests: '',
-      nonStarters: '',
+      interests: "",
+      nonStarters: "",
+      currentUserId: this.props.currentUserId
     }
 
     this.update = this.update.bind(this)
@@ -16,17 +18,19 @@ class InterestForm extends React.Component{
   update(field) {
     return (
       e => this.setState({
-        [field]: e.currentTarget.value
+        [field]: [e.currentTarget.value]
       })
     )
   }
 
   handleSubmit(e) {
+    debugger
     e.preventDefault();
     e.stopPropagation();
     this.props.updateUser({
       interests: this.state.interests,
       nonStarters: this.state.nonStarters,
+      id: this.state.currentUserId
     })
     .then((res) => {
       if (!res.isAxiosError){
@@ -38,8 +42,8 @@ class InterestForm extends React.Component{
 
   render(){
     return(
-    <div>
-      <form>
+    <div className="interests-form-container">
+      <form className="interests-form">
         <div>
           <label>Interests:
             <input 
@@ -65,13 +69,11 @@ class InterestForm extends React.Component{
             <span>{this.props.errors.nonStarters}</span>
           </label>
         </div>
-
-        <input 
-          type="submit" 
-          value={this.handleSubmit}
-          // onClick={(e) => e.stopPropagation()}
-        />
-
+          <input 
+            type="submit" 
+            onClick={this.handleSubmit}
+            value='Get Started!'
+          />
       </form>
     </div>
     )
@@ -79,4 +81,4 @@ class InterestForm extends React.Component{
 
 }
 
-export default InterestForm
+export default InterestsForm

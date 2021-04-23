@@ -1,10 +1,11 @@
 import { connect } from 'react-redux'
-import InterestForm from './interest_form'
+import InterestsForm from './interests_form'
 import { closeModal } from '../../actions/modal_actions'
 import {updateUser} from '../../actions/users_actions'
 
 const mSTP = state => ({
-  errors: state.errors.session
+  errors: state.errors.session,
+  currentUserId: state.session.user.id
 })
 
 const mDTP = dispatch => ({
@@ -12,4 +13,4 @@ const mDTP = dispatch => ({
   updateUser: (user) => dispatch(updateUser(user))
 })
 
-export default connect(mSTP, mDTP)(InterestForm)
+export default connect(mSTP, mDTP)(InterestsForm)
