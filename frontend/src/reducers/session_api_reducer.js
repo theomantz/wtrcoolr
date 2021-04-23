@@ -13,21 +13,21 @@ const initialState = {
 };
 
 const sessionReducer = (state = initialState, action) => {
-  
+  Object.freeze(state)
   switch (action.type) {
     case RECEIVE_CURRENT_USER:
       return {
         ...state,
         isAuthenticated: !!action.currentUser,
-        user: action.currentUser,
+        user: action.currentUser
       };
     case RECEIVE_USER_LOGOUT:
       return {
         isAuthenticated: false,
-        user: undefined,
+        user: undefined
       };
     case UPDATE_USER:
-      let newState = Object.assign({},state)
+      let newState = Object.assign({}, state)
       newState['user']['orgs'] = action.currentUser.data.orgs
       return newState
     default:
@@ -36,7 +36,3 @@ const sessionReducer = (state = initialState, action) => {
 };
 
 export default sessionReducer
-
-
-
-// {user: action.currentUser.data.orgs}
