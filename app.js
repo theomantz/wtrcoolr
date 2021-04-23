@@ -17,14 +17,22 @@ let interval;
 const clients = {}
 io.on('connection', socket => {
 
-  console.log('Server Side Connection');
-  console.log(socket.id)
-  debugger
 
-
-  socket.on('peerAssigned', () => {
-
+  socket.on('handshake', msg => {
+    console.log(`Shaking hands from ${msg.sendSocket} to ${msg.receiveSocket}`)
+    io.to(msg.receiveSocket).emit('handshake', {
+      sendSocket: msg.sendSocket,
+      targetId: msg.targetId
+    })
   })
+
+  socket.on('sync', msg=> {
+    console.log(`Synced`)
+    io.to(msg.to).emit('sync', {
+      from: msg.from
+    })
+  })
+
 
   socket.on('disconnect', () => {
     console.log('Client Disconnected');
@@ -39,8 +47,9 @@ io.on('connection', socket => {
   
   socket.on("callUser", (data) => {
     console.log('Trying user for coolr request')
+    console.log(data.signalData)
     io.to(data.userToCall).emit("coolr!", {
-      signal: data.stream,
+      signalData: data.signalData,
       from: data.from,
     });
   });

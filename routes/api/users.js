@@ -38,20 +38,21 @@ router.get('/sockets/:email', (req, res) => {
   const email = req.params.email
   User.findOne({ email: email })
     .then(user => {
-      if( user ) {
-        res.status(200).json(user)
+      const payload = { user: user.id, name: user.name, socket: user.socket, email: user.email }
+      if( user.socket ) {
+        res.status(200).json(payload)
+      } else {
+        res.status(400).json({error: 'User has no assigned socket'})
       }
     })
 }) 
 
 router.patch('/sockets', (req, res) => {
-  User.findByIdAndUpdate(req.body.user.id, {$set: { socket: req.body.socketId }})
+  console.log(req.body)
+  User.findByIdAndUpdate(req.body.user.id, {$set: { socket: req.body.sendSocket }})
     .then((user) => {
-      const payload = {
-        id: user.id,
-        name: user.name,
-        socket: user.socket
-      }
+      console.log(user)
+      res.json({ id: user.id, name: user.name, socket: user.socket}.status(200))
     });
 })
 

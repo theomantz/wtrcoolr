@@ -54,6 +54,8 @@
   align-items: center;
   padding: 1rem;
   background-color: var(--main-light);
+  background-image: url('../../assets/jazz-cup-theme.jpg');
+  background-size: cover;
 }
 
 video {
@@ -220,6 +222,10 @@ video {
   height: 100%;
   justify-content: flex-end;
   padding-left: 0.15rem;
+}
+
+.option-button.true {
+  background-color: #f6484a;
 }
 
 .user-video-container {

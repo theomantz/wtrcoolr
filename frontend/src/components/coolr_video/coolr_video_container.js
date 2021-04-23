@@ -15,7 +15,8 @@ import { withRouter } from 'react-router-dom';
 const mapStateToProps = ({ session, messages, entities }) => ({
   user: session.user,
   messages: messages,
-  userMatch: entities.users
+  userMatch: entities.users,
+  initiator: session.user.email === 'theo@example.com' ? true : false
 });
 
 const mapDispatchToProps = dispatch => ({
