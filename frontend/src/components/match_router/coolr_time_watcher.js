@@ -66,7 +66,6 @@ class CoolrTimeWatcher extends React.Component {
     if(!this.props.paused) {
       const localTime = new Date();
       this.checkForCoolrTimes(localTime, this.state.localCoolrHoursStartAndEnd)
-      console.log(localTime)
     }
   }
 

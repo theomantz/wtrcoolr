@@ -27,6 +27,8 @@ class Modal extends React.Component {
     if (this.props.modal === 'pairMatch') {
       this.props.addToNotified(this.props.currentCoolrs)
       this.props.removeCurrentCoolrs(this.props.currentCoolrs)
+    } else if (this.props.modal ==='addInterests'){
+      return
     }
     this.props.closeModal();
     this.props.unpause();

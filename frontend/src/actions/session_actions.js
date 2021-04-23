@@ -47,7 +47,8 @@ export const login = (user) => (dispatch) => {
       APIUtil.setAuthToken(token);
       const decoded = jwt_decode(token);
       dispatch(getPublicOrgs());
-      dispatch(receiveCurrentUser(decoded));      
+      dispatch(receiveCurrentUser(decoded));
+      return res     
     })
     .catch((err) => {
       dispatch(receiveErrors(err.response.data));
