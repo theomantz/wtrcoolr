@@ -24,6 +24,7 @@ class Modal extends React.Component {
   }
 
   handleClick() {
+    debugger
     if (this.props.modal === 'pairMatch') {
       this.props.addToNotified(this.props.currentCoolrs)
       this.props.removeCurrentCoolrs(this.props.currentCoolrs)

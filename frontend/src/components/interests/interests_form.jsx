@@ -15,6 +15,7 @@ class InterestsForm extends React.Component{
 
     this.update = this.update.bind(this)
     this.handleSubmit= this.handleSubmit.bind(this)
+    this.addTopic = this.addTopic.bind(this)
   }
 
   update(field) {
@@ -41,28 +42,27 @@ class InterestsForm extends React.Component{
     .catch(() => {})
   }
 
-  addTopic(field){
-    debugger
-    if (this.state[field].length < 3){
-      let newItem = this.state[field.slice(0, field.length-1).concat('ToAdd')]
-      console.log(newItem)
-      console.log(this.state[field])
-      console.log(this.state[field].push(newItem))
-     
-      return (
-        e => this.setState({
-          [field]: this.state[field].push(newItem)
-        })
-      )
-    } else {
-      // error handling
-      // this.props.re
+  addTopic (field){
+    return event =>{
+      event.stopPropagation();
+      if (this.state[field].length < 3){
+        let newItem = this.state[field.slice(0, field.length-1).concat('ToAdd')]
+        let newField = this.state[field].concat(newItem)
+        return (
+          e => this.setState({
+            [field]: newField
+            
+          })
+        )
+      } else {
+        // error handling
+        // this.props.re
+      }
+
     }
   }
 
   render(){
-
-    console.log(this.state.interests)
 
     const interests = (
         <ul>
@@ -73,8 +73,6 @@ class InterestsForm extends React.Component{
           }
         </ul>
     )
-
-
 
     const nonStarters = (
       <ul>
@@ -88,7 +86,7 @@ class InterestsForm extends React.Component{
     )
     return(
     <div className="interests-form-container">
-      <form className="interests-form">
+      <form onSubmit={this.addTopic("interests")} className="interests-form">
         <h2>Get over that awkward silence a little faster...</h2>
           <div>
             <label>Interests:
@@ -100,11 +98,13 @@ class InterestsForm extends React.Component{
                 >
               </input>
               <span>{this.props.errors.interests}</span>
-              <button onClick={this.addTopic("interests")}>Add</button>
+
             </label>
+            <input type="submit" value="Add"/>
             {interests}
           </div>
-        
+      </form>
+      <form onSubmit={this.addTopic("interests")}>
         <div>
           <label>Non-Starters:
             <input 
@@ -115,11 +115,13 @@ class InterestsForm extends React.Component{
               >
             </input>
             <span>{this.props.errors.nonStarters}</span>
-            <button onClick={this.addTopic("nonStarters")}>Add</button>
           </label>
+          <input type="submit" value="Add"/>
           {nonStarters}
         </div>
-          <input 
+      </form>
+      <form>
+        <input 
             type="submit" 
             onClick={this.handleSubmit}
             value='Get Started!'
