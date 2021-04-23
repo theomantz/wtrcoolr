@@ -1,9 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+:root {
+  --main-darklg: #1d2635;
+  --main-dark: #161d29;
+  --primary-color: #2f80ec;
+  --main-light: #ffffff;
+  --primary-light: #D2F9FA;
+  --primary-accent: #F1D9FA;
+  --purple-accent: #7F3F98;
+}
+
 .org-listing{
     width: 80%;
     padding: 16px;
-    color: white;
-    border-radius: "5px";
-    background-color: #7F3F98;
+    color: black;
+    border-radius: 16px;
+    font-family: 'Monteserrat', sans-serif;
+    font-weight: 700;
+    background-color: var(--primary-light);
     margin: auto;
     margin-top: 8px;
 }
