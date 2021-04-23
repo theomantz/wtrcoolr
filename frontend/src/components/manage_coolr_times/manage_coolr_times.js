@@ -30,7 +30,9 @@ class ManageCoolrTimes extends React.Component {
     } //constructor
 
     componentDidMount(){
+        if(this.props.org.coolrHours){
         this.listTimes()
+        }
     }
 
     listTimes(){

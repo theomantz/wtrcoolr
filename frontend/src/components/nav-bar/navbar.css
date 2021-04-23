@@ -15,6 +15,7 @@
     font-size: 24px;
     text-decoration: none;
     color: #7F3F98;
+    font-family: 'Permanent Marker', cursive;
 }
 
 
@@ -30,6 +31,8 @@
     text-decoration: none;
     margin: 10px;
     transition: all 0.2s;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 20px;
 }
 
 .navlink:hover{

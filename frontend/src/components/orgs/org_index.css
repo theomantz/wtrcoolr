@@ -1,11 +1,11 @@
 .org-index-listing{
-    width: 20%;
+    width: 80%;
     padding: 16px;
     color: white;
     border-radius: "5px";
     background-color: #7F3F98;
-    margin: auto;
     margin-top: 8px;
+    border-radius: 4px;
 }
 
 .most-popular{
@@ -30,4 +30,20 @@
 
 .join-org-button:focus{
     outline: none;
+}
+
+.org-index{
+    margin: 2%
+}
+
+.org-index h1{
+    font-size: 34px;
+    font-family: 'Permanent Marker', cursive;
+}
+
+.org-index-container{
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    width: 100%;
 }

@@ -37,6 +37,7 @@
     flex-direction: column;
     justify-content: center;
     border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .coolr-row{
@@ -61,6 +62,7 @@
     height: 100%;
     margin: 0;
     border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
   }
   
   .remove-coolr:hover {
@@ -77,6 +79,7 @@
     display: flex;
     align-items: center;
     padding: 20px;
+    font-family: 'Montserrat', sans-serif;
   }
 
 .add-coolr-time-form input {
@@ -95,6 +98,7 @@
     -webkit-appearance: none;
     appearance: none;
     background-color: #fff;
+    font-family: 'Montserrat', sans-serif;
   }
   
  
@@ -138,6 +142,7 @@
     background-repeat: no-repeat, repeat;
     background-position: right .7em top 50%;
     background-size: .65em auto;
+    font-family: 'Montserrat', sans-serif;
   }
   
   
