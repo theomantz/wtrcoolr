@@ -74,15 +74,29 @@ class NavBar extends React.Component {
   render() {
       let currentUser = this.props.currentUser
       return (
-        <div className="most-popular">
-            <ul>
-                {this.props.mostPopular.slice(0,5).map((org) => (
-                    <li className="org-listing">
-                        <button onClick={this.handleClick(org,currentUser)} className="join-org-button">{this.checkJoined(org)? 'Leave': 'Join'}</button>
-                        <strong>{org.name}</strong>
-                    </li> ))
-                }
-            </ul>
+        <div>
+            <div className="most-popular">
+            <h2 className="column-subtitle">Most Popular</h2>
+                <ul>
+                    {this.props.mostPopular.slice(0,4).map((org) => (
+                        <li className="org-listing">
+                            <button onClick={this.handleClick(org,currentUser)} className="join-org-button">{this.checkJoined(org)? 'Leave': 'Join'}</button>
+                            <strong>{org.name}</strong>
+                        </li> ))
+                    }
+                </ul>
+            </div>
+            <div className="most-popular">
+            <h2 className="column-subtitle">Trending</h2>
+                <ul>
+                    {this.props.trending.slice(0,4).map((org) => (
+                        <li className="org-listing">
+                            <button onClick={this.handleClick(org,currentUser)} className="join-org-button">{this.checkJoined(org)? 'Leave': 'Join'}</button>
+                            <strong>{org.name}</strong>
+                        </li> ))
+                    }
+                </ul>
+            </div>
         </div>
       );
   }

@@ -36,9 +36,9 @@ class Dashboard extends React.Component {
 
                 <div className="dashboard-column">
                     <h1 className="column-title" >Trends</h1>
-                    <h2 className="column-subtitle">Most Popular</h2>
+                    
                       <MostPopularContainer />
-                    <h2 className="column-subtitle">Trending</h2>
+                    
               </div>
             </div>
           );
