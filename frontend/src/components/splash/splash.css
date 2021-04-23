@@ -1,0 +1,25 @@
+.splash-container{
+    display: flex;
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    transform: translateX(-50%);
+    justify-content: center;
+    background-color: #D2F9FA;
+    border-radius: 10px;
+}
+
+.watercooler{
+    height: auto;
+    width: 500px;
+    margin: 50px;
+    border-radius: 5px;
+}
+
+.splash-container h1{
+    font-family: 'Permanent Marker', cursive;
+    color: #7F3F98;
+    font-size: 50px;
+    margin-bottom: 20px;
+    margin-top:50px;
+}
