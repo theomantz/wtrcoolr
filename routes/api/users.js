@@ -80,9 +80,41 @@ router.patch('/updateOrgs', passport.authenticate('jwt', {session: false}), (req
 })
 
 router.patch('/logout', (req, res) => {
-  User.findByIdAndUpdate(req.body.id, {$set: {active: false}})
-    .then(user => res.json(user))
+  User.findByIdAndUpdate(req.body.id, {$set: {active: false, socket: null } })
+    .then(user => res.json({
+      user: user.id, 
+      name: user.name,
+      socket: user.socket, 
+      email: user.email
+    }))
     .catch(err => res.status(404).json({userUpdateFailed: "Failed to update User"}))
+})
+
+router.get('/sockets/:email', (req, res) => {
+  const email = req.params.email
+  User.findOne({ email: email })
+    .then(user => {
+      const payload = { user: user.id, name: user.name, socket: user.socket, email: user.email }
+      if( user.socket ) {
+        res.status(200).json(payload)
+      } else {
+        res.status(400).json({error: 'User has no assigned socket'})
+      }
+    })
+}) 
+
+router.patch('/sockets', (req, res) => {
+  console.log(req.body)
+  User.findByIdAndUpdate(req.body.user.id, {$set: { socket: req.body.sendSocket }})
+    .then((user) => {
+      console.log(user)
+      res.json({ id: user.id, name: user.name, socket: user.socket}.status(200))
+    });
+})
+
+router.patch('/sockets/null', (req, res) => {
+  User.findByIdAndUpdate(req.body.user.id, {$set: { socket: null }})
+    .then((user) => res.json(user));
 })
 
 router.post('/register', (req, res)=>{
@@ -113,7 +145,7 @@ router.post('/register', (req, res)=>{
             newUser
               .save()
               .then(user => {
-                const payload = { id: user.id, name: user.name, active: user.active, orgs: user.orgs }
+                const payload = {id: user.id, name: user.name, email: user.email, orgs: user.orgs, active: user.active}
 
                 jwt.sign(payload, keys.secretOrKey, {expiresIn: 3600}, (err, token) =>{
                   res.json({

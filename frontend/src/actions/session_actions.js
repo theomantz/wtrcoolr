@@ -55,8 +55,14 @@ export const login = (user) => (dispatch) => {
     });
 };
 
-export const logout = () => (dispatch) => {
-  localStorage.removeItem("jwtToken");
-  APIUtil.setAuthToken(false);
-  dispatch(logoutUser());
-};
+export const logout = (user) => (dispatch) => {
+  return APIUtil.logout(user)
+    .then(() => {
+      localStorage.removeItem("jwtToken");
+      APIUtil.setAuthToken(false);
+      dispatch(logoutUser());
+    })
+    .catch(err => {
+      dispatch(receiveErrors(err.response.data))
+    })
+};  

@@ -14,25 +14,48 @@ app.use(index)
 
 // Video chat port listening
 let interval;
+const clients = {}
 io.on('connection', socket => {
-  console.log('New Client Connected');
-  if(interval) {
-    clearInterval(inteval);
-  }
-  inteval = setInterval(() => getApiAndEmit(socket), 1000);
+
+
+  socket.on('handshake', msg => {
+    console.log(`Shaking hands from ${msg.sendSocket} to ${msg.receiveSocket}`)
+    io.to(msg.receiveSocket).emit('handshake', {
+      sendSocket: msg.sendSocket,
+      targetId: msg.targetId
+    })
+  })
+
+  socket.on('sync', msg=> {
+    console.log(`Synced`)
+    io.to(msg.to).emit('sync', {
+      from: msg.from
+    })
+  })
+
+
   socket.on('disconnect', () => {
     console.log('Client Disconnected');
     clearInterval(interval)
   })
+  
   socket.on('sendChatMessage', msg => {
-    return io.emit('receiveChatMessage', msg)
+    console.log(`New Chat Message from ${msg.name} at socket: ${msg.sendSocket} to socket: ${msg.receiveSocket}`)
+    console.log(msg)
+    return io.to(msg.receiveSocket).emit('receiveChatMessage', msg)
   })
+  
+  socket.on("callUser", (data) => {
+    console.log('Trying user for coolr request')
+    console.log(data.signalData)
+    io.to(data.userToCall).emit("coolr!", {
+      signalData: data.signalData,
+      from: data.from,
+    });
+  });
+
 })
 
-const getApiAndEmit = socket => {
-  const response = new Date()
-  socket.emit("FromAPI", response);
-}
 
 // Database Setup
 const mongoose = require('mongoose');
@@ -77,7 +100,6 @@ mongoose
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
 
 const port = process.env.PORT || 5000;
 server.listen(port, () => console.log(`Server is up and running on ${port}`));

@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let store;
   if (localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
-
     const decodedUser = jwt_decode(localStorage.jwtToken);
 
     const preloadedState = {
@@ -22,8 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentTime = Date.now() / 1000;
 
     if (decodedUser.exp < currentTime) {
-      store.dispatch(logout());
-      window.location.href = "/login";
+      store.dispatch(logout(decodedUser));
+      window.location.href = "/#/";
     }
   } else {
     store = configureStore({});
