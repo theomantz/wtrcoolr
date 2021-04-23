@@ -12,7 +12,6 @@ import Peer from 'simple-peer';
 import moment from 'moment';
 import { Howl } from 'howler'
 import notificationSound from '../../sounds/chat-notif.mp3'
-import notificationSound2 from '../../sounds/chat-notif-2.mp3'
 import ringtone from '../../sounds/ringtone.mp3'
 import { Rnd } from 'react-rnd'
 
