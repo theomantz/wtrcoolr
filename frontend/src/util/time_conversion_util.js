@@ -1,4 +1,12 @@
-export default (str) => {
+export const fixToStr = (num) => {
+  if (num < 10) {
+    return "0" + num.toString()
+  } else {
+    return num.toString()
+  }
+}
+
+export const applyUTCoffset = (str) => {
 
   const localTime = new Date();
   const offset = localTime.getTimezoneOffset();
@@ -27,20 +35,58 @@ export default (str) => {
   }
 
   if (adjDay < 0) {
-    adjDay = 7 - (Math.abs(adjDay));
+    adjDay = 6 - (Math.abs(adjDay));
   }
 
-
-  const fixToStr = (num) => {
-    if (num < 10) {
-      return "0" + num.toString()
-    } else {
-      return num.toString()
-    }
-  }
   const finalHours = fixToStr(adjHours)
   const finalMins = fixToStr(adjMins)
 
   const adjStr = `${adjDay}${finalHours}${finalMins}${str.slice(5)}`
   return adjStr
+}
+
+export const happeningNow = (startStr, endStr, currentLocalDate) => {
+  const currentLocalDay = currentLocalDate.getDay();
+  const currentLocalMins = currentLocalDate.getMinutes();
+  const currentLocalHours = currentLocalDate.getHours();
+
+  const localMinsStr = fixToStr(currentLocalMins);
+  const localHoursStr = fixToStr(currentLocalHours);
+
+  const currentLocalStr = `${currentLocalDay}${localHoursStr}${localMinsStr}`
+  const localTimeNum = parseInt(currentLocalStr)
+  const startNum = parseInt(startStr)
+  const endNum = parseInt(endStr)
+
+  return (localTimeNum > startNum && localTimeNum < endNum)
+}
+
+export const calcEndAndStartStrings = localCoolrHour => {
+
+  const startDay = parseInt(localCoolrHour.slice(0, 1));
+  const startHours = parseInt(localCoolrHour.slice(1, 3));
+  const startMins = parseInt(localCoolrHour.slice(3, 5));
+
+  const lengthHours = parseInt(localCoolrHour.slice(5, 7));
+  const lengthMins = parseInt(localCoolrHour.slice(7, 9));
+
+  let endDayNum = startDay
+  let endMinsNum = startMins + lengthMins;
+  let endHoursNum = startHours + lengthHours;
+  if (endMinsNum > 59) {
+    endHoursNum += Math.floor(endMinsNum / 60)
+    endMinsNum = endMinsNum % 60
+  }
+  if (endHoursNum > 23) {
+    endDayNum += Math.floor(endHoursNum / 24)
+    endHoursNum = endHoursNum % 24
+  }
+  endDayNum = endDayNum % 6
+
+  let endMinsStr = fixToStr(endMinsNum)
+  let endHoursStr = fixToStr(endHoursNum)
+
+  const endStr = `${endDayNum.toString()}${endHoursStr}${endMinsStr}`
+  const startStr = localCoolrHour.slice(0, 5)
+  return ({ startStr, endStr })
 }

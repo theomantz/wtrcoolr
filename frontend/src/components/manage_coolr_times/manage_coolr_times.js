@@ -1,5 +1,5 @@
 import React from 'react';
-import applyUTCoffset from '../../util/time_conversion_util';
+import { applyUTCoffset } from '../../util/time_conversion_util';
 import reverseUTCoffset from '../../util/reverse_time_conversion_util';
 import './manage_coolr_times.css'
 import {editOrg} from '../../util/orgs_api_util'
