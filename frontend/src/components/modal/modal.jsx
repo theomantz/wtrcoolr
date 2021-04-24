@@ -28,6 +28,9 @@ class Modal extends React.Component {
       this.props.addToNotified(this.props.currentCoolrs)
       this.props.removeCurrentCoolrs(this.props.currentCoolrs)
     }
+    if (this.props.model ==='addInterests'){
+      return
+    }
     this.props.closeModal();
     this.props.unpause();
   }

@@ -42,88 +42,72 @@ class InterestsForm extends React.Component{
   }
 
   addTopic(field){
-    debugger
     if (this.state[field].length < 3){
-      let newItem = this.state[field.slice(0, field.length-1).concat('ToAdd')]
-      console.log(newItem)
-      console.log(this.state[field])
-      console.log(this.state[field].push(newItem))
-     
-      return (
-        e => this.setState({
-          [field]: this.state[field].push(newItem)
+      let entry = [field.slice(0, field.length-1).concat('ToAdd')]
+      let newItem = this.state[entry]
+      let newState = this.state[field].concat(newItem)
+      this.setState({
+          [field]: newState,
+          [entry]: ""
         })
-      )
+      
     } else {
-      // error handling
-      // this.props.re
+      //error handling
     }
   }
 
   render(){
-
-    console.log(this.state.interests)
-
     const interests = (
-        <ul>
-          {
-          this.state.interests.map(interest =>{
-            <li>{interest}</li>
-          })
-          }
+        <ul className="topics-list">
+          <li>1: {this.state.interests[0]}</li>
+          <li>2: {this.state.interests[1]}</li>
+          <li>3: {this.state.interests[2]}</li>
         </ul>
     )
 
-
-
     const nonStarters = (
-      <ul>
-        {
-        this.state.nonStarters.map(nonStarter =>{
-          <li>{nonStarter}</li>
-        })
-        }
+      <ul className="topics-list">
+        <li>1: {this.state.nonStarters[0]}</li>
+        <li>2: {this.state.nonStarters[1]}</li>
+        <li>3: {this.state.nonStarters[2]}</li>
       </ul>
 
     )
     return(
     <div className="interests-form-container">
       <form className="interests-form">
-        <h2>Get over that awkward silence a little faster...</h2>
+        <h2>Share your topics of interest and get over the awkward silence a little faster...</h2>
           <div>
-            <label>Interests:
-              <input 
-                placeholder="What do you like to talk about?" 
-                type="text"
-                value={this.state.interestToAdd}
-                onChange={this.update('interestToAdd')}
-                >
-              </input>
-              <span>{this.props.errors.interests}</span>
-              <button onClick={this.addTopic("interests")}>Add</button>
-            </label>
-            {interests}
-          </div>
-        
-        <div>
-          <label>Non-Starters:
             <input 
-              placeholder="Let's not talk about:" 
-              type="password"
-              value={this.state.nonStarterToAdd}
-              onChange={this.update('nonStarterToAdd')}
+              placeholder="Top 3 topics:" 
+              type="text"
+              value={this.state.interestToAdd}
+              onChange={this.update('interestToAdd')}
               >
             </input>
-            <span>{this.props.errors.nonStarters}</span>
-            <button onClick={this.addTopic("nonStarters")}>Add</button>
-          </label>
-          {nonStarters}
+            <button onClick={()=>this.addTopic("interests")}>Add</button>
+            <span>{this.props.errors.interests}</span>
+          </div>
+          {interests}
+        <div>
+          <input 
+            placeholder="Let's stay away from:" 
+            type="text"
+            value={this.state.nonStarterToAdd}
+            onChange={this.update('nonStarterToAdd')}
+            >
+          </input>
+          <button onClick={()=>this.addTopic("nonStarters")}>Add</button>
+          <span>{this.props.errors.nonStarters}</span>
         </div>
+        {nonStarters}
+        <div className="submit-button">
           <input 
             type="submit" 
             onClick={this.handleSubmit}
             value='Get Started!'
           />
+        </div>
       </form>
     </div>
     )
