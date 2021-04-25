@@ -196,3 +196,254 @@ A scroll to bottom function is called as a callback in both the receive chat mes
 ```
 
 <!-- Video chat function coming soon -->
+
+### Dashboard
+
+On Wtrcoolr's dashboard page, users can easily view and manage their organizations and schedule. 
+This page gives users access to a list of their organizations, a schedule of their organizations' chat times or 'coolr hours' as we call them, and lists of both popular and trending organizations.
+
+A list of a users organizations allows them to view all of the organizations that a they belong to and administrate.
+This list is rendered by a React component that implements `react-beautiful-dnd` allowing users to drag and drop list items.
+
+
+```javascript
+
+// The organization list React component with dragg-and-droppable list items
+
+import React from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import './organization_list.css'
+import { Link } from "react-router-dom";
+
+
+const getItems = props => {
+  let userOrgs = props.state.session.user.orgs
+  let itemArr = userOrgs.map(org => (
+    {id: String(org._id), content: org.name}
+  ))
+
+  return itemArr;
+}
+
+
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+
+const grid = 8;
+
+const getItemStyle = (isDragging, draggableStyle) => ({
+  userSelect: "none",
+  padding: grid * 2,
+  margin: `0 0 ${grid}px 0`,
+  color: "white",
+  borderRadius: "5px",
+  display: "flex",
+  justifyContent: "space-between",
+  background: isDragging ? "gray" : "#7F3F98",
+  ...draggableStyle
+});
+
+class OrganizationList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: getItems(props)
+    };
+    this.onDragEnd = this.onDragEnd.bind(this);
+  }
+
+
+
+  onDragEnd(result) {
+    if (!result.destination) {
+      return;
+    }
+
+    const items = reorder(
+      this.state.items,
+      result.source.index,
+      result.destination.index
+    );
+
+    this.setState({
+      items
+    });
+
+  }
+
+  render() {
+
+      let userOrgs = this.props.state.session.user.orgs
+      let itemArr = userOrgs.map(org => (
+        {id: String(org._id), content: org.name}
+      ))
+
+
+
+    return (
+      <DragDropContext onDragEnd={this.onDragEnd}>
+        <Droppable droppableId="droppable">
+          {(provided, snapshot) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              className="organization-list-container">
+              {itemArr.map((item, index) => (
+                <div className="dashboard-org-list">
+                  <strong>{item.content}</strong><Link className="admin-button" to={`admin/${item.id}`}>Admin</Link>
+                </div>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+    );
+  }
+}
+
+
+export default OrganizationList;
+
+ ```
+With this feature users can set the priority of their organiztions, pre-emptively addressing any scheduling conflicts that arrise.
+If users administrate any organizations, an admin button next to that organization in the list will take them to an admin page.
+On the admin page a user can manage their organization's users and coolr hours. 
+
+The next dashboard feature is a schedule listing the user's next upcoming coolr hours and all user's weekly cooler hours.
+Given that users could be widely spread across time zones, but calls need to occur synchronously, all the reoccuring times and weekdays of coolr hours are stored as a string in UTC time in MongoDB.
+To render the coolr hours in a user's schedule, we built an algorithm that converts the weekday and time in UTC to the local weekday and time of the user's location. 
+
+```javascript
+
+// Simple algorithm to adjust weekly occuring weekday and time as a string from UTC to local time
+
+export const fixToStr = (num) => {
+  if (num < 10) {
+    return "0" + num.toString()
+  } else {
+    return num.toString()
+  }
+}
+
+export const applyUTCoffset = (str) => {
+
+  const localTime = new Date();
+  const offset = localTime.getTimezoneOffset();
+  const offsetHours = offset / 60;
+  const offsetMins = offset % 60;
+  const strHours = parseInt(str[1] + str[2]);
+  const strMins = parseInt(str[3] + str[4]);
+  let adjHours = strHours - offsetHours;
+  let adjMins = strMins - offsetMins;
+  let adjDay = parseInt(str[0]);
+
+  if (adjMins > 59) {
+    adjMins = adjMins % 60;
+    adjHours += 1;
+  } else if (adjMins < 0) {
+    adjMins = 60 - (Math.abs(adjMins));
+    adjHours -= 1;
+  }
+
+  if (adjHours > 23) {
+    adjHours = adjHours % 24;
+    adjDay += 1;
+  } else if (adjHours < 0) {
+    adjHours = 24 - (Math.abs(adjHours));
+    adjDay -= 1;
+  }
+
+  if (adjDay < 0) {
+    adjDay = 6 - (Math.abs(adjDay));
+  }
+
+  const finalHours = fixToStr(adjHours)
+  const finalMins = fixToStr(adjMins)
+
+  const adjStr = `${adjDay}${finalHours}${finalMins}${str.slice(5)}`
+  return adjStr
+}
+
+```
+So that admins can easily set and update the coolr hours of their organizations on the admin page, we simply ran our algorithm in reverse.
+
+
+```javascript
+
+// Algorithm to ajdust weekly occuring weekday and time from local time to UTC time as a string
+
+
+    const localTime = new Date();
+    const offset = -1*localTime.getTimezoneOffset();
+    const offsetHours = offset / 60;
+    const offsetMins = offset % 60;
+    const strHours = parseInt(str[1] + str[2]);
+    const strMins = parseInt(str[3] + str[4]);
+    let adjHours = strHours - offsetHours;
+    let adjMins = strMins - offsetMins;
+    let adjDay = parseInt(str[0]);
+  
+    if (adjMins > 59) {
+      adjMins = adjMins % 60;
+      adjHours += 1;
+    } else if (adjMins < 0) {
+      adjMins = 60 - (Math.abs(adjMins));
+      adjHours -= 1;
+    }
+  
+    if (adjHours > 23) {
+      adjHours = adjHours % 24;
+      adjDay += 1;
+    } else if (adjHours < 0) {
+      adjHours = 24 - (Math.abs(adjHours));
+      adjDay -= 1;
+    }
+  
+    if (adjDay < 0) {
+      adjDay = 7 - (Math.abs(adjDay));
+    }
+  
+  
+    const fixToStr = (num) => {
+      if (num < 10) {
+        return "0" + num.toString()
+      } else {
+        return num.toString()
+      }
+    }
+    const finalHours = fixToStr(adjHours)
+    const finalMins = fixToStr(adjMins)
+  
+    const adjStr = `${adjDay}${finalHours}${finalMins}${str.slice(5)}`
+    return adjStr
+  }
+
+```
+
+A final dashboard feature allows users to explore popular and trending organizations.
+To keep the list of trending organizations accurate, an algorithm in our Express server ever 24 hours implementing `node-chron`. 
+The algorithm selects and orders the organizations based on the daily increase in users.
+
+``` javascript
+
+// Asynch function in Express server updating the organizations daily so that the trop trending organizations can be shown
+
+const cron = require('node-cron')
+
+cron.schedule('0 0 0 * * *', function() {
+  Org.find({}).then(orgs => {
+      orgs.forEach((org) =>{
+        let prev = (org.members.length)
+        Org.findByIdAndUpdate(org.id, { $set: {"previousMembers": prev}})
+          .exec()
+    })
+  })
+})
+
+``` 
