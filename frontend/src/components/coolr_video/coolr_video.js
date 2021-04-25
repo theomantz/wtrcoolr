@@ -23,6 +23,11 @@ const style = {
   background: "#fffff",
 };
 
+/* Upcoming features: 
+- Video chat
+- Chat timeout function for initial 90 seconds and then automatically 
+cancelling the call at 5 minutes  */
+
 class CoolrVideo extends React.Component {
   constructor(props) {
     super(props);
@@ -85,6 +90,7 @@ class CoolrVideo extends React.Component {
         this.setState({ receiveSocket: message.sendSocket })
       }
       this.chatNotificationSound().play();
+      this.scrollToBottom();
     });
     
     this.socket.on('handshake', data => {
@@ -212,8 +218,7 @@ class CoolrVideo extends React.Component {
     this.props.user.email === 'theo@example.com' ? 
     'theo2@example.com' : 
     'theo@example.com'
-    
-    this.scrollToBottom();
+
     this.initiateCall();
 
     const { userMatch } = this.props
@@ -227,7 +232,6 @@ class CoolrVideo extends React.Component {
   }
 
   componentDidUpdate() {
-    this.scrollToBottom();
     this.props.fetchSocket(this.props.userMatch)
     const { userMatch } = this.props;
     if ( !this.state.synced && userMatch && !this.stream.current ) {
@@ -307,6 +311,7 @@ class CoolrVideo extends React.Component {
       time,
     }
     this.socket.emit("sendChatMessage", message);
+    this.scrollToBottom();
     this.setState({ messages: this.state.messages.concat(message) })
     this.setState({ chatMessage: "" });
   };
@@ -451,9 +456,9 @@ class CoolrVideo extends React.Component {
           <div className="main-right">
             <div className="main-chat-window">
               <div className="messages">
-                <span>{this.state.response}</span>
                 {this.renderMessages()}
                 <div
+                  id='messages-end'
                   ref={(el) => {
                     this.messagesEnd = el;
                   }}
