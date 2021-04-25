@@ -1,3 +1,10 @@
+.nav-bar-container {
+    position: absolute;
+    height: 2rem;
+    width: 100%;
+    z-index: 2;
+}
+
 .navbar{
     position: relative;
     background-color: #4AC2C5;

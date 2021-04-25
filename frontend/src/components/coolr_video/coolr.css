@@ -27,10 +27,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90px;
+  height: 70px;
   position: relative;
   width: 100%;
   background-color: var(--main-darklg);
+}
+
+.logo {
+  text-align: center;
 }
 
 .logo > h3 {

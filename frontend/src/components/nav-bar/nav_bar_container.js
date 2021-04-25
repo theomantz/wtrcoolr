@@ -1,4 +1,7 @@
 import { connect } from 'react-redux';
+import {
+  withRouter
+} from 'react-router-dom'
 import { logout } from '../../actions/session_actions';
 import { openModal,
   closeModal } from '../../actions/modal_actions';
@@ -16,7 +19,7 @@ const mapDispatchToProps = dispatch => ({
   logout: (user) => dispatch(logout(user))
 })
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(NavBar);
+)(NavBar));

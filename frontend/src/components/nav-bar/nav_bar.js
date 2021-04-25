@@ -7,8 +7,14 @@ import './navbar.css'
 class NavBar extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      visible: false
+    }
+
     this.logoutUser = this.logoutUser.bind(this);
     this.getLinks = this.getLinks.bind(this);
+
   }
 
   logoutUser(e) {
@@ -20,6 +26,17 @@ class NavBar extends React.Component {
   handleClick(type) {
     return () => this.props.openModal(type)
   }
+
+  handleDropDown() {
+    const { pathname } = this.props.location
+    if( pathname === '/coolr' && !this.state.visible ) return null
+    return (
+      <div className="navbar">
+        <Link to={'/dashboard'} className="nav-logo">wtrcoolr</Link>
+        { this.getLinks() }
+      </div>
+    )
+}
 
   // Selectively render links dependent on whether the user is logged in
   getLinks() {
@@ -55,9 +72,11 @@ class NavBar extends React.Component {
 
   render() {
       return (
-        <div className="navbar">
-            <Link to={'/dashboard'} className="nav-logo">wtrcoolr</Link>
-            { this.getLinks() }
+        <div 
+          className='nav-bar-container'
+          onMouseEnter={e => this.setState({visible: !this.state.visible})}
+          onMouseLeave={e => this.setState({visible: !this.state.visible})}>
+          {this.handleDropDown()}
         </div>
       );
   }
