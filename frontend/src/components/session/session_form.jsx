@@ -50,7 +50,6 @@ class SessionForm extends React.Component {
         password: this.state.password
       })
       .then((res) => {
-        debugger
         if (!res.isAxiosError){
           this.props.closeModal()
         }
