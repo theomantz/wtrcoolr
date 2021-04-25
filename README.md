@@ -27,7 +27,7 @@ Coolr chat uses Socket.IO and SimplePeer to implement web socket communication b
 To begin the chat or `coolr`, two peers are matched and their websocket id's syncronized. This process begins on connection. Each user is assigned a socket id which is then sent to the database: 
 
 <br></br>
-``` 
+```javascript
 <!-- ./frontend/src/components/coolr_video/coolr_video -->
 const { user } = this.props
     this.socket.on('connect', data => {
@@ -44,7 +44,7 @@ Immediately after their socket id's are sent to the database, each user searches
 
 <br></br>
 
-```
+```javascript
 <!-- ./frontend/src/actions/users_actions -->
 export const fetchSocket = email => dispatch => {
   return APIUsersUtil.fetchSocket(email)
@@ -70,7 +70,7 @@ router.get('/sockets/:email', (req, res) => {
 
 Once each user has their peer, a syncronization process is started. This process is so ensure that both users have the correct socket id's and user information. On a high level, users receive their peer and broadcast a 'handshake' to their peer's socket id. When each user receives a 'handshake' it checks the senders socket id against the socket id the user retreived from the server, reassigning the socket id if necessary. Once the reassignment is done, each user sends a 'synced' message to the other and communications can begin.
 
-```
+```javascript
 <!-- ./frontend/src/components/coolr_video/coolr_video -->
     this.socket.on('handshake', data => {
       this.setState( { receiveSocket: data.sendSocket } )
@@ -91,7 +91,7 @@ Once each user has their peer, a syncronization process is started. This process
 
 Once syncronized, users can chat with one another. As each user types a message, the message is saved to local state. 
 
-```
+```javascript
 <!-- ./frontend/src/components/coolr_video/coolr_video -->
 handleChatChange = (e) => {
     this.setState({
@@ -102,7 +102,7 @@ handleChatChange = (e) => {
 
 Users can then press enter to submit a message as well as clicking the send button, this is acheived through a function that looks for the `enter` key through the React `onKeyPress` prop callback.
 
-```
+```javascript
 <!-- ./frontend/src/components/coolr_video/coolr_video -->
  handleKeyPress = (e) => {
     if (e.charCode === 13) {
@@ -113,7 +113,7 @@ Users can then press enter to submit a message as well as clicking the send butt
 
 When the above function is triggered it calls the submit chat message callback. The message object is then constructed and the message is sent through an emit call. The message is then picked up by the server and routed to the intended recipient. 
 
-```
+```javascript
 <!-- ./frontend/src/components/coolr_video/coolr_video -->
 submitChatMessage = (e) => {
     const { 
@@ -145,7 +145,7 @@ submitChatMessage = (e) => {
 
 The server routing function:
 
-```
+```javascript
 <!-- ./app -->
 socket.on('sendChatMessage', msg => {
     console.log(`New Chat Message from ${msg.name} at socket: ${msg.sendSocket} to socket: ${msg.receiveSocket}`)
@@ -156,7 +156,7 @@ socket.on('sendChatMessage', msg => {
 
 When each user receives a message, the message is added to local state and the senders socket id is again checked against the stored value. A chat notification sound is also played.
 
-```
+```javascript
 <!-- ./frontend/src/components/coolr_video/coolr_video -->
 this.socket.on("receiveChatMessage", (message) => {
       this.setState({ messages: this.state.messages.concat(message) });
@@ -170,7 +170,7 @@ this.socket.on("receiveChatMessage", (message) => {
 
 The messages are rendered through a simple mapping function:
 
-```
+```javascript
 <!-- ./frontend/src/components/coolr_video/coolr_video -->
 renderMessages() {
     if (!this.state.messages.length) return null;
@@ -188,7 +188,7 @@ renderMessages() {
 
 A scroll to bottom function is called as a callback in both the receive chat message and send chat message functions so that the user doesnt have to continually scroll down to read the most recent message.
 
-```
+```javascript
 <!-- ./frontend/src/components/coolr_video/coolr_video -->
   scrollToBottom = () => {
     this.messagesEnd.scrollIntoView({ behavior: "smooth" });
