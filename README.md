@@ -28,7 +28,8 @@ To begin the chat or `coolr`, two peers are matched and their websocket id's syn
 
 <br></br>
 ```javascript
-<!-- ./frontend/src/components/coolr_video/coolr_video -->
+// ./frontend/src/components/coolr_video/coolr_video
+
 const { user } = this.props
     this.socket.on('connect', data => {
       this.setState({ sendSocket: this.socket.id })
@@ -45,14 +46,16 @@ Immediately after their socket id's are sent to the database, each user searches
 <br></br>
 
 ```javascript
-<!-- ./frontend/src/actions/users_actions -->
+// ./frontend/src/actions/users_actions
+
 export const fetchSocket = email => dispatch => {
   return APIUsersUtil.fetchSocket(email)
     .then(user => dispatch(receiveUserSocket(user)))
     .catch(err => console.log(err))
 }
 
-<!-- ./routes/api/users -->
+// ./routes/api/users
+
 router.get('/sockets/:email', (req, res) => {
   const email = req.params.email
   User.findOne({ email: email })
@@ -71,7 +74,8 @@ router.get('/sockets/:email', (req, res) => {
 Once each user has their peer, a syncronization process is started. This process is so ensure that both users have the correct socket id's and user information. On a high level, users receive their peer and broadcast a 'handshake' to their peer's socket id. When each user receives a 'handshake' it checks the senders socket id against the socket id the user retreived from the server, reassigning the socket id if necessary. Once the reassignment is done, each user sends a 'synced' message to the other and communications can begin.
 
 ```javascript
-<!-- ./frontend/src/components/coolr_video/coolr_video -->
+// ./frontend/src/components/coolr_video/coolr_video
+
     this.socket.on('handshake', data => {
       this.setState( { receiveSocket: data.sendSocket } )
       this.socket.emit('sync', {
@@ -92,7 +96,8 @@ Once each user has their peer, a syncronization process is started. This process
 Once syncronized, users can chat with one another. As each user types a message, the message is saved to local state. 
 
 ```javascript
-<!-- ./frontend/src/components/coolr_video/coolr_video -->
+// ./frontend/src/components/coolr_video/coolr_video
+
 handleChatChange = (e) => {
     this.setState({
       chatMessage: e.currentTarget.value,
@@ -103,7 +108,8 @@ handleChatChange = (e) => {
 Users can then press enter to submit a message as well as clicking the send button, this is acheived through a function that looks for the `enter` key through the React `onKeyPress` prop callback.
 
 ```javascript
-<!-- ./frontend/src/components/coolr_video/coolr_video -->
+// ./frontend/src/components/coolr_video/coolr_video
+
  handleKeyPress = (e) => {
     if (e.charCode === 13) {
       this.submitChatMessage(e);
@@ -114,7 +120,8 @@ Users can then press enter to submit a message as well as clicking the send butt
 When the above function is triggered it calls the submit chat message callback. The message object is then constructed and the message is sent through an emit call. The message is then picked up by the server and routed to the intended recipient. 
 
 ```javascript
-<!-- ./frontend/src/components/coolr_video/coolr_video -->
+// ./frontend/src/components/coolr_video/coolr_video
+
 submitChatMessage = (e) => {
     const { 
       chatMessage, 
@@ -146,7 +153,8 @@ submitChatMessage = (e) => {
 The server routing function:
 
 ```javascript
-<!-- ./app -->
+// ./app
+
 socket.on('sendChatMessage', msg => {
     console.log(`New Chat Message from ${msg.name} at socket: ${msg.sendSocket} to socket: ${msg.receiveSocket}`)
     console.log(msg)
@@ -157,7 +165,8 @@ socket.on('sendChatMessage', msg => {
 When each user receives a message, the message is added to local state and the senders socket id is again checked against the stored value. A chat notification sound is also played.
 
 ```javascript
-<!-- ./frontend/src/components/coolr_video/coolr_video -->
+// ./frontend/src/components/coolr_video/coolr_video
+
 this.socket.on("receiveChatMessage", (message) => {
       this.setState({ messages: this.state.messages.concat(message) });
       if( this.props.userMatch.socket !== message.sendSocket ) {
@@ -171,7 +180,8 @@ this.socket.on("receiveChatMessage", (message) => {
 The messages are rendered through a simple mapping function:
 
 ```javascript
-<!-- ./frontend/src/components/coolr_video/coolr_video -->
+// ./frontend/src/components/coolr_video/coolr_video
+
 renderMessages() {
     if (!this.state.messages.length) return null;
     const messages = this.state.messages.map((message) => {
@@ -189,7 +199,8 @@ renderMessages() {
 A scroll to bottom function is called as a callback in both the receive chat message and send chat message functions so that the user doesnt have to continually scroll down to read the most recent message.
 
 ```javascript
-<!-- ./frontend/src/components/coolr_video/coolr_video -->
+// ./frontend/src/components/coolr_video/coolr_video
+
   scrollToBottom = () => {
     this.messagesEnd.scrollIntoView({ behavior: "smooth" });
   };
