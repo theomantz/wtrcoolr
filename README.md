@@ -213,116 +213,8 @@ A scroll to bottom function is called as a callback in both the receive chat mes
 On Wtrcoolr's dashboard page, users can easily view and manage their organizations and schedule. 
 This page gives users access to a list of their organizations, a schedule of their organizations' chat times or 'coolr hours' as we call them, and lists of both popular and trending organizations.
 
-A list of a users organizations allows them to view all of the organizations that a they belong to and administrate.
-This list is rendered by a React component that implements [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd) allowing users to drag and drop list items.
+A list of a users organizations allows them to view all of the organizations that a they belong to and administrate. This list is updated in real time as a user join or leaves any organization.
 
-
-```javascript
-
-// The organization list React component with dragg-and-droppable list items
-
-import React from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import './organization_list.css'
-import { Link } from "react-router-dom";
-
-
-const getItems = props => {
-  let userOrgs = props.state.session.user.orgs
-  let itemArr = userOrgs.map(org => (
-    {id: String(org._id), content: org.name}
-  ))
-
-  return itemArr;
-}
-
-
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result;
-};
-
-const grid = 8;
-
-const getItemStyle = (isDragging, draggableStyle) => ({
-  userSelect: "none",
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
-  color: "white",
-  borderRadius: "5px",
-  display: "flex",
-  justifyContent: "space-between",
-  background: isDragging ? "gray" : "#7F3F98",
-  ...draggableStyle
-});
-
-class OrganizationList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      items: getItems(props)
-    };
-    this.onDragEnd = this.onDragEnd.bind(this);
-  }
-
-
-
-  onDragEnd(result) {
-    if (!result.destination) {
-      return;
-    }
-
-    const items = reorder(
-      this.state.items,
-      result.source.index,
-      result.destination.index
-    );
-
-    this.setState({
-      items
-    });
-
-  }
-
-  render() {
-
-      let userOrgs = this.props.state.session.user.orgs
-      let itemArr = userOrgs.map(org => (
-        {id: String(org._id), content: org.name}
-      ))
-
-
-
-    return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
-        <Droppable droppableId="droppable">
-          {(provided, snapshot) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className="organization-list-container">
-              {itemArr.map((item, index) => (
-                <div className="dashboard-org-list">
-                  <strong>{item.content}</strong><Link className="admin-button" to={`admin/${item.id}`}>Admin</Link>
-                </div>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-    );
-  }
-}
-
-
-export default OrganizationList;
-
- ```
-With this feature users can set the priority of their organiztions, pre-emptively addressing any scheduling conflicts that arrise.
 If users administrate any organizations, an admin button next to that organization in the list will take them to an admin page.
 On the admin page a user can manage their organization's users and coolr hours. 
 
@@ -437,8 +329,7 @@ So that admins can easily set and update the coolr hours of their organizations 
 
 ```
 
-A final dashboard feature allows users to explore popular and trending organizations.
-To keep the list of trending organizations accurate, an algorithm in our Express server ever 24 hours implementing [node-chron](https://github.com/node-cron/node-cron). 
+A final dashboard feature allows users to explore popular and trending organizations. This is separated into two lists. The Most Popular section lists all the organizations with the highest member count. The trending section lists all the organizations with the largest member count percentage growth within the last 24 hours. To keep the list of trending organizations accurate, an algorithm in our Express server ever 24 hours implementing [node-chron](https://github.com/node-cron/node-cron). 
 The algorithm selects and orders the organizations based on the daily increase in users.
 
 ``` javascript
