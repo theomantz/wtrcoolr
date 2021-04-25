@@ -20,7 +20,7 @@
 
 ## Feature Spotlight:
 
-### 2 - Coolr Chat
+### 1 - Coolr Chat
 
 Coolr chat uses Socket.IO and SimplePeer to implement web socket communication between two coworkers.
 
@@ -208,13 +208,13 @@ A scroll to bottom function is called as a callback in both the receive chat mes
 
 <!-- Video chat function coming soon -->
 
-### Dashboard
+### 2 - Dashboard
 
 On Wtrcoolr's dashboard page, users can easily view and manage their organizations and schedule. 
 This page gives users access to a list of their organizations, a schedule of their organizations' chat times or 'coolr hours' as we call them, and lists of both popular and trending organizations.
 
 A list of a users organizations allows them to view all of the organizations that a they belong to and administrate.
-This list is rendered by a React component that implements `react-beautiful-dnd` allowing users to drag and drop list items.
+This list is rendered by a React component that implements [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd) allowing users to drag and drop list items.
 
 
 ```javascript
@@ -438,7 +438,7 @@ So that admins can easily set and update the coolr hours of their organizations 
 ```
 
 A final dashboard feature allows users to explore popular and trending organizations.
-To keep the list of trending organizations accurate, an algorithm in our Express server ever 24 hours implementing `node-chron`. 
+To keep the list of trending organizations accurate, an algorithm in our Express server ever 24 hours implementing [node-chron](https://github.com/node-cron/node-cron). 
 The algorithm selects and orders the organizations based on the daily increase in users.
 
 ``` javascript
