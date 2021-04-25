@@ -1,6 +1,6 @@
 ![wtcoolr logo](frontend/src/assets/wtrcoolr-logo.png)
 
-`wtrcooler` is the best MERN Stack video chatting app to help remote teams build bonds and socialize.
+`wtrcoolr` is the best MERN Stack video chatting app to help remote teams build bonds and socialize.
 
 ## Live Link:
 
@@ -24,7 +24,7 @@
 
 Coolr chat uses Socket.IO and SimplePeer to implement web socket communication between two coworkers.
 
-To begin the chat or 'coolr', two peers are matched and their websocket id's syncronized. This process begins on connection. Each user is assigned a socket id which is then sent to the database: 
+To begin the chat or `coolr`, two peers are matched and their websocket id's syncronized. This process begins on connection. Each user is assigned a socket id which is then sent to the database: 
 
 <br></br>
 ``` 
