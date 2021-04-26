@@ -71,7 +71,7 @@ router.get('/sockets/:email', (req, res) => {
 ```
 <br></br>
 
-Once each user has their peer, a syncronization process is started. This process is so ensure that both users have the correct socket id's and user information. On a high level, users receive their peer and broadcast a 'handshake' to their peer's socket id. When each user receives a 'handshake' it checks the senders socket id against the socket id the user retreived from the server, reassigning the socket id if necessary. Once the reassignment is done, each user sends a 'synced' message to the other and communications can begin.
+Once each user has their peer, a syncronization process is started. This process is to ensure that both users have the correct socket id's and user information. On a high level, users receive their peer and broadcast a 'handshake' to their peer's socket id. When each user receives a 'handshake' it checks the senders socket id against the socket id the user retreived from the server, reassigning the socket id if necessary. Once the reassignment is done, each user sends a 'synced' message to the other and communications can begin.
 
 ```javascript
 // ./frontend/src/components/coolr_video/coolr_video
