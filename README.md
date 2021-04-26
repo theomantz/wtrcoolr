@@ -329,8 +329,7 @@ So that admins can easily set and update the coolr hours of their organizations 
 
 ```
 
-A final dashboard feature allows users to explore popular and trending organizations. This is separated into two lists. The Most Popular section lists all the organizations with the highest member count. The trending section lists all the organizations with the largest member count percentage growth within the last 24 hours. To keep the list of trending organizations accurate, an algorithm in our Express server ever 24 hours implementing [node-chron](https://github.com/node-cron/node-cron). 
-The algorithm selects and orders the organizations based on the daily increase in users.
+A final dashboard feature allows users to explore popular and trending organizations. This is separated into two lists. The Most Popular section lists all the organizations with the highest member count. The trending section lists all the organizations with the largest member count percentage growth within the last 24 hours. To keep the list of trending organizations accurate, an algorithm in our Express server runs every 24 hours (using node-chron [node-chron](https://github.com/node-cron/node-cron) to set the frequency of occurence) to update the 'previousMembers' property of each organization document. On the front-end, we selectively list the organizations with the greatest daily growth relative to their respective 'previousMembers' property.
 
 ``` javascript
 
