@@ -333,7 +333,7 @@ A final dashboard feature allows users to explore popular and trending organizat
 
 ``` javascript
 
-// Asynch function in Express server updating the organizations daily so that the trop trending organizations can be shown
+// Asynch function in Express server updating the organizations daily so that the top trending organizations can be shown
 
 const cron = require('node-cron')
 
