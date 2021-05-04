@@ -27,8 +27,6 @@
     border-radius: 16px;
     color: #7F3F98;
     border: solid 1px rgb(216, 216, 216);
-
-
 }
 
 .coolr-times-column{
@@ -81,7 +79,14 @@
     background-color: #d2f9fa;
     border-radius: 16px;
     font-size: 14px;
-
+    position: relative;
+}
+.org-listing strong{
+    width: 80%
+}
+.user-online{
+    position: absolute;
+    left: 80%;
 }
 
 
