@@ -5,6 +5,9 @@
     width: 100%;
     position: absolute;
     left: 0px;
+    background-image: url("https://github.com/theomantz/wtrcoolr/wiki/images/jazz-cup-theme.jpg") ;
+    background-size: cover;
+    color: #7F3F98;
 }
 
 .org-name-header{
@@ -12,7 +15,7 @@
     left: 50%;
     top: 10%;
     transform: translateX(-50%);
-    font-size: 26px;
+    font-size: 24px;
     color: #7F3F98;
 }
 
@@ -20,16 +23,22 @@
     height: 700px;
     width: 20%;
     margin: 3%;
-    background-color: #4AC2C5;
-    border-radius: 6px;
+    background-color: rgb(255, 255, 255, 0.9);
+    border-radius: 16px;
+    color: #7F3F98;
+    border: solid 1px rgb(216, 216, 216);
+
+
 }
 
 .coolr-times-column{
     height: 700px;
     width: 40%;
     margin: 3%;
-    background-color: #4AC2C5;
-    border-radius: 6px;
+    background-color: rgb(255, 255, 255, 0.9);
+    border-radius: 16px;
+    color: #7F3F98;
+    border: solid 1px gray;
 }
 
 .add-member-button{
@@ -38,10 +47,10 @@
     margin: 20px;
     padding: 10px;
     color: white;
-    font-weight: 700;
-    font-size: 20px;
-    border: 1px solid rgb(101, 101, 101);
-    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;
+    border: 1px solid rgb(189, 189, 189);
+    border-radius: 16px;
     background-color: #7F3F98;
     font-family: 'Montserrat', sans-serif;
 }
@@ -62,3 +71,35 @@
     font-size: 30px
 }
 
+.column-title{
+    color: #7F3F98;
+    font-size: 28px;
+}
+
+.org-listing{
+   color: #7F3F98;
+    background-color: #d2f9fa;
+    border-radius: 16px;
+    font-size: 14px;
+
+}
+
+
+.column-title{
+    color: #7F3F98;
+    background-color: #d2f9fa;
+    border-radius: 16px;
+    padding: 5px;
+    font-size: 28px;
+
+
+}
+
+.column-subtitle{
+    color: #7F3F98;
+    background-color: #d2f9fa;
+    border-radius: 16px;
+    padding: 5px;
+    font-size: 22px;
+
+}

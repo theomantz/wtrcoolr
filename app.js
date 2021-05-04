@@ -47,7 +47,7 @@ io.on('connection', socket => {
   
   socket.on("callUser", (data) => {
     console.log('Trying user for coolr request')
-    console.log(data.signalData)
+    console.log(`From: ${data.from.name} to ${data.userToCall}`)
     io.to(data.userToCall).emit("coolr!", {
       signalData: data.signalData,
       from: data.from,

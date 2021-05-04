@@ -3,7 +3,10 @@ import {
   openModal, 
   closeModal 
 } from '../../actions/modal_actions'
-import { signup } from '../../actions/session_actions'
+import { 
+  signup,
+  clearErrors
+ } from '../../actions/session_actions'
 import SessionForm from './session_form';
 
 const mSTP = state => ({
@@ -14,7 +17,8 @@ const mSTP = state => ({
 const mDTP = dispatch => ({
   formAction: (user) => dispatch(signup(user)),
   closeModal: () => dispatch(closeModal()),
-  openModal: (modal) => dispatch(openModal(modal))
+  openModal: (modal) => dispatch(openModal(modal)),
+  clearErrors: () => dispatch(clearErrors())
 });
 
 export default connect(mSTP, mDTP)(SessionForm)

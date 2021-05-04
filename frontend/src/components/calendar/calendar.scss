@@ -1,9 +1,19 @@
+:root {
+  --main-darklg: #1d2635;
+  --main-dark: #161d29;
+  --primary-color: #2f80ec;
+  --main-light: #ffffff;
+  --primary-light: #D2F9FA;
+  --primary-accent: #F1D9FA;
+  --purple-accent: #7F3F98;
+}
+
 .calendar-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 90%;
-  color: white;
+  background-color: var(--primary-light);
   text-align: center;
 }
 

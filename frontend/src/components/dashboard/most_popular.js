@@ -81,7 +81,7 @@ class NavBar extends React.Component {
                     {this.props.mostPopular.slice(0,4).map((org) => (
                         <li className="org-listing">
                             <button onClick={this.handleClick(org,currentUser)} className="join-org-button">{this.checkJoined(org)? 'Leave': 'Join'}</button>
-                            <strong>{org.name}</strong>
+                            <strong className="org-listing-name">{org.name}</strong>
                         </li> ))
                     }
                 </ul>
@@ -92,7 +92,7 @@ class NavBar extends React.Component {
                     {this.props.trending.slice(0,4).map((org) => (
                         <li className="org-listing">
                             <button onClick={this.handleClick(org,currentUser)} className="join-org-button">{this.checkJoined(org)? 'Leave': 'Join'}</button>
-                            <strong>{org.name}</strong>
+                            <strong className="org-listing-name">{org.name}</strong>
                         </li> ))
                     }
                 </ul>

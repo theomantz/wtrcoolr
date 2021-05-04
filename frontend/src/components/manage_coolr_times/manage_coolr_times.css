@@ -7,7 +7,8 @@
 .coolr-listing{
     display: flex;
     justify-content: space-between;
-    background-color: #7F3F98;
+    background-color: #d2f9fa;
+    color: #7f3f98;
     border-radius: 5px;
     padding: 14px;
     width: 60%;
@@ -36,7 +37,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border-radius: 5px;
+    border-radius: 6px;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -51,7 +52,7 @@
     display: block;
     font-size: 14px;
     line-height: 1.3;
-    padding: .6em 1.4em .5em .8em;
+    /* padding: .6em 1.4em .5em .8em; */
     position: relative;
     margin-top: 10px;
     cursor: pointer;
@@ -61,8 +62,10 @@
     width: 15%;
     height: 100%;
     margin: 0;
-    border-radius: 6px;
+    border-radius: 16px;
     font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    padding: 10px;
   }
   
   .remove-coolr:hover {
@@ -114,6 +117,9 @@
     color: white;
     background-color: #7F3F98;
     border: none;
+    text-align: center;
+    padding: 10px;
+    border-radius: 16px;
   }
   
   .add-coolr-time-form input[type="submit"]:hover {

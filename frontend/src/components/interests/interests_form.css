@@ -99,4 +99,11 @@
 
 .submit-button{
   align-items: center;
+  background-color: #7F3F98;
+  color: white;
+  border: none;
+}
+
+.interests-form input[type="submit"]:hover {
+  background-color: #88579b;
 }

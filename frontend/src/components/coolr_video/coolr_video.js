@@ -23,6 +23,11 @@ const style = {
   background: "#fffff",
 };
 
+/* Upcoming features: 
+- Video chat
+- Chat timeout function for initial 90 seconds and then automatically 
+cancelling the call at 5 minutes  */
+
 class CoolrVideo extends React.Component {
   constructor(props) {
     super(props);
@@ -85,6 +90,7 @@ class CoolrVideo extends React.Component {
         this.setState({ receiveSocket: message.sendSocket })
       }
       this.chatNotificationSound().play();
+      this.scrollToBottom();
     });
     
     this.socket.on('handshake', data => {
@@ -102,6 +108,28 @@ class CoolrVideo extends React.Component {
       })
     })
 
+    if (this.state.receiveSocket && this.userPeer) {
+      const { user } = this.props;
+      const { receiveSocket } = this.state;
+
+      this.userPeer.on("signal", (data) => {
+        this.socket.emit("callUser", {
+          userToCall: receiveSocket,
+          signalData: data,
+          from: user,
+        });
+      });
+
+      this.userPeer.on("stream", (stream) => {
+        const peerVideo = document.getElementById("peer-video");
+        if ("srcObject" in peerVideo) {
+          peerVideo.srcObject = stream;
+        } else {
+          peerVideo.src = window.URL.createObjectURL(stream);
+        }
+      });
+    }
+
     this.socket.on("coolr!", (data) => {
       console.log('Receiving call')
       this.setState({
@@ -109,7 +137,28 @@ class CoolrVideo extends React.Component {
         receivingCall: true,
         hasPeer: true
       })
+      debugger
+      if( this.userVideo ) {
+        const { user } = this.props;
+        const { receiveSocket } = this.state;
 
+        this.userPeer.on("signal", (data) => {
+          this.socket.emit("callUser", {
+            userToCall: receiveSocket,
+            signalData: data,
+            from: user,
+          });
+        });
+
+        this.userPeer.on("stream", (stream) => {
+          const peerVideo = document.getElementById("peer-video");
+          if ("srcObject" in peerVideo) {
+            peerVideo.srcObject = stream;
+          } else {
+            peerVideo.src = window.URL.createObjectURL(stream);
+          }
+        });
+      }
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
@@ -133,7 +182,7 @@ class CoolrVideo extends React.Component {
           });
 
 
-          if( this.state.receiveSocket ) {
+          if( this.state.receiveSocket && !this.stream ) {
 
             const { user } = this.props;
             const { receiveSocket } = this.state
@@ -169,8 +218,7 @@ class CoolrVideo extends React.Component {
     this.props.user.email === 'theo@example.com' ? 
     'theo2@example.com' : 
     'theo@example.com'
-    
-    this.scrollToBottom();
+
     this.initiateCall();
 
     const { userMatch } = this.props
@@ -184,7 +232,6 @@ class CoolrVideo extends React.Component {
   }
 
   componentDidUpdate() {
-    this.scrollToBottom();
     this.props.fetchSocket(this.props.userMatch)
     const { userMatch } = this.props;
     if ( !this.state.synced && userMatch && !this.stream.current ) {
@@ -264,6 +311,7 @@ class CoolrVideo extends React.Component {
       time,
     }
     this.socket.emit("sendChatMessage", message);
+    this.scrollToBottom();
     this.setState({ messages: this.state.messages.concat(message) })
     this.setState({ chatMessage: "" });
   };
@@ -408,9 +456,9 @@ class CoolrVideo extends React.Component {
           <div className="main-right">
             <div className="main-chat-window">
               <div className="messages">
-                <span>{this.state.response}</span>
                 {this.renderMessages()}
                 <div
+                  id='messages-end'
                   ref={(el) => {
                     this.messagesEnd = el;
                   }}

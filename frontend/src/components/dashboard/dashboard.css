@@ -1,16 +1,36 @@
+:root {
+  --main-darklg: #1d2635;
+  --main-dark: #161d29;
+  --primary-color: #2f80ec;
+  --main-light: #ffffff;
+  --primary-light: #D2F9FA;
+  --primary-accent: #F1D9FA;
+  --purple-accent: #7F3F98;
+  font-family: "Poppins", sans-serif;
+}
+
 .dashboard-column{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
     height: 700px;
     width: 28%;
     margin: 2%;
     margin-top: 4%;
-    background-color: #4AC2C5;
-    border-radius: 6px;
+    background-color: rgba( 255, 255, 255, 0.9 );
+    border: 1px solid lightgray;
+    border-radius: 16px;
+    box-sizing: border-box;
+    padding-bottom: 20px;
 }
 
 .dashboard-container{
     display: flex;
+    height: 100vw;
     justify-content: center;
     font-family: 'Montserrat', sans-serif;
+    background-image: url('../../assets/jazz-cup-theme.jpg');
+    background-size: cover;
 }
 
 .column-title{
@@ -19,10 +39,12 @@
     left: 50%;
     text-align: center;
     color: white;
-    background-color: #7F3F98;
+    background-color: var(--primary-light);
     padding-top: 10px;
     padding-bottom: 10px;
     font-family: 'Permanent Marker', cursive;
+    color: var(--purple-accent);
+    border-radius: 16px;
 }
 
 .column-subtitle{
@@ -30,7 +52,7 @@
     margin: 10px;
     margin-top: 20px;
     text-align: center;
-    color: white;    
+    color: var(--purple-accent);    
     font-family: 'Permanent Marker', cursive;
 }
 

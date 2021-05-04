@@ -27,7 +27,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 8vh;
+  height: 90px;
   position: relative;
   width: 100%;
   background-color: var(--main-darklg);
@@ -75,7 +75,9 @@ video {
 
 .options {
   padding: 1.25rem;
-  height: 60px;
+  box-sizing: border-box;
+  height: 100px;
+  width: 100%;
   display: flex;
   background-color: var(--main-darklg);
 }
@@ -87,7 +89,7 @@ video {
   align-items: center;
 }
 
-#microphone-icon {
+#microphone-icon, #send-icon {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -120,7 +122,7 @@ video {
   width: 250px;
 }
 
-#video-icon:hover, #microphone-icon:hover {
+#video-icon:hover, #microphone-icon:hover, #send-icon:hover {
   padding: 0.15rem 0.0rem;
   border-radius: 8px;
   background-color: var(--primary-light);
@@ -151,6 +153,8 @@ video {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100px;
+  box-sizing: border-box;
 }
 
 .main-message-container > input {
@@ -194,6 +198,12 @@ video {
   border-radius: 5px;
 }
 
+#messages-end {
+  height: 2rem;
+  width: 100%;
+  margin-bottom: 60px;
+}
+
 #video-grid {
   display: flex;
   justify-content: center;
@@ -229,7 +239,7 @@ video {
 }
 
 .option-button.true {
-  background-color: #f6484a;
+  background-color: var(--purple-accent);
 }
 
 .user-video-container {

@@ -2,11 +2,13 @@ const express = require("express")
 const router = express.Router()
 const Org = require('../../models/Org')
 const passport = require('passport');
+const validateOrgInput = require('../../validation/org')
 
 
 router.post('/', passport.authenticate('jwt', {session: false}),
   
   (req, res) => {
+
   const {errors, isValid } = validateRegisterInput(req.body)
 
   if (!isValid) {

@@ -5,6 +5,7 @@ import {getPublicOrgs} from './org_actions';
 export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 export const RECEIVE_SESSION_ERRORS = "RECEIVE_SESSION_ERRORS";
 export const RECEIVE_USER_LOGOUT = "RECEIVE_USER_LOGOUT";
+export const CLEAR_SESSION_ERRORS = "CLEAR_SESSION_ERRORS"
 
 
 const receiveCurrentUser = (currentUser) => {
@@ -14,10 +15,14 @@ const receiveCurrentUser = (currentUser) => {
   };
 };
 
-const receiveErrors = (errors) => ({
+export const receiveErrors = (errors) => ({
   type: RECEIVE_SESSION_ERRORS,
   errors,
 });
+
+export const clearErrors = () => ({
+  type: CLEAR_SESSION_ERRORS
+})
 
 const logoutUser = () => ({
   type: RECEIVE_USER_LOGOUT,
@@ -47,7 +52,8 @@ export const login = (user) => (dispatch) => {
       APIUtil.setAuthToken(token);
       const decoded = jwt_decode(token);
       dispatch(getPublicOrgs());
-      dispatch(receiveCurrentUser(decoded));      
+      dispatch(receiveCurrentUser(decoded));
+      return res     
     })
     .catch((err) => {
       dispatch(receiveErrors(err.response.data));

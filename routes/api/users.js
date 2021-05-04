@@ -50,7 +50,7 @@ router.patch('/matchUsers', passport.authenticate('jwt', {session: false}), (req
         res.json(member.email)
     })
     .catch(err => res.status(404).json({noMatchMade: "No online users in this group!"}))
-})
+}) 
 
 
 
