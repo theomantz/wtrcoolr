@@ -1,8 +1,8 @@
 import matchUsers from '../util/match_util';
 import { openModal } from './modal_actions';
+import { receiveErrors } from './session_actions';
 
 
-export const RECEIVE_SESSION_ERRORS = "RECEIVE_SESSION_ERRORS";
 export const RECEIVE_MATCH = "RECEIVE_MATCH";
 export const CLEAR_MATCH = 'CLEAR_MATCH';
 export const ADD_CURRENT_COOLRS = "ADD_CURRENT_COOLRS";
@@ -43,11 +43,6 @@ export const unpauseCounter = () => ({
 // export const receiveMatchAttempted = () => ({
 //   type: SET_MATCH_ATTEMPTED
 // })
-
-const receiveErrors = (errors) => ({
-  type: RECEIVE_SESSION_ERRORS,
-  errors,
-});
 
 export const addCurrentCoolrs = (currentCoolrs) => ({
   type: ADD_CURRENT_COOLRS,
