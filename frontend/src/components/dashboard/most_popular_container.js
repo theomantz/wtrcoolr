@@ -15,10 +15,10 @@ const mapStateToProps = state => {
     
     function compare( a, b ) {
         if ( a.members.length < b.members.length ){
-          return -1;
+          return 1;
         }
         if ( a.members.length > b.members.length ){
-          return 1;
+          return -1;
         }
         return 0;
     }
@@ -37,10 +37,10 @@ const mapStateToProps = state => {
 
     function trendCompare( a, b ) {
       if ( (a.members.length-a.previousMembers)/a.previousMembers < (b.members.length-b.previousMembers)/b.previousMembers ){
-        return -1;
+        return 1;
       }
       if ( (a.members.length-a.previousMembers)/a.previousMembers > (b.members.length-b.previousMembers)/b.previousMembers ){
-        return 1;
+        return -1;
       }
       return 0;
     }

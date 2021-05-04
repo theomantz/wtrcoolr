@@ -8,7 +8,6 @@ const mapStateToProps = (state, { match }) => {
   const currentUser = state.session.user
   return {
     currentUser
-    //org,
   };
 };
 
