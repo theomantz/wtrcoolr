@@ -41,7 +41,8 @@ class InterestsForm extends React.Component{
     .catch(() => {})
   }
 
-  addTopic(field){
+  addTopic(e, field){
+    e.preventDefault()
     if (this.state[field].length < 3){
       let entry = [field.slice(0, field.length-1).concat('ToAdd')]
       let newItem = this.state[entry]
@@ -85,7 +86,7 @@ class InterestsForm extends React.Component{
               onChange={this.update('interestToAdd')}
               >
             </input>
-            <button onClick={()=>this.addTopic("interests")}>Add</button>
+            <button onClick={(e)=>this.addTopic(e, "interests")}>Add</button>
             <span>{this.props.errors.interests}</span>
           </div>
           {interests}
@@ -97,7 +98,7 @@ class InterestsForm extends React.Component{
             onChange={this.update('nonStarterToAdd')}
             >
           </input>
-          <button onClick={()=>this.addTopic("nonStarters")}>Add</button>
+          <button onClick={(e)=>this.addTopic(e, "nonStarters")}>Add</button>
           <span>{this.props.errors.nonStarters}</span>
         </div>
         {nonStarters}
