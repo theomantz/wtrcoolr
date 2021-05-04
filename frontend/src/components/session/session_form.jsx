@@ -28,6 +28,20 @@ class SessionForm extends React.Component {
     )
   }
 
+  demoLogIn(e) {
+    e.preventDefault()
+    try {
+      this.props.demoAction({
+        email: 'demo@example.com',
+        password: 'wtrcoolrdemo'
+      }).then(res => {
+        this.props.openModal('addInterests')
+      })
+    } catch (err) {
+      console.log(err)
+    } 
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -121,6 +135,11 @@ class SessionForm extends React.Component {
             value={this.props.formType}
             onClick={(e) => e.stopPropagation()}
           />
+          <span className='session-demo-span'>Or</span>
+          <button
+            className='demo-user'
+            onClick={e => this.demoLogIn(e)}>Try it Out</button>
+            
           
         </form>
       </div>

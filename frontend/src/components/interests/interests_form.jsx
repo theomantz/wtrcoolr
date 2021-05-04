@@ -65,71 +65,65 @@ class InterestsForm extends React.Component{
 
   render(){
 
-    const interests = (
+    const { interests, nonStarters } = this.state
+
+    const interestsList = (
         <ul>
-          {
-          this.state.interests.map(interest =>{
-            <li>{interest}</li>
-          })
-          }
+          { interests.map(interest => <li>{interest}</li> )}
         </ul>
     )
 
-    const nonStarters = (
+    const nonStartersList = (
       <ul>
-        {
-        this.state.nonStarters.map(nonStarter =>{
-          <li>{nonStarter}</li>
-        })
-        }
+        { nonStarters.map(nonStarter => <li>{nonStarter}</li> )}
       </ul>
-
     )
-    return(
-    <div className="interests-form-container">
-      <form onSubmit={this.addTopic("interests")} className="interests-form">
-        <h2>Get over that awkward silence a little faster...</h2>
+
+    return (
+      <div className="interests-form-container">
+        <form onSubmit={this.addTopic("interests")} className="interests-form">
+          <h2>Get over that awkward silence a little faster...</h2>
           <div>
-            <label>Interests:
-              <input 
-                placeholder="What do you like to talk about?" 
+            <label>
+              Interests:
+              <input
+                placeholder="What do you like to talk about?"
                 type="text"
                 value={this.state.interestToAdd}
-                onChange={this.update('interestToAdd')}
-                >
-              </input>
+                onChange={this.update("interestToAdd")}
+              ></input>
               <span>{this.props.errors.interests}</span>
-
             </label>
-            <input type="submit" value="Add"/>
-            {interests}
+            <input type="submit" value="Add" />
+            {interestsList}
           </div>
-      </form>
-      <form onSubmit={this.addTopic("interests")}>
-        <div>
-          <label>Non-Starters:
-            <input 
-              placeholder="Let's not talk about:" 
-              type="password"
-              value={this.state.nonStarterToAdd}
-              onChange={this.update('nonStarterToAdd')}
-              >
-            </input>
-            <span>{this.props.errors.nonStarters}</span>
-          </label>
-          <input type="submit" value="Add"/>
-          {nonStarters}
-        </div>
-      </form>
-      <form>
-        <input 
-            type="submit" 
+        </form>
+        <form onSubmit={this.addTopic("interests")} className="interests-form">
+          <div>
+            <label>
+              Non-Starters:
+              <input
+                placeholder="Let's not talk about:"
+                type="password"
+                value={this.state.nonStarterToAdd}
+                onChange={this.update("nonStarterToAdd")}
+              ></input>
+              <span>{this.props.errors.nonStarters}</span>
+            </label>
+            <input type="submit" value="Add" />
+            {nonStartersList}
+          </div>
+        </form>
+        <form
+          className='interests-form'>
+          <input
+            type="submit"
             onClick={this.handleSubmit}
-            value='Get Started!'
+            value="Get Started!"
           />
-      </form>
-    </div>
-    )
+        </form>
+      </div>
+    );
   }
 
 }

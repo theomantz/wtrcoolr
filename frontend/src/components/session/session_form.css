@@ -54,3 +54,23 @@
 .session-form input[type="submit"]:hover {
   background-color: #88579b;
 }
+
+.session-demo-span {
+  
+}
+
+.demo-user {
+  margin: 20px;
+  padding: 10px;
+  font-weight: 700;
+  font-size: 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #7F3F98;
+  color: white;
+  border: none;
+}
+
+.demo-user:hover {
+  background-color: #88579b;
+}

@@ -1,26 +1,30 @@
 .interests-form-container {
+  min-width: 550px;
   width: fit-content;
   height: fit-content;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+  justify-content: space-evenly;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .interests-form {
-  width: fit-content;
+  width: 100%;
   height: fit-content;
-  background-color: #f1d9fa;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: white;
-  border-radius: 6px;
   border: none;
 }
 
 .interests-form div {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 }
 
 .interests-form input {
@@ -54,3 +58,4 @@
 .interests-form input[type="submit"]:hover {
   background-color: #88579b;
 }
+
