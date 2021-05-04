@@ -80,28 +80,32 @@ class InterestsForm extends React.Component{
           <h2>Share your topics of interest and get over the awkward silence a little faster...</h2>
             <div>
               <div className="topic-form">
-              <input 
-                placeholder="Top 3 topics:" 
-                type="text"
-                value={this.state.interestToAdd}
-                onChange={this.update('interestToAdd')}
-                >
-              </input>
-              <button onClick={(e)=>this.addTopic(e, "interests")}>Add</button>
+                <form>
+                  <input 
+                  placeholder="Top 3 topics:" 
+                  type="text"
+                  value={this.state.interestToAdd}
+                  onChange={this.update('interestToAdd')}
+                  >
+                  </input>
+                  <button onClick={(e)=>this.addTopic(e, "interests")}>Add</button>
+                </form>
               <span>{this.props.errors.interests}</span>
               </div>
             </div>
             {interests}
             <div>
               <div className="topic-form">
-              <input 
-                placeholder="Let's stay away from:" 
-                type="text"
-                value={this.state.nonStarterToAdd}
-                onChange={this.update('nonStarterToAdd')}
-                >
-              </input>
-              <button onClick={(e)=>this.addTopic(e, "nonStarters")}>Add</button>
+                <form>
+                  <input 
+                  placeholder="Let's stay away from:" 
+                  type="text"
+                  value={this.state.nonStarterToAdd}
+                  onChange={this.update('nonStarterToAdd')}
+                  >
+                  </input>
+                  <button onClick={(e)=>this.addTopic(e, "nonStarters")}>Add</button>
+                </form>
               <span>{this.props.errors.nonStarters}</span>
             </div>
           </div>
