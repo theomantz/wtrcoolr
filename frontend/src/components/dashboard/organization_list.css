@@ -20,9 +20,9 @@
 }
 
 .admin-button{
-	position: relative;
-	right: 10px;
-	width: 15%;
+	/* position: relative; */
+	/* right: 10px; */
+	width: 45px;
 	height: 90%;
 	padding: 5px;
 	border-style: none;
@@ -31,19 +31,52 @@
 	text-decoration: none;
 	color: black;
 	text-align: center;
-	font-size: 14px;
+	font-size: 12px;
+}
+
+.admin-button:hover{
+	cursor: pointer;
+  background-color: rgb(240, 240, 240);
 }
 
 .dashboard-org-list{
-
-	user-select: "none";
-	padding: 16px;
-	margin: 10px 9px;
-	color: var(--purple-accent);
-	border-radius: 16px;
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
+	user-select: "none";
+	padding: 10px;
+	margin: 5px 9px;
+	color: var(--purple-accent);
+	border-radius: 16px;
 	background-color: var(--primary-light);
+}
+
+.leave-org-button{
+    width: 55px;
+    height: 90%;
+    padding: 5px;
+    border-style: none;
+    background-color: white;
+    border-radius: 5px;
+		margin-top: 5px;
+		font: inherit;
+		font-size: 12px;
+}
+
+.leave-org-button:hover{
+    cursor: pointer;
+    background-color: rgb(240, 240, 240);
+}
+
+.leave-org-button:focus{
+    outline: none;
+}
+
+.buttons-list{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: right;
 }
 
 
