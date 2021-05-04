@@ -14,6 +14,7 @@ class Dashboard extends React.Component {
     
     componentDidMount() {
       this.props.getPublicOrgs();
+      this.props.fetchUser();
     }
     
     render() {
