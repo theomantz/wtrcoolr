@@ -12,9 +12,11 @@ export const activeUsers = () => {
   return axios.get('api/users/activeUsers')
 }
 
+
 export const getUser = () => {
   return axios.get('api/users/current')
 }
+
 
 export const searchEmail = (email) => {
   return axios.get(`api/users/email/${email}`)

@@ -30,6 +30,9 @@ class Modal extends React.Component {
     } else if (this.props.modal ==='addInterests'){
       return
     }
+    if (this.props.model ==='addInterests'){
+      return
+    }
     this.props.closeModal();
     this.props.unpause();
   }

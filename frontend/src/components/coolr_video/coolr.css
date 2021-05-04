@@ -198,6 +198,12 @@ video {
   border-radius: 5px;
 }
 
+#messages-end {
+  height: 2rem;
+  width: 100%;
+  margin-bottom: 60px;
+}
+
 #video-grid {
   display: flex;
   justify-content: center;
