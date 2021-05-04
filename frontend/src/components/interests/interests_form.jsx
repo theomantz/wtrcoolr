@@ -102,7 +102,7 @@ class InterestsForm extends React.Component{
           <span>{this.props.errors.nonStarters}</span>
         </div>
         {nonStarters}
-        <div className="submit-button">
+        <div>
           <input 
             type="submit" 
             onClick={this.handleSubmit}

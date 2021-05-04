@@ -79,6 +79,7 @@
 }
 
 .interests-form input[type="submit"] {
+  /* background-color: white; */
   cursor: pointer;
   background-color: #4ac2c5;
   width: 40%;
@@ -106,4 +107,5 @@
 
 .interests-form input[type="submit"]:hover {
   background-color: #88579b;
+  color:white
 }
