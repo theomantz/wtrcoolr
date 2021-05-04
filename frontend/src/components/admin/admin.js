@@ -17,40 +17,69 @@ class Admin extends React.Component {
             allUsers: []
         }
         window.adminOrgId = this.props.org._id
-        function updateState(onlineMembers,orgMembers){
-            let members = this.props.org.members.slice(0,this.props.org.members.length)
-            let online = []
-            for(let i=0;i<onlineMembers.length;i++){
-                if(members.includes(onlineMembers[i]._id)){
-                    online.push(onlineMembers[i]._id)
-                }
-              }
+        
+        // function updateState(onlineMembers,orgMembers){
+        //     let members = this.props.org.members.slice(0,this.props.org.members.length)
+        //     let online = []
+        //     for(let i=0;i<onlineMembers.length;i++){
+        //         if(members.includes(onlineMembers[i]._id)){
+        //             online.push(onlineMembers[i]._id)
+        //         }
+        //       }
 
-            this.setState({onlineUsersId: online, allUsers: orgMembers})
-            console.log(this.state)
+        //     this.setState({onlineUsersId: online, allUsers: orgMembers})
+        //     console.log(this.state)
             
-        }
+        // }
 
         
-        updateState = updateState.bind(this)
-        
+        this.updateState = this.updateState.bind(this)
+        this.callUpdate = this.callUpdate.bind(this)
+        this.getActiveUsers = this.getActiveUsers.bind(this)
 
+
+        window.callUpdate = this.callUpdate;
         
-        async function getActiveUsers(orgId){
-            let onlineMembers = await activeUsers().then(users=>(users.data));
-            let orgMembers = await getOrgMembers(orgId).then(members=>(members.data))
-            
-            updateState(onlineMembers,orgMembers)
-        }
+        // async function getActiveUsers(orgId){
+        //     let onlineMembers = await activeUsers().then(users=>(users.data));
+        //     let orgMembers = await getOrgMembers(orgId).then(members=>(members.data))
+        //     console.log("worked")
+        //     updateState(onlineMembers,orgMembers)
+        // }
+
 
         if(this.props.org.name){
-         getActiveUsers(this.props.org._id)
+            this.getActiveUsers(this.props.org._id)
         }
          
          
     }
 
-    
+    updateState(onlineMembers,orgMembers){
+        let members = this.props.org.members.slice(0,this.props.org.members.length)
+        let online = []
+        for(let i=0;i<onlineMembers.length;i++){
+            if(members.includes(onlineMembers[i]._id)){
+                online.push(onlineMembers[i]._id)
+            }
+          }
+
+        this.setState({onlineUsersId: online, allUsers: orgMembers})
+        console.log(this.state)
+        
+    }
+
+
+    async getActiveUsers(orgId){
+        let onlineMembers = await activeUsers().then(users=>(users.data));
+        let orgMembers = await getOrgMembers(orgId).then(members=>(members.data))
+        console.log("worked")
+        this.updateState(onlineMembers,orgMembers)
+    }
+
+    callUpdate(){
+        this.getActiveUsers(this.props.org._id)
+    }
     
     componentDidMount() {
         // let a = activeUsers().then(users=>(users.data))
@@ -61,7 +90,7 @@ class Admin extends React.Component {
   
 
     handleClick(type) {
-        return () => this.props.openModal(type)
+        return () => this.props.openModal(type,this.callUpdate)
     }
     
     render() {
@@ -72,7 +101,7 @@ class Admin extends React.Component {
                 <div className="admin-container">
                     
                     <div className="admin-members-column">
-                    <h1 className="column-title" >Members</h1>
+                    <h1 onClick={this.callUpdate} className="column-title" >Members</h1>
                     <ul>
                         {this.state.allUsers.map((user) => (
                             <li className="org-listing">
