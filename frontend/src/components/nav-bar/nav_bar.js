@@ -26,7 +26,7 @@ class NavBar extends React.Component {
       if (this.props.loggedIn) {
         return (
             <div className="navlinks">
-                <Link className="navlink" to={'/dashboard'}>Dashboard</Link>
+                <Link className="navlink" to={'/'}>Dashboard</Link>
                 <Link className="navlink" to={'/coolr'}>Coolr</Link>
                 <Link className="navlink" to={'/orgs'}>Orgs</Link>
                 {/* <Link className="navlink" to={'/admin/608054e152211e62fd2b6a17'}>Admin</Link> */}

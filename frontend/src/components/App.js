@@ -2,7 +2,7 @@
 import React from 'react';
 import Modal from './modal/modal'
 import { Switch, Route } from 'react-router-dom';
-import { AuthRoute, ProtectedRoute } from '../util/route_utils';
+import { AuthRoute, ProtectedRoute, HomeRoute } from '../util/route_utils';
 import NavBarContainer from './nav-bar/nav_bar_container';
 import CTWWContainer from './match_router/coolr_time_watcher_wrapper_container';
 import CoolrVideoContainer from './coolr_video/coolr_video_container'
@@ -22,9 +22,8 @@ const App = () => (
       <NavBarContainer />
     </header>
     <Switch>
-      <AuthRoute exact path="/" component ={Splash} />
-      <ProtectedRoute exact path="/" component={DashboardContainer} />
-      <ProtectedRoute exact path="/dashboard" component={DashboardContainer} />
+      <HomeRoute exact path="/"/>
+      {/* <ProtectedRoute path="/dashboard" component={DashboardContainer} /> */}
       <ProtectedRoute exact path="/admin" component={AdminContainer} />
       <ProtectedRoute exact path="/coolr" component={CoolrVideoContainer} />
       <ProtectedRoute exact path="/admin/:orgId" component={AdminContainer} />

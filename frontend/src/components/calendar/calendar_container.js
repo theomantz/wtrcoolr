@@ -5,13 +5,9 @@ import * as TCUtil from '../../util/time_conversion_util'
 
 
 
-const mSTP = state => {
-  
-  return ({
-    orgs: state.session.user.orgs,
-    TCUtil: TCUtil
-  })
-}
+const mSTP = state => ({
+  orgs: state.session.user.orgs
+})
 
 // entities.users.orgs.map(orgId => {
 // entities.orgs[orgId]  }) --> array

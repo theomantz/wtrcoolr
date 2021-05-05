@@ -7,7 +7,6 @@ class CalendarDay extends React.Component {
     super(props)
 
     this.state ={
-      sortedCoolrTimes: [],
       today: this.todayInWords() 
     }
 
@@ -27,12 +26,6 @@ class CalendarDay extends React.Component {
         'Sat.'
       ][this.props.day]
     )
-  }
-
-  componentDidMount() {
-    this.setState({
-      sortedCoolrTimes: this.todaysCoolrTimesList()
-    })
   }
 
   todaysCoolrTimesList() {
@@ -77,12 +70,12 @@ class CalendarDay extends React.Component {
 
         <div className="calendar-day-content">
           <ul className="coolr-hour-list">
-            {this.state.sortedCoolrTimes.map(coolrHour => {
+            {this.todaysCoolrTimesList().map(coolrHour => {
               return <CoolrHour coolrHour={coolrHour[0]} />
             })}
           </ul>
           <ul className="org-name-list">
-            {this.state.sortedCoolrTimes.map(arr => {
+            {this.todaysCoolrTimesList().map(arr => {
               return <li>{arr[1]}</li>
             })}
           </ul>

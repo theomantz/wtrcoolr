@@ -8,7 +8,6 @@ class Calendar extends React.Component {
         super(props)
 
         this.state = {
-            orgs: this.props.orgs,
             days: [ 0, 1, 2, 3, 4, 5, 6 ]
         }
     }
@@ -42,7 +41,7 @@ class Calendar extends React.Component {
                 <div className="days-container">
                     {this.state.days.map(day => {
                         return <CalendarDay 
-                            day={day} orgs={this.state.orgs} 
+                            day={day} orgs={this.props.orgs} 
                             key={`calendarday-${day}`}
                             tcUtil={this.props.TCUtil}
                         />
