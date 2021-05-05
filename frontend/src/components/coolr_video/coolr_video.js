@@ -49,7 +49,7 @@ class CoolrVideo extends React.Component {
     };
 
     this.userVideo = React.createRef();
-    this.remoteVideo = React.createRef();
+    this.peerVideo = React.createRef();
     this.stream = React.createRef();
     this.userPeer = null;
     this.remotePeer = null;
@@ -67,159 +67,35 @@ class CoolrVideo extends React.Component {
 
   componentDidMount() {
     let socketURL = "127.0.0.1:5000";
+
     if (process.env.NODE_ENV === "production") {
       socketURL =
         process.env.REACT_APP_SOCKET_URL || "https://wtrcoolr.herokuapp.com/";
     }
+    
     this.socket = io(socketURL, { transports: ["websocket"] });
     
-    
-    const { user } = this.props
-    this.socket.on('connect', data => {
-      this.setState({ sendSocket: this.socket.id })
-      if( this.socket.id ) {
-        this.props.assignSocket({ user: user, sendSocket: this.socket.id })
-        this.props.fetchSocket(socketToFetch);
-      }
-    })
-
-    
-    this.socket.on("receiveChatMessage", (message) => {
-      this.setState({ messages: this.state.messages.concat(message) });
-      if( this.props.userMatch.socket !== message.sendSocket ) {
-        this.setState({ receiveSocket: message.sendSocket })
-      }
-      this.chatNotificationSound().play();
-      this.scrollToBottom();
-    });
-    
-    this.socket.on('handshake', data => {
-      this.setState( { receiveSocket: data.sendSocket } )
-      this.socket.emit('sync', {
-        to: this.state.receiveSocket,
-        from: this.socket.id
-      })
-    })
-
-    this.socket.on('sync', data => {
-      this.setState({
-        synced: true,
-        receiveSocket: data.from
-      })
-    })
-
-    if (this.state.receiveSocket && this.userPeer) {
-      const { user } = this.props;
-      const { receiveSocket } = this.state;
-
-      this.userPeer.on("signal", (data) => {
-        this.socket.emit("callUser", {
-          userToCall: receiveSocket,
-          signalData: data,
-          from: user,
-        });
-      });
-
-      this.userPeer.on("stream", (stream) => {
-        const peerVideo = document.getElementById("peer-video");
-        if ("srcObject" in peerVideo) {
-          peerVideo.srcObject = stream;
-        } else {
-          peerVideo.src = window.URL.createObjectURL(stream);
-        }
-      });
-    }
-
-    this.socket.on("coolr!", (data) => {
-      console.log('Receiving call')
-      this.setState({
-        callActive: true,
-        receivingCall: true,
-        hasPeer: true
-      })
-      debugger
-      if( this.userVideo ) {
-        const { user } = this.props;
-        const { receiveSocket } = this.state;
-
-        this.userPeer.on("signal", (data) => {
-          this.socket.emit("callUser", {
-            userToCall: receiveSocket,
-            signalData: data,
-            from: user,
-          });
-        });
-
-        this.userPeer.on("stream", (stream) => {
-          const peerVideo = document.getElementById("peer-video");
-          if ("srcObject" in peerVideo) {
-            peerVideo.srcObject = stream;
-          } else {
-            peerVideo.src = window.URL.createObjectURL(stream);
-          }
-        });
-      }
-      navigator.mediaDevices
-        .getUserMedia({ video: true, audio: true })
-        .then((stream) => {
-
-          const streamSource = new MediaStream(stream)
-          this.userVideo = streamSource
-          
-
-          const video = document.getElementById('peer-video')
-          video.srcObject = this.userVideo
-          
-          this.stream = stream;
-          video.onloadedmetadata = e => {
-            video.play();
-          };
-
-
-          this.userPeer = new Peer({
-            initiator: this.props.initiator,
-            stream: streamSource,
-          });
-
-
-          if( this.state.receiveSocket && !this.stream ) {
-
-            const { user } = this.props;
-            const { receiveSocket } = this.state
-            
-            this.userPeer.on("signal", (data) => {
-              this.socket.emit("callUser", {
-                userToCall: receiveSocket,
-                signalData: data,
-                from: user,
-              });
-            });
-
-            this.userPeer.on("stream", stream => {
-              const peerVideo = document.getElementById('peer-video')
-              if( 'srcObject' in peerVideo ) {
-                peerVideo.srcObject = stream
-              } else {
-                peerVideo.src = window.URL.createObjectURL(stream)
-              }
-            }) 
-          }
-        }).catch(err => console.log(err))
-    })
-
-    if( this.props.initiator ) {
-      this.initiateCall()
-    }
-
-    this.videoGridWidth = document.getElementById("video-grid").clientWidth;
-    this.videoGridHeight = document.getElementById("video-grid").clientHeight;
-    
     let socketToFetch =
-    this.props.user.email === 'theo@example.com' ? 
-    'theo2@example.com' : 
-    'theo@example.com'
+      this.props.user.email === "theo@example.com"
+        ? "demo@example.com"
+        : "theo@example.com";
 
-    this.initiateCall();
+    const { user } = this.props
+
+    this.socket.on('connect', async data => {
+      this.setState({ sendSocket: this.socket.id })
+
+      if( this.socket.id ) {
+        
+        this.props.assignSocket({ user: user, sendSocket: this.socket.id })
+
+      }
+
+    })
+
+    if(this.props.user) {
+      this.props.fetchSocket(socketToFetch);
+    }
 
     const { userMatch } = this.props
     if( !this.state.synced && !!userMatch.socket ) {
@@ -229,10 +105,114 @@ class CoolrVideo extends React.Component {
         targetId: userMatch.id
       })
     }
+
+    this.socket.on('handshake', data => {
+      this.setState( { receiveSocket: data.sendSocket } )
+      this.socket.emit('sync', {
+        to: this.state.receiveSocket,
+        from: this.socket.id
+      })
+    })
+
+    
+    this.socket.on("receiveChatMessage", (message) => {
+      this.setState({ messages: this.state.messages.concat(message) });
+
+      if( this.props.userMatch.socket !== message.sendSocket ) {
+        this.setState({ receiveSocket: message.sendSocket })
+      }
+
+      this.chatNotificationSound().play();
+      this.scrollToBottom();
+    });
+  
+
+    this.socket.on('sync', data => {
+      this.setState({
+        synced: true,
+        receiveSocket: data.from
+      })
+    })
+
+    if (this.props.initiator && this.state.receiveSocket ) {
+      // debugger;
+      this.initiateCall();
+
+    }
+
+    this.socket.on("receiveCall", (data) => {
+
+      console.log('Receiving call')
+
+      this.setState({
+        callActive: true,
+        receivingCall: true,
+        hasPeer: true
+      })
+
+      this.receiveCall(data)
+
+    })
+
+
+    this.videoGridWidth = document.getElementById("video-grid").clientWidth;
+    this.videoGridHeight = document.getElementById("video-grid").clientHeight;
+  
+  }
+
+  receiveCall(data) {
+    
+    navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+
+          this.userPeer = new Peer({
+            initiator: this.props.initiator,
+            stream: stream,
+          });
+          
+          // debugger
+          const receiveSocket = data.fromSocket
+          const streamSource = new MediaStream(stream);
+          this.userVideo = streamSource;
+          
+          this.stream = stream;
+          const video = document.getElementById("user-video");
+          video.srcObject = this.userVideo;
+          
+          video.onloadedmetadata = (e) => {
+            video.play();
+          };
+          
+          // debugger
+          let signal = JSON.stringify(data.signalData)
+
+          this.userPeer.signal(data.signalData)
+
+          const { user } = this.props;         
+          this.userPeer.on("signal", (signal) => {
+            // debugger
+            this.socket.emit("acceptCall", {
+              userToCall: receiveSocket,
+              signalData: signal,
+              from: user,
+            });
+          });
+          
+          this.userPeer.on("stream", stream => {
+            // debugger
+            this.peerVideo = stream
+            const peerVideo = document.getElementById('peer-video')
+            peerVideo.srcObject = new MediaStream(stream)
+          }) 
+
+        }).catch(err => console.log(err))
   }
 
   componentDidUpdate() {
-    this.props.fetchSocket(this.props.userMatch)
+    if( this.props.initiator && this.state.receiveSocket ) {
+      this.initiateCall()
+    }
     const { userMatch } = this.props;
     if ( !this.state.synced && userMatch && !this.stream.current ) {
       this.socket.emit("handshake", {
@@ -342,55 +322,62 @@ class CoolrVideo extends React.Component {
       this.stream.getVideoTracks()[0].enabled = this.state.videoMuted
     }
   }
-
-
+  
+  
   initiateCall() {
     navigator.mediaDevices
     .getUserMedia({ video: true, audio: true })
     .then((stream) => {
+      debugger
 
+      // debugger
+
+      console.log(stream)
       const streamSource = new MediaStream(stream)
       this.userVideo = streamSource
       
       this.stream = stream
       const video = document.getElementById('user-video')
-      video.srcObject = this.userVideo
-      
-      
-      video.onloadedmetadata = e => {
-        video.play();
-      };
+      video.srcObject = stream
+
+      console.log(video)
 
 
       this.userPeer = new Peer({
         initiator: this.props.initiator,
-        stream: streamSource,
+        stream: stream,
       });
 
+      const { user } = this.props;
+      const { receiveSocket } = this.state;
 
-      if( this.state.receiveSocket ) {
-
-        const { user } = this.props;
-        const { receiveSocket } = this.state
-        
-        this.userPeer.on("signal", (data) => {
-          this.socket.emit("callUser", {
-            userToCall: receiveSocket,
-            signalData: data,
-            from: user,
-          });
+      this.userPeer.on("signal", (signal) => {
+        // debugger
+        console.log(signal)
+        this.socket.emit("callUser", {
+          userToCall: receiveSocket,
+          signalData: signal,
+          from: user,
+          fromSocket: this.socket.id
         });
+      });
 
-        this.userPeer.on("stream", stream => {
-          const peerVideo = document.getElementById('peer-video')
-          if( 'srcObject' in peerVideo ) {
-            peerVideo.srcObject = stream
-          } else {
-            peerVideo.src = window.URL.createObjectURL(stream)
-          }
-        })
-        
-      }
+      this.socket.on('callAccepted', signal => {
+        debugger
+        this.userPeer.signal(signal.signalData)
+      })
+
+      this.userPeer.on("stream", (stream) => {
+        const peerVideo = document.getElementById("peer-video");
+        if ("srcObject" in peerVideo) {
+          peerVideo.srcObject = stream;
+        } else {
+          peerVideo.src = window.URL.createObjectURL(stream);
+        }
+      });
+
+      
+      
     })
     .catch((err) => console.log(err));
   }
