@@ -1,20 +1,54 @@
 .welcome-modal{
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: white;
   width: 45vw;
-  height: 75vh;
+  height: 82vh;
   border-radius: 25px;
   text-align: center;
 }
 
 .welcome-modal h2{
-  margin-top: 2%;
-  font-size: 6vh;;
+  margin-top: 4%;
+  font-size: 5vh;;
 }
 
-.welcome-modal h3{
+.instructions h3{
   font-size: 3vh;
 }
 
 .welcome-modal p{
-  margin: 2%
+  margin: 2%;
+  line-height: 2.7vh;;
+}
+
+.about{
+  font-size: 2vh;;
+}
+.about h3{
+  font-size: 3vh;
+}
+
+.instructions,
+.about{
+  margin-top: 2%
+}
+
+.enter{
+  font-size: 3vh;
+  margin-top: 3vh;
+}
+
+.instructions h4{
+  text-align: left;
+  margin-left: 2vw;
+  text-decoration: underline;
+}
+
+.instructions p{
+  text-align: left;
+  margin-left: 2vw;
+  margin-right: 2vw;
 }

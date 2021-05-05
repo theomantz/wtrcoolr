@@ -80,7 +80,7 @@ class Modal extends React.Component {
         className="modal-background" 
         onClick={this.handleClick}
       >
-        <div className="modal-child" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-child" onClick={this.props.modal ==="welcome" ? this.handleClick : (e) => e.stopPropagation()}>
           {component}
         </div>
       </div>
