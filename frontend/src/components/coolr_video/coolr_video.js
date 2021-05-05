@@ -208,7 +208,11 @@ class CoolrVideo extends React.Component {
             // debugger
             this.peerVideo = stream
             const peerVideo = document.getElementById('peer-video')
-            peerVideo.srcObject = new MediaStream(stream)
+            if('srcObject' in peerVideo) {
+              peerVideo.srcObject = stream
+            } else {
+              peerVideo.src = window.URL.createObjectURL(stream)
+            }
           }) 
 
         }).catch(err => console.log(err))
