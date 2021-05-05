@@ -27,7 +27,7 @@ class OrganizationList extends React.Component {
 
         const findOrgIndex = (org) => {
           for (let i = 0; i < this.props.currentUser.orgs.length; i++) {
-            if (this.props.currentUser.orgs[i]._id === org._id) {
+            if (this.props.currentUser.orgs[i]._id === org.id) {
               return i
             }
           }

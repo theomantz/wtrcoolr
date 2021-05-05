@@ -7,7 +7,6 @@ import { updateUser } from '../../actions/users_actions';
 
 const mSTP = state => ({
   currentUser: state.session.user,
-  // userOrgs: state.session.user.orgs,
   itemArr: state.session.user.orgs.map(org => (
     { id: String(org._id), content: org.name }
   ))
