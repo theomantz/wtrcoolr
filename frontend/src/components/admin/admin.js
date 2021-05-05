@@ -18,21 +18,7 @@ class Admin extends React.Component {
         }
         window.adminOrgId = this.props.org._id
         
-        // function updateState(onlineMembers,orgMembers){
-        //     let members = this.props.org.members.slice(0,this.props.org.members.length)
-        //     let online = []
-        //     for(let i=0;i<onlineMembers.length;i++){
-        //         if(members.includes(onlineMembers[i]._id)){
-        //             online.push(onlineMembers[i]._id)
-        //         }
-        //       }
-
-        //     this.setState({onlineUsersId: online, allUsers: orgMembers})
-        //     console.log(this.state)
-            
-        // }
-
-        
+    
         this.updateState = this.updateState.bind(this)
         this.callUpdate = this.callUpdate.bind(this)
         this.getActiveUsers = this.getActiveUsers.bind(this)
@@ -40,13 +26,6 @@ class Admin extends React.Component {
 
         window.callUpdate = this.callUpdate;
         
-        // async function getActiveUsers(orgId){
-        //     let onlineMembers = await activeUsers().then(users=>(users.data));
-        //     let orgMembers = await getOrgMembers(orgId).then(members=>(members.data))
-        //     console.log("worked")
-        //     updateState(onlineMembers,orgMembers)
-        // }
-
 
         if(this.props.org.name){
             this.getActiveUsers(this.props.org._id)
@@ -81,13 +60,7 @@ class Admin extends React.Component {
         this.getActiveUsers(this.props.org._id)
     }
     
-    componentDidMount() {
-        // let a = activeUsers().then(users=>(users.data))
 
-        
-    }
-
-  
 
     handleClick(type) {
         return () => this.props.openModal(type,this.callUpdate)
