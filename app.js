@@ -17,8 +17,6 @@ let interval;
 const clients = {}
 
 io.on('connection', socket => {
-
-  console.log(socket)
   socket.on('handshake', msg => {
     console.log(`Shaking hands from ${msg.sendSocket} to ${msg.receiveSocket}`)
     io.to(msg.receiveSocket).emit('handshake', {
@@ -49,9 +47,10 @@ io.on('connection', socket => {
   socket.on("callUser", (data) => {
     console.log('Trying user for coolr request')
     console.log(`From: ${data.from.name} to ${data.userToCall}`)
-    io.to(data.userToCall).emit("coolr!", {
+    io.to(data.userToCall).emit("receiveCall", {
       signalData: data.signalData,
       from: data.from,
+      fromSocket: data.fromSocket
     });
   });
 

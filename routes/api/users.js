@@ -101,6 +101,9 @@ router.get('/sockets/:email', (req, res) => {
         res.status(400).json({error: 'User has no assigned socket'})
       }
     })
+    .catch(err => {
+      res.status(400).json({error: 'Cannot find user'})
+    })
 }) 
 
 router.patch('/sockets', (req, res) => {
