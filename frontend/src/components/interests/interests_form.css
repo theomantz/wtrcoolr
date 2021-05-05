@@ -6,7 +6,6 @@
 }
 
 .interests-form {
-
   background-color: #f1d9fa;
   /* display: flex; */
   flex-direction: column;
@@ -21,7 +20,7 @@
 
 .interests-form div {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   width: 100%;
   margin: 0 auto;
@@ -111,5 +110,5 @@
 
 .interests-form input[type="submit"]:hover {
   background-color: #88579b;
-  color:white
+  color: white;
 }

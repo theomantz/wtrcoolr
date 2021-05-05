@@ -16,6 +16,7 @@ const mSTP = state => ({
 
 const mDTP = dispatch => ({
   formAction: (user) => dispatch(signup(user)),
+  demoAction: (demoUser) => dispatch(login(demoUser)),
   closeModal: () => dispatch(closeModal()),
   openModal: (modal) => dispatch(openModal(modal)),
   clearErrors: () => dispatch(clearErrors())

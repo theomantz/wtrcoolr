@@ -72,7 +72,6 @@ class InterestsForm extends React.Component{
         <li>2: {this.state.nonStarters[1]}</li>
         <li>3: {this.state.nonStarters[2]}</li>
       </ul>
-
     )
     return(
     <div className="interests-form-container">
