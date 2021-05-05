@@ -41,7 +41,8 @@ class InterestsForm extends React.Component{
     .catch(() => {})
   }
 
-  addTopic(field){
+  addTopic(e, field){
+    e.preventDefault()
     if (this.state[field].length < 3){
       let entry = [field.slice(0, field.length-1).concat('ToAdd')]
       let newItem = this.state[entry]
@@ -75,40 +76,50 @@ class InterestsForm extends React.Component{
     )
     return(
     <div className="interests-form-container">
-      <form className="interests-form">
-        <h2>Share your topics of interest and get over the awkward silence a little faster...</h2>
+      <div className="interests-form">
+          <h2>Share your topics of interest and get over the awkward silence a little faster...</h2>
+            <div>
+              <div className="topic-form">
+                <form>
+                  <input 
+                  placeholder="Top 3 topics:" 
+                  type="text"
+                  value={this.state.interestToAdd}
+                  onChange={this.update('interestToAdd')}
+                  >
+                  </input>
+                  <button onClick={(e)=>this.addTopic(e, "interests")}>Add</button>
+                </form>
+              <span>{this.props.errors.interests}</span>
+              </div>
+            </div>
+            {interests}
+            <div>
+              <div className="topic-form">
+                <form>
+                  <input 
+                  placeholder="Let's stay away from:" 
+                  type="text"
+                  value={this.state.nonStarterToAdd}
+                  onChange={this.update('nonStarterToAdd')}
+                  >
+                  </input>
+                  <button onClick={(e)=>this.addTopic(e, "nonStarters")}>Add</button>
+                </form>
+              <span>{this.props.errors.nonStarters}</span>
+            </div>
+          </div>
+          {nonStarters}
+        <form>
           <div>
             <input 
-              placeholder="Top 3 topics:" 
-              type="text"
-              value={this.state.interestToAdd}
-              onChange={this.update('interestToAdd')}
-              >
-            </input>
-            <button onClick={()=>this.addTopic("interests")}>Add</button>
-            <span>{this.props.errors.interests}</span>
+              type="submit" 
+              onClick={this.handleSubmit}
+              value='Get Started!'
+            />
           </div>
-          {interests}
-        <div>
-          <input 
-            placeholder="Let's stay away from:" 
-            type="text"
-            value={this.state.nonStarterToAdd}
-            onChange={this.update('nonStarterToAdd')}
-            >
-          </input>
-          <button onClick={()=>this.addTopic("nonStarters")}>Add</button>
-          <span>{this.props.errors.nonStarters}</span>
-        </div>
-        {nonStarters}
-        <div className="submit-button">
-          <input 
-            type="submit" 
-            onClick={this.handleSubmit}
-            value='Get Started!'
-          />
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
     )
   }
