@@ -171,7 +171,7 @@ class CoolrVideo extends React.Component {
             stream: stream,
           });
           
-          debugger
+          // debugger
           const receiveSocket = data.fromSocket
           const streamSource = new MediaStream(stream);
           this.userVideo = streamSource;
@@ -184,12 +184,14 @@ class CoolrVideo extends React.Component {
             video.play();
           };
           
-          debugger
+          // debugger
           let signal = JSON.stringify(data.signalData)
-          this.userPeer.signal(signal)
+
+          this.userPeer.signal(data.signalData)
 
           const { user } = this.props;         
           this.userPeer.on("signal", (signal) => {
+            // debugger
             this.socket.emit("acceptCall", {
               userToCall: receiveSocket,
               signalData: signal,
@@ -197,17 +199,11 @@ class CoolrVideo extends React.Component {
             });
           });
           
-          this.userPeer.on("stream", async stream => {
-            debugger
+          this.userPeer.on("stream", stream => {
+            // debugger
             this.peerVideo = stream
             const peerVideo = document.getElementById('peer-video')
             peerVideo.srcObject = new MediaStream(stream)
-
-            console.log(peerVideo)
-
-            console.log(await peerVideo.play())
-            
-            return this.userPeer
           }) 
 
         }).catch(err => console.log(err))
@@ -326,15 +322,15 @@ class CoolrVideo extends React.Component {
       this.stream.getVideoTracks()[0].enabled = this.state.videoMuted
     }
   }
-
-
+  
+  
   initiateCall() {
-
     navigator.mediaDevices
     .getUserMedia({ video: true, audio: true })
     .then((stream) => {
-
       debugger
+
+      // debugger
 
       console.log(stream)
       const streamSource = new MediaStream(stream)
@@ -356,7 +352,7 @@ class CoolrVideo extends React.Component {
       const { receiveSocket } = this.state;
 
       this.userPeer.on("signal", (signal) => {
-        debugger
+        // debugger
         console.log(signal)
         this.socket.emit("callUser", {
           userToCall: receiveSocket,
@@ -366,10 +362,15 @@ class CoolrVideo extends React.Component {
         });
       });
 
+      this.socket.on('callAccepted', signal => {
+        debugger
+        this.userPeer.signal(signal.signalData)
+      })
+
       this.userPeer.on("stream", (stream) => {
         const peerVideo = document.getElementById("peer-video");
         if ("srcObject" in peerVideo) {
-          peerVideo.srcObject = window.URL.createObjectURL(stream);
+          peerVideo.srcObject = stream;
         } else {
           peerVideo.src = window.URL.createObjectURL(stream);
         }
@@ -404,7 +405,7 @@ class CoolrVideo extends React.Component {
                     height: gridHeight,
                   }}
                 >
-                  <video id="peer-video" playsInline  />
+                  <video id="peer-video" playsInline autoPlay />
                 </Rnd>
                 <Rnd
                   style={style}

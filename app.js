@@ -54,6 +54,14 @@ io.on('connection', socket => {
     });
   });
 
+  socket.on("acceptCall", (data) => {
+    console.log('call accepted')
+    io.to(data.userToCall).emit('callAccepted', {
+      signalData: data.signalData,
+      from: data.from
+    }) 
+  })
+
 })
 
 
