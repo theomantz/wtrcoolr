@@ -1,7 +1,7 @@
 // src/components/app.js
 import React from 'react';
 import Modal from './modal/modal'
-import { Switch, Route } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from '../util/route_utils';
 import NavBarContainer from './nav-bar/nav_bar_container';
 import CTWWContainer from './match_router/coolr_time_watcher_wrapper_container';

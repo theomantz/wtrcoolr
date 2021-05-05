@@ -47,9 +47,6 @@ class Modal extends React.Component {
       case "login":
         component = <LoginFormContainer />;
       break;
-    case "addMember":
-      component = <AddMemberContainer closeFunction={this.props.closeFunction} />;
-      break;
     case "addInterests":
       component = <AddInterestsContainer />
       break;

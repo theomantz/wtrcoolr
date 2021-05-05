@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { selectAdminOrg } from '../../reducers/selectors';
+// import { selectAdminOrg } from '../../reducers/selectors';
 import ManageCoolrTimes from './manage_coolr_times';
 import {updateUser} from '../../actions/users_actions'
 import {getPublicOrgs} from '../../actions/org_actions'

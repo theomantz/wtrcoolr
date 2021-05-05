@@ -5,7 +5,8 @@ import {
 } from '../../actions/modal_actions'
 import { 
   signup,
-  clearErrors
+  clearErrors,
+  login
  } from '../../actions/session_actions'
 import SessionForm from './session_form';
 

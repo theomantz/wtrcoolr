@@ -1,4 +1,4 @@
-export default (str) => {
+const reverseUTC = (str) => {
 
     const localTime = new Date();
     const offset = -1*localTime.getTimezoneOffset();
@@ -44,3 +44,5 @@ export default (str) => {
     const adjStr = `${adjDay}${finalHours}${finalMins}${str.slice(5)}`
     return adjStr
   }
+
+  export default reverseUTC;
