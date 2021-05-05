@@ -2,11 +2,11 @@ import React from 'react';
 import './add_member.css'
 import {searchEmail} from '../../util/users_api_util'
 
-class CreateOrgForm extends React.Component {
+class AddMemberForm extends React.Component {
 
   constructor(props) {
     super(props)
-
+    
     this.state = {
       email: '',
     }
@@ -42,6 +42,7 @@ class CreateOrgForm extends React.Component {
 
 
       })
+    window.callUpdate();
     this.props.closeModal();
 
   }
@@ -78,4 +79,4 @@ class CreateOrgForm extends React.Component {
 
 }
 
-export default CreateOrgForm
+export default AddMemberForm

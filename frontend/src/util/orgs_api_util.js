@@ -15,3 +15,7 @@ export const updateOrgUsers = (orgData) => {
 export const editOrg = (orgData) => {
   return axios.patch('api/orgs/edit',orgData)
 }
+
+export const getOrgMembers = (orgId) => {
+  return axios.get(`api/orgs/orgsUsers/${orgId}`)
+}
