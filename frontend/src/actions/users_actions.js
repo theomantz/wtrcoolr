@@ -1,5 +1,4 @@
 import * as APIUsersUtil from '../util/users_api_util';
-import {getPublicOrgs} from './org_actions';
 
 export const RECEIVE_USERS = 'RECEIVE_USERS';
 export const UPDATE_USER = 'UPDATE_USER';

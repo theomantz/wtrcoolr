@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-import { 
-  openModal, 
+import {  
   closeModal 
 } from '../../actions/modal_actions'
 import { createOrg } from '../../actions/org_actions'

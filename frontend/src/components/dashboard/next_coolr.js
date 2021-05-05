@@ -59,18 +59,8 @@ class NextCoolr extends React.Component {
         const todaysTimes = []
         this.props.orgs.forEach(org => {
           if(org.coolrHours.length > 0) {
-            org.coolrHours.map(coolrHour => {
-              const daysWords = {
-                'Sunday': 0, 
-                'Monday': 1, 
-                'Tuesday': 2, 
-                'Wednesday': 3, 
-                'Thursday': 4, 
-                'Friday': 5, 
-                'Saturday': 6
-              }
+            org.coolrHours.forEach(coolrHour => {
               const adjCoolrHour = applyUTCoffset(coolrHour)
-              let todaydate = new Date();
                 todaysTimes.push([adjCoolrHour, org.name])
             })
           }
