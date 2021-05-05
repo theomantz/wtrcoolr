@@ -15,9 +15,10 @@ app.use(index)
 // Video chat port listening
 let interval;
 const clients = {}
+
 io.on('connection', socket => {
 
-
+  console.log(socket)
   socket.on('handshake', msg => {
     console.log(`Shaking hands from ${msg.sendSocket} to ${msg.receiveSocket}`)
     io.to(msg.receiveSocket).emit('handshake', {
