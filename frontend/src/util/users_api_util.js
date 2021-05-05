@@ -13,6 +13,11 @@ export const activeUsers = () => {
 }
 
 
+export const getUser = () => {
+  return axios.get('api/users/current')
+}
+
+
 export const searchEmail = (email) => {
   return axios.get(`api/users/email/${email}`)
 }

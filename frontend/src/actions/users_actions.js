@@ -3,7 +3,7 @@ import {getPublicOrgs} from './org_actions';
 
 export const RECEIVE_USERS = 'RECEIVE_USERS';
 export const UPDATE_USER = 'UPDATE_USER';
-
+export const RECEIVE_USER = 'RECEIVE_USER'
 export const RECEIVE_SOCKET = 'RECEIVE_SOCKET';
 export const REMOVE_SOCKET = 'REMOVE_SOCKET';
 export const RECEIVE_USER_MATCH_SOCKET = 'RECEIVE_USER_MATCH_SOCKET'
@@ -42,6 +42,12 @@ const removeSocket = () => {
   }
 }
 
+
+export const fetchUser = () => dispatch => {
+  return APIUsersUtil.getUser()
+    .then(user => dispatch(updateCurrentUser(user)))
+    .catch((err) => console.log(err))
+}
 export const fetchUsers = () => dispatch => {
   return APIUsersUtil.usersLoggedIn()
     .then(users => dispatch(receiveUsers(users)))

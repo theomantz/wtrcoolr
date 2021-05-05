@@ -9,8 +9,7 @@ router.post('/', passport.authenticate('jwt', {session: false}),
   
   (req, res) => {
 
-
-  const {errors, isValid } = validateOrgInput(req.body)
+  const {errors, isValid } = validateRegisterInput(req.body)
 
   if (!isValid) {
     return res.status(400).json(errors)
@@ -83,8 +82,14 @@ router.patch('/updateUsers', passport.authenticate('jwt', {session: false}), (re
 
 })
 
+router.get('/orgsUsers/:orgId', (req, res) => {
+  return Org.findById(req.params.orgId, {members: 1})
+    .populate('members')
+    .then(org => res.json(org["members"]))
+    .catch(err => res.status(404).json({noOrgFound: "No Organization found"}))
+})
 
-//public orgs get
+
 router.get('/publicOrgs', (req, res) => {
   Org.find({public: true})
     .then(publicOrgs => {

@@ -16,6 +16,7 @@ router.get('/current', passport.authenticate('jwt', {session: false}), (req, res
     .populate('orgs')
     .then(user => res.json(user))
     .catch(err => res.status(404).json({noCurrentUser: "No Current User"}))
+
 })
 
 
@@ -54,7 +55,7 @@ router.patch('/matchUsers', passport.authenticate('jwt', {session: false}), (req
 
 
 router.patch('/edit', passport.authenticate('jwt', {session: false}), (req, res) =>{
-
+  
   User.findByIdAndUpdate(req.body.id, { $set: req.body }, { new: true })
     .populate('orgs')
     .then(user => {
@@ -91,6 +92,10 @@ router.patch('/logout', (req, res) => {
 })
 
 router.get('/sockets/:email', (req, res) => {
+  //this route is throwing this error when a user logs in:
+  // (node:27274) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'id' of null
+  // [0]     at User.findOne.then.user (/home/jhnegbrt/appacademy/wtrcoolr/routes/api/users.js:97:36)
+  // [0]     at process._tickCallback (internal/process/next_tick.js:68:7)
   const email = req.params.email
   User.findOne({ email: email })
     .then(user => {

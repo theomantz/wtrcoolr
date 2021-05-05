@@ -16,8 +16,11 @@ class SessionForm extends React.Component {
       this.state.password2 = this.state.password2 || ''
     }
 
-    this.handleSubmit = this.handleSubmit.bind(this)
-    
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillUnmount() {
+    this.props.clearErrors()
   }
 
   update(field) {

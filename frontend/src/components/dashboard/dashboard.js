@@ -4,7 +4,7 @@ import OrganizationList from './organization_list'
 import NextCoolrContainer from './next_coolr_container'
 import MostPopularContainer from './most_popular_container'
 import CalendarContainer from '../calendar/calendar_container'
-
+import OrganizationListContainer from '../dashboard/organization_list_container';
 
 
 class Dashboard extends React.Component {
@@ -14,6 +14,7 @@ class Dashboard extends React.Component {
     
     componentDidMount() {
       this.props.getPublicOrgs();
+      this.props.fetchUser();
     }
     
     render() {
@@ -21,7 +22,7 @@ class Dashboard extends React.Component {
             <div className="dashboard-container">
                 <div className="dashboard-column">
                   <h1 className="column-title" >Organizations</h1>
-                  <OrganizationList state={this.props.state}/>                  
+                  <OrganizationListContainer/>                  
                 </div>
                 <div className="dashboard-column">
                   <h1 className="column-title" >Schedule</h1>
