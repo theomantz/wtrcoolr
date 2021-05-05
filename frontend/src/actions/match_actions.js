@@ -54,16 +54,18 @@ export const removeCurrentCoolrs = (currentCoolrs) => ({
   currentCoolrs
 })
 
-export const queryMatch = (userId, orgId) => dispatch => {
+export const queryMatch = (matchData) => dispatch => {  
   return (
-    matchUsers(userId, orgId)
+    matchUsers(matchData)
       .then(matchEmail => {
+        console.log(matchEmail)
         dispatch(receieveMatch(matchEmail));
         // dispatch(receiveMatchAttempted());
         dispatch(openModal('coolr'));
         return (matchEmail)
       })
       .catch(errs => {
+        console.log(errs)
         dispatch(receiveErrors(errs));
         // dispatch(receiveMatchAttempted())
         dispatch(openModal('coolr'));
