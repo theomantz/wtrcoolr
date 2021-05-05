@@ -5,6 +5,16 @@ import './splash.css'
 
 
 class Splash extends React.Component {
+  constructor(props){
+    super(props)
+    this.state={
+      modal: true
+    }
+  }
+
+  componentDidMount(){
+    this.props.openModal("welcome")
+  }
  
   render() {
      

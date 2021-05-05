@@ -10,7 +10,7 @@ import DashboardContainer from './dashboard/dashboard_container'
 import AdminContainer from './admin/admin_container'
 import OrgsIndexContainer from './orgs/orgs_index_container'
 import './css_reset.css'
-import Splash from './splash/splash';
+import SplashContainer from './splash/splash_container';
 
 
 
@@ -22,7 +22,7 @@ const App = () => (
       <NavBarContainer />
     </header>
     <Switch>
-      <AuthRoute exact path="/" component ={Splash} />
+      <AuthRoute exact path="/" component ={SplashContainer} />
       <ProtectedRoute exact path="/" component={DashboardContainer} />
       <ProtectedRoute exact path="/dashboard" component={DashboardContainer} />
       <ProtectedRoute exact path="/admin" component={AdminContainer} />
