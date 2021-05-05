@@ -26,6 +26,7 @@ class NavBar extends React.Component {
       if (this.props.loggedIn) {
         return (
             <div className="navlinks">
+                <strong className="navlink" onClick={this.handleClick("welcome")}>About</strong>
                 <Link className="navlink" to={'/'}>Dashboard</Link>
                 <Link className="navlink" to={'/coolr'}>Coolr</Link>
                 <Link className="navlink" to={'/orgs'}>Orgs</Link>
@@ -40,6 +41,10 @@ class NavBar extends React.Component {
       } else {
         return (
             <div className="navlinks">
+                <strong
+                  className="navlink" 
+                  onClick={this.handleClick("welcome")}
+                  >About</strong>
                 <strong 
                   className="navlink" 
                   onClick={this.handleClick('signup')}
