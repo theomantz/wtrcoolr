@@ -1,6 +1,20 @@
 .welcome-modal{
   background-color: white;
-  width: 33vw;
-  height: 66vh;
+  width: 45vw;
+  height: 75vh;
   border-radius: 25px;
+  text-align: center;
+}
+
+.welcome-modal h2{
+  margin-top: 2%;
+  font-size: 6vh;;
+}
+
+.welcome-modal h3{
+  font-size: 3vh;
+}
+
+.welcome-modal p{
+  margin: 2%
 }
