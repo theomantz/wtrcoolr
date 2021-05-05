@@ -3,7 +3,7 @@ import { Component } from "react";
 import { connect } from "react-redux";
 import { Route, Redirect, withRouter } from "react-router-dom";
 import DashboardContainer from '../components/dashboard/dashboard_container';
-import Splash from '../components/splash/splash';
+import SplashContainer from '../components/splash/splash_container';
 
 const Auth = ({ component: Component, path, loggedIn, exact }) => (
   <Route
@@ -29,7 +29,7 @@ const Home = ({loggedIn, path, exact}) => (
     path={path}
     exact={exact}
     render={(props) => 
-      loggedIn ? <DashboardContainer/> : <Splash/>
+      loggedIn ? <DashboardContainer/> : <SplashContainer/>
     }
   />
 )
