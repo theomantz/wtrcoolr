@@ -9,6 +9,7 @@ import AddMemberContainer from '../admin/add_member_container'
 import AddInterestsContainer from '../interests/interests_form_container'
 import PairPrompt from '../match_router/pair_prompt';
 import CoolrPrompt from '../match_router/coolr_prompt';
+import Welcome from '../../components/splash/welcome'
 import { 
   unpauseCounter,
   addToNotified,
@@ -44,7 +45,7 @@ class Modal extends React.Component {
     }
     let component;
     switch (this.props.modal) {
-      case "login":
+    case "login":
         component = <LoginFormContainer />;
       break;
     case "addMember":
@@ -68,6 +69,9 @@ class Modal extends React.Component {
     case 'coolr':
         component = <CoolrPrompt />;
       break;
+    case 'welcome':
+      component = <Welcome />
+      break;
     default:
       return null;
     }
@@ -76,7 +80,7 @@ class Modal extends React.Component {
         className="modal-background" 
         onClick={this.handleClick}
       >
-        <div className="modal-child" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-child" onClick={this.props.modal ==="welcome" ? this.handleClick : (e) => e.stopPropagation()}>
           {component}
         </div>
       </div>
