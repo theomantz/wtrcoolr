@@ -177,8 +177,13 @@ class CoolrVideo extends React.Component {
           this.userVideo = streamSource;
           
           this.stream = stream;
+
           const video = document.getElementById("user-video");
-          video.srcObject = this.userVideo;
+          if ("srcObject" in video) {
+            video.srcObject = stream;
+          } else {
+            video.src = window.URL.createObjectURL(stream);
+          }
           
           video.onloadedmetadata = (e) => {
             video.play();
@@ -338,7 +343,11 @@ class CoolrVideo extends React.Component {
       
       this.stream = stream
       const video = document.getElementById('user-video')
-      video.srcObject = stream
+      if('srcObject' in video ) {
+        video.srcObject = stream;
+      } else {
+        video.src = window.URL.createObjectURL(stream);
+      }
 
       console.log(video)
 
