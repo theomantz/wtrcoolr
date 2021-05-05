@@ -188,9 +188,7 @@ class CoolrVideo extends React.Component {
           video.onloadedmetadata = (e) => {
             video.play();
           };
-          
-          // debugger
-          let signal = JSON.stringify(data.signalData)
+        
 
           this.userPeer.signal(data.signalData)
 
