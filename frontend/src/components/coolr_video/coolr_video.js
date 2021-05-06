@@ -211,7 +211,7 @@ class CoolrVideo extends React.Component {
             } else {
               peerVideo.src = window.URL.createObjectURL(stream)
             }
-          }) 
+          })
 
         }).catch(err => console.log(err))
   }
@@ -335,7 +335,7 @@ class CoolrVideo extends React.Component {
     navigator.mediaDevices
     .getUserMedia({ video: true, audio: true })
     .then((stream) => {
-      debugger
+      // debugger
 
       // debugger
 
@@ -374,7 +374,7 @@ class CoolrVideo extends React.Component {
       });
 
       this.socket.on('callAccepted', signal => {
-        debugger
+        // debugger
         this.userPeer.signal(signal.signalData)
       })
 
