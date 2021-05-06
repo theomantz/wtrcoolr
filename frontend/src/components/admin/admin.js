@@ -1,6 +1,7 @@
 import React from 'react';
 import '../dashboard/dashboard.css'
 import './admin.css'
+import {getOrgMembers} from '../../util/orgs_api_util'
 import {activeUsers} from '../../util/users_api_util'
 import ManageCoolrTimesContainer from '../manage_coolr_times/manage_coolr_times_container';
 
@@ -11,53 +12,58 @@ class Admin extends React.Component {
         super(props);
 
         this.state = {
-            onlineUsers: [],
-            org: this.props.org
+            onlineUsersId: [],
+            org: this.props.org,
+            allUsers: []
         }
         window.adminOrgId = this.props.org._id
-        function updateState(data){
-            let members = this.props.org.members.slice(0,this.props.org.members.length)
-            let online = []
-            for(let i=0;i<data.length;i++){
-                if(members.includes(data[i]._id)){
-                    online.push(data[i])
-                }
-              }
-
-            this.setState({onlineUsers: online})
-            //this.setState({onlineUsers: data})
-            
-        }
-
-        updateState = updateState.bind(this)
-
         
-        async function getActiveUsers(){
-            let aU = await activeUsers().then(users=>(users.data));
-            updateState(aU)
-        }
+    
+        this.updateState = this.updateState.bind(this)
+        this.callUpdate = this.callUpdate.bind(this)
+        this.getActiveUsers = this.getActiveUsers.bind(this)
+
+
+        window.callUpdate = this.callUpdate;
+        
 
         if(this.props.org.name){
-         getActiveUsers()
+            this.getActiveUsers(this.props.org._id)
         }
          
          
     }
 
-    
-    
-    componentWillMount() {
-        // let a = activeUsers().then(users=>(users.data))
-       
+    updateState(onlineMembers,orgMembers){
+        let members = this.props.org.members.slice(0,this.props.org.members.length)
+        let online = []
+        for(let i=0;i<onlineMembers.length;i++){
+            if(members.includes(onlineMembers[i]._id)){
+                online.push(onlineMembers[i]._id)
+            }
+          }
+
+        this.setState({onlineUsersId: online, allUsers: orgMembers})
+        console.log(this.state)
         
     }
 
-    componentWillReceiveProps(newState) {
-      //  this.setState({ tweets: newState.tweets });
-    }   
+
+    async getActiveUsers(orgId){
+        let onlineMembers = await activeUsers().then(users=>(users.data));
+        let orgMembers = await getOrgMembers(orgId).then(members=>(members.data))
+        console.log("worked")
+        this.updateState(onlineMembers,orgMembers)
+    }
+
+    callUpdate(){
+        this.getActiveUsers(this.props.org._id)
+    }
+    
+
 
     handleClick(type) {
-        return () => this.props.openModal(type)
+        return () => this.props.openModal(type,this.callUpdate)
     }
     
     render() {
@@ -68,11 +74,14 @@ class Admin extends React.Component {
                 <div className="admin-container">
                     
                     <div className="admin-members-column">
-                    <h1 className="column-title" >Members Online</h1>
+                    <h1 onClick={this.callUpdate} className="column-title" >Members</h1>
                     <ul>
-                        {this.state.onlineUsers.slice(0,5).map((user) => (
+                        {this.state.allUsers.map((user) => (
                             <li className="org-listing">
-                                <strong>{user.name}</strong>
+                                <strong>{user.name}</strong> 
+                                <span className="user-online">
+                                    {this.state.onlineUsersId.includes(user._id)? "online" : "offline"}
+                                </span>
                             </li> ))
                         }
                     </ul>

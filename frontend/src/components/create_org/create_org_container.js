@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
-import { 
-  openModal, 
+import {  
   closeModal 
 } from '../../actions/modal_actions'
 import { createOrg } from '../../actions/org_actions'
 import CreateOrgForm from './create_org_form';
 import {updateUser} from '../../actions/users_actions'
 import {updateOrgUsers,getPublicOrgs} from '../../actions/org_actions'
+import { clearErrors } from '../../actions/session_actions';
 
 const mSTP = state => ({
   formType: "Create Organization",
@@ -20,6 +20,8 @@ const mDTP = dispatch => ({
   updateUser: (user) => dispatch(updateUser(user)),
   updateOrgUsers: (org) => dispatch(updateOrgUsers(org)),
   getPublicOrgs: () => dispatch(getPublicOrgs()),
+  clearErrors: () => dispatch(clearErrors())
+
 });
 
 export default connect(mSTP, mDTP)(CreateOrgForm)

@@ -1,3 +1,15 @@
+:root {
+    --main-darklg: #1d2635;
+    --main-dark: #161d29;
+    --primary-color: #2f80ec;
+    --main-light: #ffffff;
+    --primary-light: #D2F9FA;
+    --primary-accent: #F1D9FA;
+    --purple-accent: #7F3F98;
+    font-family: "Poppins", sans-serif;
+  }
+
+
 .splash-container{
     display: flex;
     flex-direction: row;
@@ -37,3 +49,31 @@
 .splash-text {
     margin: 15px auto;
 }
+
+
+
+.footer{
+    position:fixed;
+    height: 8%;
+    width:100%;
+    bottom: 0%;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 4;
+    color: white;
+    display:flex;
+    justify-content:left;
+    align-items: center;
+}
+
+.footer i{
+    color:--purple-accent;
+    font-size: 2vw;
+    transition: all 0.2s;
+    margin: 1vw 1vw;
+}
+
+.footer i:hover{
+    color: #F1D9FA;
+}
+

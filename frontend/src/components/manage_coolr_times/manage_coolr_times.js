@@ -132,7 +132,6 @@ class ManageCoolrTimes extends React.Component {
               id: this.props.currentUser.id
             })
             this.listTimes();
-            //this.props.history.push({pathname: `/admin/${org.id}`}) //change to org page
             })
           .catch(() => {})
       }
@@ -162,7 +161,6 @@ class ManageCoolrTimes extends React.Component {
                 id: this.props.currentUser.id
                 })
                 this.listTimes();
-                //this.props.history.push({pathname: `/admin/${org.id}`}) //change to org page
                 })
             .catch(() => {})
             }

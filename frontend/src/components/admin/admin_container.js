@@ -18,7 +18,7 @@ const mapStateToProps = (state, { match }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    openModal: modal => dispatch(openModal(modal)),
+    openModal: (modal,closeFunction) => dispatch(openModal(modal,closeFunction)),
 });
 
 export default connect(

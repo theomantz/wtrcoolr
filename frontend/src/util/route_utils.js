@@ -1,6 +1,9 @@
 import React from "react";
+import { Component } from "react";
 import { connect } from "react-redux";
 import { Route, Redirect, withRouter } from "react-router-dom";
+import DashboardContainer from '../components/dashboard/dashboard_container';
+import SplashContainer from '../components/splash/splash_container';
 
 const Auth = ({ component: Component, path, loggedIn, exact }) => (
   <Route
@@ -21,6 +24,16 @@ const Protected = ({ component: Component, loggedIn, ...rest }) => (
   />
 );
 
+const Home = ({loggedIn, path, exact}) => (
+  <Route
+    path={path}
+    exact={exact}
+    render={(props) => 
+      loggedIn ? <DashboardContainer/> : <SplashContainer/>
+    }
+  />
+)
+
 const mapStateToProps = (state) => ({
   loggedIn: state.session.isAuthenticated,
 });
@@ -28,3 +41,5 @@ const mapStateToProps = (state) => ({
 export const AuthRoute = withRouter(connect(mapStateToProps)(Auth));
 
 export const ProtectedRoute = withRouter(connect(mapStateToProps)(Protected));
+
+export const HomeRoute = connect(mapStateToProps)(Home);
