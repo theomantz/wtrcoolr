@@ -112,12 +112,18 @@ router.patch('/sockets', (req, res) => {
     .then((user) => {
       console.log(user)
       res.json({ id: user.id, name: user.name, socket: user.socket}.status(200))
-    });
+    })
+    .catch(err => {
+      res.status(400).json({error: 'Cannot find user'})
+    })
 })
 
 router.patch('/sockets/null', (req, res) => {
   User.findByIdAndUpdate(req.body.user.id, {$set: { socket: null }})
-    .then((user) => res.json(user));
+    .then((user) => res.json(user))
+    .catch(err => {
+      res.status(400).json({error: 'Cannot find user'})
+    })
 })
 
 router.post('/register', (req, res)=>{
