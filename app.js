@@ -62,6 +62,12 @@ io.on('connection', socket => {
     }) 
   })
 
+/*   socket.on('connected', (data) =>{
+    io.to(data.userToCall).emit('connect', {
+      message: data.message
+    })
+  }) */
+
 })
 
 
