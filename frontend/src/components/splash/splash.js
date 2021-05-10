@@ -43,9 +43,24 @@ class Splash extends React.Component {
               </div>
           </div>
           <div className="features-div">
-            <h1>Features</h1>
-
-
+            <h1>How does it work?</h1>
+            <div className="feature-row">
+              <h2><strong>1. </strong>Join an organization</h2>
+              <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_jacuxkpv.json"  background="transparent"  speed="1"  style={{width: '200px', height: '200px'}}  loop autoplay></lottie-player>
+            </div>
+            <div className="feature-row">
+            <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_ygrktkrl.json"  background="transparent"  speed="1"  style={{width: '200px', height: '200px'}}  loop autoplay></lottie-player>
+              
+              <h2><strong>2. </strong>Wait for designated Coolr Time</h2>
+            </div>
+            <div className="feature-row">
+              <h2><strong>3. </strong>Video chat with a stranger</h2>
+              <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_6awaiv9e.json"  background="transparent"  speed="1"  style={{width: '200px', height: '200px'}}  loop autoplay></lottie-player>
+            </div>
+            
+            
+            
+            
           </div>
 
           <div className="team-div">
