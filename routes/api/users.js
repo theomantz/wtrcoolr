@@ -88,7 +88,7 @@ router.patch('/updateOrgs', passport.authenticate('jwt', {session: false}), (req
 })
 
 router.patch('/logout', (req, res) => {
-  User.findByIdAndUpdate(req.body.id, {$set: {active: false, socket: null } })
+  User.findByIdAndUpdate(req.body.id, {$set: {active: "offline", socket: null } })
     .then(user => res.json({
       user: user.id, 
       name: user.name,
@@ -242,7 +242,7 @@ router.post('/login', (req, res) => {
         .then(isMatch => {
           if (isMatch) {
             
-            User.findByIdAndUpdate(user.id, {$set: {active: true}})
+            User.findByIdAndUpdate(user.id, {$set: {active: "busy"}})
 
             const payload = {id: user.id, name: user.name, email: user.email, orgs: user.orgs, active: user.active, admins: user.admins}
             jwt.sign(
