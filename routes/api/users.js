@@ -38,6 +38,7 @@ router.patch('/matchUsers', passport.authenticate('jwt', {session: false}), (req
     .then(org => {
         if (org.members.length === 0){
           User.findByIdAndUpdate(req.body.userId, {$set: {active: "available"}}).exec()
+          res.json("available")
         } else {
           let length = org.members.length
           let index;
