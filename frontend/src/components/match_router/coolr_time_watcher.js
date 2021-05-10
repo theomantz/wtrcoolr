@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import React from 'react'
 import { 
-  queryMatch, 
+  // queryMatch, 
   addCurrentCoolrs,
   removeCurrentCoolrs,
   pauseCounter,
@@ -29,7 +29,7 @@ class CoolrTimeWatcher extends React.Component {
     this.interval = this.interval.bind(this);
     this.usersCoolrTimesListLocal = this.usersCoolrTimesListLocal.bind(this);
     this.checkForCoolrTimes = this.checkForCoolrTimes.bind(this);
-    this.markOffCoolers = this.markOffCoolers.bind(this);
+    // this.markOffCoolers = this.markOffCoolers.bind(this);
   }
 
   componentDidMount() {
@@ -39,10 +39,10 @@ class CoolrTimeWatcher extends React.Component {
     })
   }
 
-  markOffCoolers(coolrArr) {
-    this.props.addToNotified(coolrArr);
-    this.props.removeCurrentCoolrs(coolrArr);
-  }
+  // markOffCoolers(coolrArr) {
+  //   this.props.addToNotified(coolrArr);
+  //   this.props.removeCurrentCoolrs(coolrArr);
+  // }
 
   usersCoolrTimesListLocal(orgs) {
     const localCoolrTimes = []
@@ -98,18 +98,21 @@ class CoolrTimeWatcher extends React.Component {
   }
 
   render() {
-
-    if (this.props.currentCoolrs.length > 0) {
-      this.props.pause();
-      this.props.openModal();
-    }
-
+    
     if(this.props.matched.match && !this.props.matched.routed) {
       this.props.receiveRouted();
       this.props.history.push("/coolr")
     }
+    console.log(this.props.history)
 
-    if(this.props.history[0] === "/coolr") {
+    if (this.props.currentCoolrs.length > 0) {
+      console.log(this.props.currentCoolrs)
+      this.props.pause();
+      this.props.openModal();
+    }
+    
+
+    if(this.props.history.location.pathname === "/coolr") {
       this.props.pause()
     }
     return null
@@ -125,7 +128,7 @@ const mSTP = state => ({
 })
 
 const mDTP = dispatch => ({
-  queryMatch: userData => dispatch(queryMatch(userData)),
+  // queryMatch: userData => dispatch(queryMatch(userData)),
   addCurrentCoolrs: currentCoolrs => dispatch(addCurrentCoolrs(currentCoolrs)),
   removeCurrentCoolrs: currentCoolrs => dispatch(removeCurrentCoolrs(currentCoolrs)),
   openModal: () => dispatch(openModal('pairMatch')),

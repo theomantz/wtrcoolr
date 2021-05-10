@@ -1,7 +1,13 @@
 import { connect } from 'react-redux';
-import { queryMatch } from '../../actions/match_actions';
+import { 
+  queryMatch,
+  addToNotified,
+  removeCurrentCoolrs,
+} from '../../actions/match_actions';
 import React from 'react';
-import { openModal } from '../../actions/modal_actions';
+import { 
+  closeModal
+ } from '../../actions/modal_actions';
 import './pair_prompt.scss'
 
 class PairPrompt extends React.Component {
@@ -17,6 +23,9 @@ class PairPrompt extends React.Component {
       userId: this.props.userId,
       orgId: this.props.currentCoolrs[0][1]._id
     })
+    this.props.addToNotified(this.props.currentCoolrs);
+    this.props.removeCurrentCoolrs(this.props.currentCoolrs);
+    this.props.closeModal();
   }
 
   render () {
@@ -48,7 +57,11 @@ const mSTP = state => ({
 
 const mDTP = dispatch => ({
   queryMatch: (matchData) => dispatch(queryMatch(matchData)),
-  openModal: (modal) => dispatch(openModal(modal))
+  closeModal: () => dispatch(closeModal()),
+  addToNotified: (coolrHours) => dispatch(addToNotified(coolrHours)),
+  removeCurrentCoolrs: currentCoolrs => dispatch(removeCurrentCoolrs(currentCoolrs)),
+
+
 })
 
 export default connect(mSTP, mDTP)(PairPrompt)

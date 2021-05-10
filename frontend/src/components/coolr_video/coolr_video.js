@@ -221,6 +221,7 @@ class CoolrVideo extends React.Component {
       this.stream.getTracks()
         .forEach(track => track.stop())
     }
+    this.props.unpause()
   }
 
   ringtoneSound() {
