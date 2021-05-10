@@ -11,7 +11,7 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    active: {type: Boolean},
+    active: {type: String},
     socket: {
       type: String,
       required: false,

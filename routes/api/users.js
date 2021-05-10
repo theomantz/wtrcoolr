@@ -32,7 +32,7 @@ router.get('/email/:email', passport.authenticate('jwt', {session: false}), (req
 // passport.authenticate('jwt', {session: false}),
 
 router.patch('/matchUsers', passport.authenticate('jwt', {session: false}), (req, res) =>{
-
+  debugger
   Org.findById(req.body.orgId, {members: 1})
     .populate({path: 'members', match: {active: "available", _id: { $not: { $eq: req.body.userId}}}})
     .then(org => {
@@ -53,7 +53,11 @@ router.patch('/matchUsers', passport.authenticate('jwt', {session: false}), (req
           res.json(member.email)
         }
     })
-    .catch(err => res.status(404).json({noMatchMade: "No online users in this group!"}))
+    .catch(err => {
+      debugger
+      User.findByIdAndUpdate(req.body.userId, {$set: {active: "available"}}).exec()
+      res.json("available")
+    })
 }) 
 
 
