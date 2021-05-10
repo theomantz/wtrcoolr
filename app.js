@@ -11,11 +11,6 @@ const io = require("socket.io")(server);
 const index = require('./routes/api/chat')
 app.use(index)
 
-
-// Video chat port listening
-let interval;
-const clients = {}
-
 io.on('connection', socket => {
   socket.on('handshake', msg => {
     console.log(`Shaking hands from ${msg.sendSocket} to ${msg.receiveSocket}`)
@@ -35,7 +30,6 @@ io.on('connection', socket => {
 
   socket.on('disconnect', () => {
     console.log('Client Disconnected');
-    clearInterval(interval)
   })
   
   socket.on('sendChatMessage', msg => {
