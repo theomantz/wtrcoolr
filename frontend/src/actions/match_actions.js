@@ -1,5 +1,4 @@
 import matchUsers from '../util/match_util';
-import { closeModal } from './modal_actions';
 import { receiveErrors } from './session_actions';
 
 
@@ -54,17 +53,13 @@ export const queryMatch = (matchData) => dispatch => {
   return (
     matchUsers(matchData)
       .then(matchEmail => {
-        console.log(matchEmail)
-        dispatch(receieveMatch(matchEmail));
-        // dispatch(receiveMatchAttempted());
-        dispatch(closeModal());
+        console.log(matchEmail.data, "MATCHEMAIL")
+        dispatch(receieveMatch(matchEmail.data));       
         return (matchEmail)
       })
       .catch(errs => {
         console.log(errs)
         dispatch(receiveErrors(errs));
-        // dispatch(receiveMatchAttempted())
-        dispatch(closeModal());
         return (errs)
       })
   )

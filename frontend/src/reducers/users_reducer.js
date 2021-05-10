@@ -4,8 +4,7 @@ import {
 } from "../actions/users_actions";
 import {
   RECEIVE_MATCH,
-  RECEIVE_ROUTED,
-  SET_MATCH_ATTEMPTED,
+  RECEIVE_ROUTED
 } from '../actions/match_actions';
 
 const initState = {
