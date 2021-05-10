@@ -189,7 +189,7 @@ router.post('/demoLogin', (req, res) =>{
         res.status(400).json("No Demo Account Available")
       } else {
         let user = filtered[0]
-        User.findOneAndUpdate({email: user.email}, {active: "busy"})
+        User.findOneAndUpdate({email: user.email}, {active: "busy"}).exec()
         const payload = {id: user.id, name: user.name, email: user.email, orgs: user.orgs, active: user.active, admins: user.admins}
         jwt.sign(
           payload,
