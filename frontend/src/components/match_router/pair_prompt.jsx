@@ -13,12 +13,10 @@ class PairPrompt extends React.Component {
   }
 
   handleClick() {
-    let pairOrNot = this.props.queryMatch({
+    this.props.queryMatch({
       userId: this.props.userId,
       orgId: this.props.currentCoolrs[0][1]._id
     })
-    // if (!pairOrNot)
-    // isAxiosError
   }
 
   render () {
@@ -35,7 +33,7 @@ class PairPrompt extends React.Component {
         </div>
         <button 
           onClick={this.handleClick}>
-          Chance Encounter
+          Chat with a member
         </button>
       </div>
     )

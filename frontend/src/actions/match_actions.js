@@ -1,5 +1,5 @@
 import matchUsers from '../util/match_util';
-import { openModal } from './modal_actions';
+import { closeModal } from './modal_actions';
 import { receiveErrors } from './session_actions';
 
 
@@ -40,10 +40,6 @@ export const unpauseCounter = () => ({
   type: UNPAUSE_COUNTER
 })
 
-// export const receiveMatchAttempted = () => ({
-//   type: SET_MATCH_ATTEMPTED
-// })
-
 export const addCurrentCoolrs = (currentCoolrs) => ({
   type: ADD_CURRENT_COOLRS,
   currentCoolrs
@@ -61,14 +57,14 @@ export const queryMatch = (matchData) => dispatch => {
         console.log(matchEmail)
         dispatch(receieveMatch(matchEmail));
         // dispatch(receiveMatchAttempted());
-        dispatch(openModal('coolr'));
+        dispatch(closeModal());
         return (matchEmail)
       })
       .catch(errs => {
         console.log(errs)
         dispatch(receiveErrors(errs));
         // dispatch(receiveMatchAttempted())
-        dispatch(openModal('coolr'));
+        dispatch(closeModal());
         return (errs)
       })
   )
