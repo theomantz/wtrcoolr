@@ -62,6 +62,7 @@ class CoolrVideo extends React.Component {
   }
 
   componentDidMount() {
+    window.scrollTo(0,document.body.scrollHeight);
 
     let socketURL = "127.0.0.1:5000";
 

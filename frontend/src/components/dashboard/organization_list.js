@@ -2,22 +2,10 @@ import React from "react";
 import './organization_list.css'
 import { Link } from "react-router-dom";
 
-// const getItems = props => {
-//   let userOrgs = props.state.session.user.orgs
-//   let itemArr = userOrgs.map(org => (
-//     {id: String(org._id), content: org.name}
-//   ))
-
-//   return itemArr;
-// }
 
 class OrganizationList extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   // items: getItems(props)
-    // };
-
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -55,8 +43,7 @@ class OrganizationList extends React.Component {
   render() {
 
     // let userOrgs = this.props.userOrgs
-    let itemArr = this.props.itemArr
-
+    let itemArr = this.props.itemArr;
     return (
 
 
@@ -65,7 +52,8 @@ class OrganizationList extends React.Component {
           <div className="dashboard-org-list">
             <strong>{item.content}</strong>
             <div className="buttons-list">
-              <Link className="admin-button" to={`admin/${item.id}`}>Admin</Link>
+              {(item.admins.includes(this.props.currentUser.id)) ?  <Link className="admin-button" to={`admin/${item.id}`}>Admin</Link> : ""    }
+              
               <button onClick={this.handleClick(item, this.props.currentUser)} className="leave-org-button">Leave</button>
             </div>
           </div>
