@@ -35,19 +35,23 @@ router.get('/email/:email', passport.authenticate('jwt', {session: false}), (req
 router.patch('/matchUsers', passport.authenticate('jwt', {session: false}), (req, res) =>{
 
   Org.findById(req.body.orgId, {members: 1})
-    .populate({path: 'members', match: {active: true, socket: null, _id: { $not: { $eq: req.body.userId}}}})
+    .populate({path: 'members', match: {active: "available", _id: { $not: { $eq: req.body.userId}}}})
     .then(org => {
-        User.findByIdAndUpdate(req.body.userId, {$set: {"socket": "hold"}}).exec()
-        let length = org.members.length
-        let index;
-        if (length > 1){
-          index = Math.floor(Math.random()* length-1) + 1
-        } else{
-          index = 0
+        if (org.members.length === 0){
+          User.findByIdAndUpdate(req.body.userId, {$set: {active: "available"}}).exec()
+        } else {
+          let length = org.members.length
+          let index;
+          if (length > 1){
+            index = Math.floor(Math.random()* length-1) + 1
+          } else{
+            index = 0
+          }
+          let member = org.members[index]
+          User.findByIdAndUpdate(req.body.userId, {$set: {active: "busy"}}).exec()
+          User.findByIdAndUpdate(member.id, {$set: {active: "busy"}}).exec()
+          res.json(member.email)
         }
-        let member = org.members[index]
-        User.findByIdAndUpdate(member.id, {$set: {"socket": "hold"}}).exec()
-        res.json(member.email)
     })
     .catch(err => res.status(404).json({noMatchMade: "No online users in this group!"}))
 }) 
@@ -174,6 +178,8 @@ router.post('/register', (req, res)=>{
       }
     })
 })
+
+//write demo login route
 
 router.post('/login', (req, res) => {
 
