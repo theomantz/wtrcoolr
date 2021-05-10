@@ -162,7 +162,7 @@ router.post('/register', (req, res)=>{
             newUser
               .save()
               .then(user => {
-                const payload = {id: user.id, name: user.name, email: user.email, orgs: user.orgs, active: user.active}
+                const payload = {id: user.id, name: user.name, email: user.email, orgs: user.orgs, active: user.active, admins: user.admins}
 
                 jwt.sign(payload, keys.secretOrKey, {expiresIn: 3600}, (err, token) =>{
                   res.json({
@@ -208,7 +208,7 @@ router.post('/login', (req, res) => {
             
             User.findByIdAndUpdate(user.id, {$set: {active: true}})
 
-            const payload = {id: user.id, name: user.name, email: user.email, orgs: user.orgs, active: user.active}
+            const payload = {id: user.id, name: user.name, email: user.email, orgs: user.orgs, active: user.active, admins: user.admins}
             jwt.sign(
               payload,
               keys.secretOrKey,
