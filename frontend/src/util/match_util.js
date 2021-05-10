@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export default (userId, orgId) => {
-  return axios.patch('/api/users/matchUsers', {userId, orgId})
+export default (matchData) => {
+  console.log(matchData)
+  return axios.patch('/api/users/matchUsers', matchData)
 }
 
-//USER DATA NEEDS TO HAVE userId and orgId

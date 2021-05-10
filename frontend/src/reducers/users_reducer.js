@@ -9,7 +9,6 @@ import {
 } from '../actions/match_actions';
 
 const initState = {
-  // matchAttempted: false,
   routed: false,
   matchData: {}
 }
@@ -23,8 +22,6 @@ const UsersReducer = ( state = initState, action ) => {
       return {match: action.matchEmail, routed: false}
     case RECEIVE_ROUTED:
       return Object.assign({}, state, {routed: true})
-    // case SET_MATCH_ATTEMPTED:
-    //   return Object.assign({}, state, {matchAttempted: true})
     case RECEIVE_USER_MATCH_SOCKET:
       return action.user.data;
     default:

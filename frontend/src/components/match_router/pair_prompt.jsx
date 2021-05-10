@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { queryMatch } from '../../actions/match_actions';
 import React from 'react';
-import { closeModal } from '../../actions/modal_actions';
+import { openModal } from '../../actions/modal_actions';
 import './pair_prompt.scss'
 
 class PairPrompt extends React.Component {
@@ -15,11 +15,8 @@ class PairPrompt extends React.Component {
   handleClick() {
     this.props.queryMatch({
       userId: this.props.userId,
-      orgId: this.props.currentCoolrs[0][1].id
-    });
-    console.log(this.props.queryMatch)
-    // this.props.closeModal();
-    // isAxiosError
+      orgId: this.props.currentCoolrs[0][1]._id
+    })
   }
 
   render () {
@@ -36,7 +33,7 @@ class PairPrompt extends React.Component {
         </div>
         <button 
           onClick={this.handleClick}>
-          Chance Encounter
+          Chat with a member
         </button>
       </div>
     )
@@ -50,8 +47,8 @@ const mSTP = state => ({
 })
 
 const mDTP = dispatch => ({
-  queryMatch: (userId, orgId) => dispatch(queryMatch(userId, orgId)),
-  // closeModal: () => dispatch(closeModal())
+  queryMatch: (matchData) => dispatch(queryMatch(matchData)),
+  openModal: (modal) => dispatch(openModal(modal))
 })
 
 export default connect(mSTP, mDTP)(PairPrompt)

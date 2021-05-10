@@ -26,10 +26,10 @@ class PairPrompt extends React.Component {
         <div className="pair-promp-container">
           <div>
             <p className="org-name-pair-prompt">
-              NOE
+              organization
             </p>
             <p>
-              has coolr hours now.
+              coolr match found 
             </p>
           </div>
           <button
@@ -39,7 +39,25 @@ class PairPrompt extends React.Component {
         </div>
       )
     } else {
-
+      return (
+        <div className="pair-promp-container">
+          <div>
+            <p className="org-name-pair-prompt">
+              No matches found for ORG coolr hours?
+            </p>
+            <p>
+              Try again?
+            </p>
+            <p>
+              Try again later
+            </p>
+          </div>
+          <button
+            onClick={this.props.handleClick}>
+            Join the fun?
+          </button>
+        </div>
+      )
     }
 
   }
