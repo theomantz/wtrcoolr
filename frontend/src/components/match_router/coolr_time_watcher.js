@@ -108,6 +108,10 @@ class CoolrTimeWatcher extends React.Component {
       this.props.receiveRouted();
       this.props.history.push("/coolr")
     }
+
+    if(this.props.history[0] === "/coolr") {
+      this.props.pause()
+    }
     return null
   }
 }
