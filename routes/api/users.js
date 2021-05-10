@@ -180,6 +180,42 @@ router.post('/register', (req, res)=>{
 
 //write demo login route
 
+router.post('/demoLogin', (req, res) =>{
+
+  User.find().or([{email:"demo@example.com"},{email:"demo3@example.com"}])
+    .then(users => {
+      let filtered = users.filter((demo) => {return demo.active === "offline"})
+      if (filtered.length === 0){
+        res.status(400).json("No Demo Account Available")
+      } else {
+        let user = filtered[0]
+        User.findOneAndUpdate({email: user.email}, {active: "busy"})
+        const payload = {id: user.id, name: user.name, email: user.email, orgs: user.orgs, active: user.active, admins: user.admins}
+        jwt.sign(
+          payload,
+          keys.secretOrKey,
+          {expiresIn: 3600},
+          (err, token) =>{
+            res.json({
+              succcess: true,
+              token: 'Bearer ' + token
+            })
+          }
+        )
+      }
+    })
+
+})
+
+router.get('/activeUsers', passport.authenticate('jwt', {session: false}), (req, res) => {
+  User.find({ active: true})
+    .then(activeUsers => {
+      res.json(activeUsers)
+    })
+    .catch(err => res.status(404).json({noActiveUsers: "No Active Users"}))
+})
+
+
 router.post('/login', (req, res) => {
 
 
