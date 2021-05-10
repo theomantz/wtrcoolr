@@ -1,15 +1,12 @@
 import './coolr.css'
 import React from 'react';
 import { io } from 'socket.io-client';
-import { v4 as uuidv4 } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faVideo, 
   faMicrophone,
-  faPaperPlane, 
 } from '@fortawesome/free-solid-svg-icons';
 import Peer from 'simple-peer';
-import moment from 'moment';
 import { Howl } from 'howler'
 import notificationSound from '../../sounds/chat-notif.mp3'
 import ringtone from '../../sounds/ringtone.mp3'
@@ -59,7 +56,6 @@ class CoolrVideo extends React.Component {
     this.videoGridHeight = null;
     
     this.setState = this.setState.bind(this)
-    this.handleChatChange = this.handleChatChange.bind(this);
     this.handleMute = this.handleMute.bind(this);
     this.handleVideo = this.handleVideo.bind(this);
 
@@ -190,12 +186,6 @@ class CoolrVideo extends React.Component {
             });
 
           });
-
-          // this.userPeer.on('connect', () => {
-          //   debugger
-          //   this.setState({connected: true})
-          //   this.userPeer.send('connected')
-          // })
           
           this.userPeer.on("stream", stream => {
             // debugger
@@ -207,19 +197,6 @@ class CoolrVideo extends React.Component {
               peerVideo.src = window.URL.createObjectURL(stream)
             }
           })
-
-          // this.userPeer.on("data", (message) => {
-          //   this.setState({
-          //     messages: this.state.messages.concat(message),
-          //   });
-
-          //   if (this.props.userMatch.socket !== message.sendSocket) {
-          //     this.setState({ receiveSocket: message.sendSocket });
-          //   }
-
-          //   this.chatNotificationSound().play();
-          //   this.scrollToBottom();
-          // });
 
         }).catch(err => console.log(err))
   }
@@ -246,17 +223,6 @@ class CoolrVideo extends React.Component {
     }
   }
 
-  chatNotificationSound() {
-    return (
-      new Howl({
-        src: [notificationSound],
-        loop: false,
-        preload: true,
-        volume: 0.1
-      })
-    );
-  }
-
   ringtoneSound() {
     return (
       new Howl({
@@ -266,64 +232,6 @@ class CoolrVideo extends React.Component {
         volume: 0.1
       })
     )
-  }
-
-  scrollToBottom = () => {
-    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
-  };
-
-  handleChatChange = (e) => {
-    this.setState({
-      chatMessage: e.currentTarget.value,
-    });
-  };
-
-  handleKeyPress = (e) => {
-    if (e.charCode === 13) {
-      this.submitChatMessage(e);
-    }
-  };
-
-  submitChatMessage = (e) => {
-    const { 
-      chatMessage, 
-      receiveSocket, 
-      sendSocket } = this.state
-    if (chatMessage === "") {
-      return null;
-    }
-
-    const { user } = this.props;
-    const { userId, name } = user;
-    const time = moment();
-    e.preventDefault();
-    const message = {
-      sendSocket: sendSocket,
-      receiveSocket: receiveSocket,
-      chatMessage,
-      userId,
-      name,
-      time,
-    }
-    // if(this.state.connected) {
-    //   this.userPeer.send(message);
-    // }
-    this.scrollToBottom();
-    this.setState({ messages: this.state.messages.concat(message) })
-    this.setState({ chatMessage: "" });
-  };
-
-  renderMessages() {
-    if (!this.state.messages.length) return null;
-    const messages = this.state.messages.map((message) => {
-      return (
-        <li key={uuidv4()} className="message">
-          <b>{message.name}</b>
-          <span>{message.chatMessage}</span>
-        </li>
-      );
-    });
-    return <ul className="chat-message-list">{messages}</ul>;
   }
 
   handleMute() {
@@ -425,12 +333,6 @@ class CoolrVideo extends React.Component {
         });
       });
 
-      // this.userPeer.on("connect", () => {
-      //   // debugger
-      //   this.setState({connected: true})
-      //   this.userPeer.send('Connected')
-      // });
-
       this.socket.on('callAccepted', signal => {
         this.userPeer.signal(signal.signalData)
       })
@@ -444,23 +346,6 @@ class CoolrVideo extends React.Component {
           peerVideo.src = window.URL.createObjectURL(stream);
         }
       });
-
-      this.userPeer.on("data", (message) => {
-        debugger
-        this.setState({
-          messages: this.state.messages.concat(message),
-        });
-
-        if (this.props.userMatch.socket !== message.sendSocket) {
-          this.setState({ receiveSocket: message.sendSocket });
-        }
-
-        this.chatNotificationSound().play();
-        this.scrollToBottom();
-      });
-
-      
-      
     })
     .catch((err) => console.log(err));
   }
@@ -524,34 +409,8 @@ class CoolrVideo extends React.Component {
             </div>
           </div>
           <div className="main-right">
-            <div className="main-chat-window">
-              <div className="messages">
-                {this.renderMessages()}
-                <div
-                  id='messages-end'
-                  ref={(el) => {
-                    this.messagesEnd = el;
-                  }}
-                ></div>
-              </div>
-            </div>
-            <div className="main-message-container">
-              <input
-                id="chat_message"
-                type="text"
-                autoComplete="off"
-                placeholder="type a message"
-                value={this.state.chatMessage}
-                onChange={this.handleChatChange}
-                onKeyPress={this.handleKeyPress}
-              />
-              <div id="send-icon">
-                <FontAwesomeIcon
-                  icon={faPaperPlane}
-                  className="option-button"
-                  onClick={this.submitChatMessage}
-                />
-              </div>
+            <div className="main-information-window">
+             
             </div>
           </div>
         </div>

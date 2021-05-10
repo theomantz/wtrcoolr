@@ -26,7 +26,7 @@ router.get('/email/:email', passport.authenticate('jwt', {session: false}), (req
   User.find({email: { $regex: useremail, $options: "i" }})
     .then(users => res.json(users))
     .catch(err => res.status(404).json({userNotFound: "User not found"}))
-    
+
 })
 
 // passport.authenticate('jwt', {session: false}),
@@ -107,10 +107,9 @@ router.get('/sockets/:email', (req, res) => {
 }) 
 
 router.patch('/sockets', (req, res) => {
-  console.log(req.body)
+
   User.findByIdAndUpdate(req.body.user.id, {$set: { socket: req.body.sendSocket }})
     .then((user) => {
-      console.log(user)
       res.json({ id: user.id, name: user.name, socket: user.socket}.status(200))
     })
     .catch(err => {

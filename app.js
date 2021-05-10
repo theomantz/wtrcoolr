@@ -13,7 +13,6 @@ app.use(index)
 
 io.on('connection', socket => {
   socket.on('handshake', msg => {
-    console.log(`Shaking hands from ${msg.sendSocket} to ${msg.receiveSocket}`)
     io.to(msg.receiveSocket).emit('handshake', {
       sendSocket: msg.sendSocket,
       targetId: msg.targetId
@@ -21,7 +20,6 @@ io.on('connection', socket => {
   })
 
   socket.on('sync', msg=> {
-    console.log(`Synced`)
     io.to(msg.to).emit('sync', {
       from: msg.from
     })
@@ -33,14 +31,11 @@ io.on('connection', socket => {
   })
   
   socket.on('sendChatMessage', msg => {
-    console.log(`New Chat Message from ${msg.name} at socket: ${msg.sendSocket} to socket: ${msg.receiveSocket}`)
-    console.log(msg)
     return io.to(msg.receiveSocket).emit('receiveChatMessage', msg)
   })
   
   socket.on("callUser", (data) => {
-    console.log('Trying user for coolr request')
-    console.log(`From: ${data.from.name} to ${data.userToCall}`)
+
     io.to(data.userToCall).emit("receiveCall", {
       signalData: data.signalData,
       from: data.from,
@@ -49,18 +44,12 @@ io.on('connection', socket => {
   });
 
   socket.on("acceptCall", (data) => {
-    console.log('call accepted')
+
     io.to(data.userToCall).emit('callAccepted', {
       signalData: data.signalData,
       from: data.from
     }) 
   })
-
-/*   socket.on('connected', (data) =>{
-    io.to(data.userToCall).emit('connect', {
-      message: data.message
-    })
-  }) */
 
 })
 
