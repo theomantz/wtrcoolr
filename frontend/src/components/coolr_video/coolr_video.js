@@ -67,6 +67,7 @@ class CoolrVideo extends React.Component {
   }
 
   componentDidMount() {
+
     let socketURL = "127.0.0.1:5000";
 
     if (process.env.NODE_ENV === "production") {
@@ -160,7 +161,6 @@ class CoolrVideo extends React.Component {
             stream: stream,
           });
           
-          // debugger
           const receiveSocket = data.fromSocket
           const streamSource = new MediaStream(stream);
           this.userVideo = streamSource;
@@ -183,7 +183,6 @@ class CoolrVideo extends React.Component {
 
           const { user } = this.props;         
           this.userPeer.on("signal", (signal) => {
-            // debugger
             this.socket.emit("acceptCall", {
               userToCall: receiveSocket,
               signalData: signal,
@@ -346,11 +345,7 @@ class CoolrVideo extends React.Component {
     navigator.mediaDevices
     .getUserMedia({ video: true, audio: true })
     .then((stream) => {
-      // debugger
 
-      // debugger
-
-      console.log(stream)
       const streamSource = new MediaStream(stream)
       this.userVideo = streamSource
       
@@ -362,11 +357,59 @@ class CoolrVideo extends React.Component {
         video.src = window.URL.createObjectURL(stream);
       }
 
-      console.log(video)
 
 
       this.userPeer = new Peer({
         initiator: this.props.initiator,
+        trickle: false,
+        config: {
+          iceServers: [
+            { url: "stun:stun01.sipphone.com" },
+            { url: "stun:stun.ekiga.net" },
+            { url: "stun:stun.fwdnet.net" },
+            { url: "stun:stun.ideasip.com" },
+            { url: "stun:stun.iptel.org" },
+            { url: "stun:stun.rixtelecom.se" },
+            { url: "stun:stun.schlund.de" },
+            { url: "stun:stun.l.google.com:19302" },
+            { url: "stun:stun1.l.google.com:19302" },
+            { url: "stun:stun2.l.google.com:19302" },
+            { url: "stun:stun3.l.google.com:19302" },
+            { url: "stun:stun4.l.google.com:19302" },
+            { url: "stun:stunserver.org" },
+            { url: "stun:stun.softjoys.com" },
+            { url: "stun:stun.voiparound.com" },
+            { url: "stun:stun.voipbuster.com" },
+            { url: "stun:stun.voipstunt.com" },
+            { url: "stun:stun.voxgratia.org" },
+            { url: "stun:stun.xten.com" },
+            {
+              url: "turn:numb.viagenie.ca",
+              credential: "muazkh",
+              username: "webrtc@live.com",
+            },
+            {
+              url: "turn:192.158.29.39:3478?transport=udp",
+              credential: "JZEOEt2V3Qb0y27GRntt2u2PAYA=",
+              username: "28224511:1379330808",
+            },
+            {
+              url: "turn:192.158.29.39:3478?transport=tcp",
+              credential: "JZEOEt2V3Qb0y27GRntt2u2PAYA=",
+              username: "28224511:1379330808",
+            },
+            {
+              url: "turn:turn.bistri.com:80",
+              credential: "homeo",
+              username: "homeo",
+            },
+            {
+              url: "turn:turn.anyfirewall.com:443?transport=tcp",
+              credential: "webrtc",
+              username: "webrtc",
+            },
+          ],
+        },
         stream: stream,
       });
 
