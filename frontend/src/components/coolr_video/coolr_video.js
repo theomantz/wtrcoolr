@@ -23,8 +23,7 @@ const style = {
   background: "#fffff",
 };
 
-/* Upcoming features: 
-- Video chat
+/* Upcoming features:
 - Chat timeout function for initial 90 seconds and then automatically 
 cancelling the call at 5 minutes  */
 
@@ -100,6 +99,7 @@ class CoolrVideo extends React.Component {
     }
 
     const { userMatch } = this.props
+
     if( !this.state.synced && !!userMatch.socket ) {
       this.socket.emit('handshake', {
         sendSocket: this.socket.id,

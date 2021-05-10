@@ -7,7 +7,6 @@ const keys = require('../../config/keys')
 const validateRegisterInput = require('../../validation/register')
 const validateLoginInput = require('../../validation/login')
 const passport = require('passport');
-const { db } = require("../../models/User");
 const Org = require('../../models/Org')
 
 router.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -27,7 +26,7 @@ router.get('/email/:email', passport.authenticate('jwt', {session: false}), (req
   User.find({email: { $regex: useremail, $options: "i" }})
     .then(users => res.json(users))
     .catch(err => res.status(404).json({userNotFound: "User not found"}))
-
+    
 })
 
 // passport.authenticate('jwt', {session: false}),
@@ -59,7 +58,6 @@ router.patch('/edit', passport.authenticate('jwt', {session: false}), (req, res)
   User.findByIdAndUpdate(req.body.id, { $set: req.body }, { new: true })
     .populate('orgs')
     .then(user => {
-      console.log(user)
       res.json(user)
     })
     .catch(err => res.status(404).json({userUpdateFailed: "Failed to update User"}))
@@ -92,10 +90,7 @@ router.patch('/logout', (req, res) => {
 })
 
 router.get('/sockets/:email', (req, res) => {
-  //this route is throwing this error when a user logs in:
-  // (node:27274) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'id' of null
-  // [0]     at User.findOne.then.user (/home/jhnegbrt/appacademy/wtrcoolr/routes/api/users.js:97:36)
-  // [0]     at process._tickCallback (internal/process/next_tick.js:68:7)
+
   const email = req.params.email
   User.findOne({ email: email })
     .then(user => {

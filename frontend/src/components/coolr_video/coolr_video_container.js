@@ -16,7 +16,7 @@ const mapStateToProps = ({ session, messages, entities }) => ({
   user: session.user,
   messages: messages,
   userMatch: entities.users,
-  initiator: session.user.email === 'demo@example.com' ? true : false
+  initiator: session.user.email === 'demo@example.com'
 });
 
 const mapDispatchToProps = dispatch => ({
