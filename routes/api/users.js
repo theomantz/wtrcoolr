@@ -32,14 +32,18 @@ router.get('/email/:email', passport.authenticate('jwt', {session: false}), (req
 // passport.authenticate('jwt', {session: false}),
 
 router.patch('/matchUsers', passport.authenticate('jwt', {session: false}), (req, res) =>{
+
   Org.findById(req.body.orgId, {members: 1})
     .populate({path: 'members', match: {active: "available", _id: { $not: { $eq: req.body.userId}}}})
     .then(org => {
         if (org.members.length === 0){
-          User.findByIdAndUpdate(req.body.userId, {$set: {active: "available"}}).exec()
-          res.json("available")
+          User.findByIdAndUpdate(req.body.userId, {$set: {active: "available"}}, {new: true}).then(usr => {
+
+            return res.json("available")
+          })
         } else {
           let length = org.members.length
+          
           let index;
           if (length > 1){
             index = Math.floor(Math.random()* length-1) + 1
@@ -53,8 +57,10 @@ router.patch('/matchUsers', passport.authenticate('jwt', {session: false}), (req
         }
     })
     .catch(err => {
-      User.findByIdAndUpdate(req.body.userId, {$set: {active: "available"}}).exec()
-      res.json("available")
+
+      User.findByIdAndUpdate(req.body.userId, {$set: {active: "available"}}, {new: true}).then((user) => {
+        return res.json("available")
+      })
     })
 }) 
 
@@ -71,7 +77,7 @@ router.patch('/edit', passport.authenticate('jwt', {session: false}), (req, res)
 
 })
 
-router.patch('/updateOrgs', passport.authenticate('jwt', {session: false}), (req, res) =>{
+router.patch('/updateOrgs', passport.authenticate('jwt', {session: false}), (req, res) => {
 
   if (req.body.add === true){
     User.findByIdAndUpdate(req.body.userId, { $addToSet: {"orgs": req.body.orgId}}, { new: true })
@@ -86,7 +92,9 @@ router.patch('/updateOrgs', passport.authenticate('jwt', {session: false}), (req
 })
 
 router.patch('/logout', (req, res) => {
-  User.findByIdAndUpdate(req.body.id, {$set: {active: "offline", socket: null } })
+  User.findByIdAndUpdate(req.body.id, 
+    {$set: {active: "offline", socket: null } }
+    )
     .then(user => res.json({
       user: user.id, 
       name: user.name,
@@ -101,7 +109,13 @@ router.get('/sockets/:email', (req, res) => {
   const email = req.params.email
   User.findOne({ email: email })
     .then(user => {
-      const payload = { user: user.id, name: user.name, socket: user.socket, email: user.email }
+      const payload = { 
+        user: user.id, 
+        name: user.name, 
+        socket: user.socket, 
+        email: user.email 
+      }
+      
       if( user.socket ) {
         res.status(200).json(payload)
       } else {
@@ -114,16 +128,14 @@ router.get('/sockets/:email', (req, res) => {
 });
 
 router.patch('/sockets', (req, res) => {
-  console.log(req.body.user.id)
-  console.log(req.body.sendSocket)
-  User.findByIdAndUpdate(req.body.user.id, {$set: { socket: req.body.sendSocket }})
+  User.findByIdAndUpdate(req.body.user.id, 
+    {$set: { socket: req.body.sendSocket }}, 
+    {new: true}
+    )
     .then((user) => {
-      console.log('success')
-      console.log(user)
       res.json({ id: user.id, name: user.name, socket: user.socket}).status(200)
-    }).catch(err => {
-      console.log('fail')
-      console.log(err)
+    })
+    .catch(err => {
       res.status(400).json({error: 'Cannot find user'})
     })
 })
@@ -164,8 +176,11 @@ router.post('/register', (req, res)=>{
             newUser
               .save()
               .then(user => {
-                const payload = {id: user.id, name: user.name, email: user.email, orgs: user.orgs, active: user.active, admins: user.admins}
-
+                const payload = {
+                  id: user.id, name: user.name, 
+                  email: user.email, orgs: user.orgs, 
+                  active: user.active, admins: user.admins
+                }
                 jwt.sign(payload, keys.secretOrKey, {expiresIn: 3600}, (err, token) =>{
                   res.json({
                     success: true,
@@ -186,24 +201,41 @@ router.post('/demoLogin', (req, res) =>{
 
   User.find().or([{email:"demo@example.com"},{email:"demo3@example.com"}])
     .then(users => {
+
       let filtered = users.filter((demo) => {return demo.active === "offline"})
       if (filtered.length === 0){
-        res.status(400).json("No Demo Account Available")
+        res.status(400).json({demo: "Sorry No Demo Account Available"})
       } else {
         let user = filtered[0]
-        User.findOneAndUpdate({email: user.email}, {active: "busy"}).exec()
-        const payload = {id: user.id, name: user.name, email: user.email, orgs: user.orgs, active: user.active, admins: user.admins}
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          {expiresIn: 3600},
-          (err, token) =>{
-            res.json({
-              succcess: true,
-              token: 'Bearer ' + token
-            })
-          }
-        )
+        User.findOneAndUpdate(
+          {email: user.email}, 
+          {active: "busy"},
+          {new: true})
+        .populate('orgs')
+        .then(user => {
+
+          const payload = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            orgs: user.orgs,
+            active: user.active,
+            admins: user.admins,
+            initiator: Boolean(filtered.length === 1),
+          };
+          jwt.sign(
+            payload,
+            keys.secretOrKey,
+            { expiresIn: 3600 },
+            (err, token) => {
+              res.json({
+                succcess: true,
+                token: "Bearer " + token,
+              });
+            }
+          );
+        })
+        
       }
     })
 
@@ -215,6 +247,19 @@ router.get('/activeUsers', passport.authenticate('jwt', {session: false}), (req,
       res.json(activeUsers)
     })
     .catch(err => res.status(404).json({noActiveUsers: "No Active Users"}))
+})
+
+router.patch('/active', passport.authenticate('jwt', {session: false}), (req, res) => {
+  User.findByIdAndUpdate(req.body.id, {active: req.body.active}, {new: true})
+    .then(usr => {
+      res.status(200).json({message: `current user set to ${usr.active}`})
+    })
+    .catch(err => {
+      res.status(400).json({
+        message: `problem setting current user to ${req.body.active}`, 
+        err: err
+      })
+    })
 })
 
 

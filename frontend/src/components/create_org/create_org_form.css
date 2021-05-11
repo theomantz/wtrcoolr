@@ -38,6 +38,7 @@
   color: rgb(101, 101, 101);
   font-weight: 700;
   font-size: 20px;
+  text-align: center;
 }
 
 .create-org_form input:focus {

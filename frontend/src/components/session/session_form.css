@@ -46,17 +46,19 @@
 
 .session-form input[type="submit"] {
   cursor: pointer;
+  width: 200px;
   background-color: #7F3F98;
   color: white;
   border: none;
 }
 
 .session-form input[type="submit"]:hover {
-  background-color: #88579b;
+  background-color: #D2F9FA;
+  color: #7F3F98;
 }
 
-
 .demo-user {
+  width: 200px;
   margin: 20px;
   padding: 10px;
   font-weight: 700;
@@ -68,6 +70,18 @@
   border: none;
 }
 
-.demo-user:hover {
-  background-color: #88579b;
+.session-button {
+  transition: all 0.2s;
+}
+
+.session-button:hover {
+  background-color: #D2F9FA;
+  color: #7F3F98;
+}
+
+.demo-errors-container {
+  display: flex;
+  flex-direction: column;
+  height: 40px;
+  justify-content: space-between;
 }

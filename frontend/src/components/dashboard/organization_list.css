@@ -11,7 +11,6 @@
 }
 
 .organization-list-container{
-	background: var(--main-light);
 	padding: 8px;
 	width: 80%;
 	margin: auto;
@@ -20,6 +19,7 @@
 }
 
 .admin-button{
+	font: inherit;
 	width: 45px;
 	height: 90%;
 	padding: 5px;
@@ -29,7 +29,8 @@
 	text-decoration: none;
 	color: black;
 	text-align: center;
-	font-size: 12px;
+	font-size: 13px;
+	font-weight: 700;
 }
 
 .admin-button:hover{
@@ -41,6 +42,8 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	font-size: 14px;
+	font-weight: 700;
 	user-select: "none";
 	padding: 10px;
 	margin: 5px 9px;
@@ -58,7 +61,8 @@
     border-radius: 5px;
 		margin-top: 5px;
 		font: inherit;
-		font-size: 12px;
+		font-size: 13px;
+		font-weight: 700;
 }
 
 .leave-org-button:hover{

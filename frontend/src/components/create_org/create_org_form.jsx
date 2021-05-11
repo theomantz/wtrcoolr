@@ -99,7 +99,7 @@ class CreateOrgForm extends React.Component {
           onSubmit={this.handleSubmit}
           className="create-org_form">
           
-            <div>
+            <div className='create-org-input-container'>
               <input 
                 placeholder="Organization Name" 
                 type="text"
@@ -110,7 +110,7 @@ class CreateOrgForm extends React.Component {
               <span>{this.props.errors.name}</span>
             </div>
 
-          <div>
+          <div className='create-org-input-container'>
           <select onChange={this.update('public')}>
             <option value="Public">Public</option>
             <option value="Private">Private</option>

@@ -41,18 +41,24 @@
 }
 
 .logout{
+    font-family: 'Permanent Marker', cursive;
+    font-size: 20px;
     background-color: #7F3F98;
     border-style: none;
     text-decoration: none;
     margin: 10px;
     color: #4AC2C5;
     height: 30px;
-    padding: 10px 20px;
+    padding: 5px 15px;
     border-radius: 5px;
     color: white;
+    text-align: center;
+    transition: all 0.5s;
+    line-height: 30px;
 }
 
 .logout:hover{
-    background-color: #814599;
+    color: #814599;
+    background-color: #d2f9fa;
     cursor: pointer;
 }

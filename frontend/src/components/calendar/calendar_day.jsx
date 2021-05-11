@@ -1,5 +1,6 @@
 import React from 'react';
 import CoolrHour from './coolr_hour';
+import { v4 as uuid } from 'uuid'
 import { applyUTCoffset } from '../../util/time_conversion_util';
 
 class CalendarDay extends React.Component {
@@ -30,6 +31,7 @@ class CalendarDay extends React.Component {
 
   todaysCoolrTimesList() {
     const todaysTimes = []
+
     this.props.orgs.forEach(org => {
       if(org.coolrHours.length > 0) {
         org.coolrHours.map(coolrHour => {
@@ -71,12 +73,12 @@ class CalendarDay extends React.Component {
         <div className="calendar-day-content">
           <ul className="coolr-hour-list">
             {this.todaysCoolrTimesList().map(coolrHour => {
-              return <CoolrHour coolrHour={coolrHour[0]} />
+              return <CoolrHour key={uuid()}coolrHour={coolrHour[0]} />
             })}
           </ul>
           <ul className="org-name-list">
             {this.todaysCoolrTimesList().map(arr => {
-              return <li>{arr[1]}</li>
+              return <li key={uuid()}>{arr[1]}</li>
             })}
           </ul>
         </div>  

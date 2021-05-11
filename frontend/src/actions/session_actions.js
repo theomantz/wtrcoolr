@@ -53,7 +53,7 @@ export const login = (user) => (dispatch) => {
       const decoded = jwt_decode(token);
       dispatch(getPublicOrgs());
       dispatch(receiveCurrentUser(decoded));
-      return res     
+      return res
     })
     .catch((err) => {
       dispatch(receiveErrors(err.response.data));
@@ -72,3 +72,28 @@ export const logout = (user) => (dispatch) => {
       dispatch(receiveErrors(err.response.data))
     })
 };  
+
+
+export const demoLogin = demo => dispatch => {
+  return APIUtil.demoLogin(demo)
+    .then(res => {
+
+      const { token } = res.data;
+      localStorage.setItem("jwtToken", token);
+      APIUtil.setAuthToken(token);
+      const decoded = jwt_decode(token);
+
+      dispatch(getPublicOrgs());
+      dispatch(receiveCurrentUser(decoded));
+
+
+      return res;
+
+    })
+    .catch(err => {
+
+      dispatch(receiveErrors(err.response.data));
+
+      return err.response
+    })
+}

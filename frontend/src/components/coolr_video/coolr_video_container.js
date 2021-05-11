@@ -12,12 +12,16 @@ import { unpauseCounter  } from '../../actions/match_actions'
 import { withRouter } from 'react-router-dom';
 
 
-const mapStateToProps = ({ session, messages, entities }) => ({
-  user: session.user,
-  messages: messages,
-  userMatch: entities.users,
-  initiator: session.user.email === 'demo@example.com'
-});
+const mapStateToProps = ({ session, messages, entities }) => {
+  return {
+    user: session.user,
+    messages: messages,
+    userMatch:
+      entities.users.match === "available" ? null : entities.users.match,
+    userMatchObject: entities.users.match ? null : entities.users,
+    initiator: Boolean(entities.users.match !== "available"),
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
   dispatchMessage: message => dispatch(dispatchMessage(message)),

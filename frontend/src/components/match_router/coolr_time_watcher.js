@@ -137,4 +137,4 @@ const mDTP = dispatch => ({
   addToNotified: (coolrHours) => dispatch(addToNotified(coolrHours))
 })
 
-export default connect(mSTP, mDTP)(withRouter(CoolrTimeWatcher));
+export default withRouter(connect(mSTP, mDTP)(CoolrTimeWatcher));

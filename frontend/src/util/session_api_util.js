@@ -20,4 +20,6 @@ export const logout = user => {
   return axios.patch('/api/users/logout', user)
 }
 
-
+export const demoLogin = demo => {
+  return axios.post("/api/users/demoLogin", demo)
+}

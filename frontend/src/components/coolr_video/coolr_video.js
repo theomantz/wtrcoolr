@@ -1,5 +1,6 @@
 import './coolr.css'
 import React from 'react';
+import { ReactComponent as WtrcoolrLogo } from "../../assets/SVG/HeaderText.svg";
 import { io } from 'socket.io-client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
@@ -75,38 +76,50 @@ class CoolrVideo extends React.Component {
     
     this.socket = io(socketURL, { transports: ["websocket"] });
     
-    let socketToFetch =
-      this.props.user.email === "theo@example.com"
-        ? "demo@example.com"
-        : "theo@example.com";
 
-    const { user } = this.props
+    const { 
+      user, 
+      initiator, 
+      fetchSocket, 
+      assignSocket,
+      userMatch
+    } = this.props
 
-    this.socket.on('connect', async data => {
+    this.socket.on('connect', data => {
       this.setState({ sendSocket: this.socket.id })
       this.debug('connecting')
       if( this.socket.id ) {
         
-        this.props.assignSocket({ user: user, sendSocket: this.socket.id })
+        assignSocket({ user: user, sendSocket: this.socket.id })
 
       }
 
     })
 
-    if(this.props.user) {
-      this.props.fetchSocket(socketToFetch);
+    if( user && initiator ) {
+      fetchSocket(userMatch).then(() => {
+        this.debug("sending handshake");
+        const { userMatchObject } = this.props
+        this.socket.emit("handshake", {
+          sendSocket: this.socket.id,
+          receiveSocket: userMatchObject.socket,
+          targetId: userMatchObject.id,
+        });
+      });
     }
 
-    const { userMatch } = this.props
 
-
-    if( !this.state.synced && !!userMatch.socket ) {
-      this.debug('sending handshake')
-      this.socket.emit('handshake', {
-        sendSocket: this.socket.id,
-        receiveSocket: userMatch.socket,
-        targetId: userMatch.id
-      })
+  
+    if( initiator ) {
+      const { userMatchObject } = this.props
+      if( !this.state.synced && userMatchObject ) {
+        this.debug('sending handshake')
+        this.socket.emit('handshake', {
+          sendSocket: this.socket.id,
+          receiveSocket: userMatch.socket,
+          targetId: userMatch.id
+        })
+      }
     }
 
     this.socket.on('handshake', data => {
@@ -132,7 +145,7 @@ class CoolrVideo extends React.Component {
       })
     })
 
-    if ( this.props.initiator && this.state.receiveSocket ) {
+    if ( initiator && this.state.receiveSocket ) {
       
       this.debug('initiating call')
       
@@ -231,7 +244,6 @@ class CoolrVideo extends React.Component {
           });
           
           this.userPeer.on("stream", stream => {
-            // debugger
             this.peerVideo = stream
             const peerVideo = document.getElementById('peer-video')
             if('srcObject' in peerVideo) {
@@ -408,7 +420,7 @@ class CoolrVideo extends React.Component {
       <div className="coolr-call container">
         <div className="header">
           <div className="logo">
-            <h3>wtrcoolr</h3>
+            <WtrcoolrLogo style={{height: '60px'}}/>
           </div>
         </div>
         <div className="video main">

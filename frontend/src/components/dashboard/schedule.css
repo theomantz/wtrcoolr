@@ -24,20 +24,22 @@
 }
 
 .next-coolr-container h1{
+    font-family: 'Permanent Marker', cursive;
     font-size: 26px;
     text-align: center;
     padding-top: 10px;
 }
 
 .next-coolr-container h2{
-    font-size: 24px;
+    font-size: 20px;
     text-align: center;
     padding-top: 10px;
-    color: lightgray
+    /* color: #4AC2C5; */
+    color: black;
 }
 
 .next-coolr-container h3{
-    font-size: 22px;
+    font-size: 20px;
     text-align: center;
     padding-top: 10px;
     color: lightgray

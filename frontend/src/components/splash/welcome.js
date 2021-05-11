@@ -5,7 +5,7 @@ const Welcome = () =>{
   return(
     <div className="welcome-modal">
       <h2>Welcome to wtrcoolr</h2>
-      <div class="about">
+      <div className="about">
         <h3>About:</h3>
         <p>This application was inspired by the chance encounters we all miss so much as a result of working from home
           and quarantining.</p>
@@ -15,7 +15,7 @@ const Welcome = () =>{
         </p>
         <p>Wtrcoolr is our effort to bring that back to you.</p>
       </div>
-      <div class="instructions">
+      <div className="instructions">
         <h3>Instructions:</h3>
         <h4>Demo</h4>
         <p>Explore wtrcoolr by entering as a demo user. Invite a friend or coworker to use the other demo account and you'll likely
@@ -31,7 +31,7 @@ const Welcome = () =>{
           video chat with another online member (chosen randomly) from the same organization.
         </p>
       </div>
-      <h3 class="enter">Click anywhere to enter!</h3>
+      <h3 className="enter">Click anywhere to enter!</h3>
     </div>
   )
 }

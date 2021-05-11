@@ -53,12 +53,10 @@ export const queryMatch = (matchData) => dispatch => {
   return (
     matchUsers(matchData)
       .then(matchEmail => {
-        console.log(matchEmail.data, "MATCHEMAIL")
         dispatch(receieveMatch(matchEmail.data));       
         return (matchEmail)
       })
       .catch(errs => {
-        console.log(errs)
         dispatch(receiveErrors(errs));
         return (errs)
       })

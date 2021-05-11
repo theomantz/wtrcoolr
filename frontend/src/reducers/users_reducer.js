@@ -9,7 +9,7 @@ import {
 
 const initState = {
   routed: false,
-  matchData: {}
+  match: null
 }
 
 const UsersReducer = ( state = initState, action ) => {

@@ -1,6 +1,8 @@
 // src/components/nav/navbar.js
 
 import React from 'react';
+import { ReactComponent as WtrcoolrLogo } from "../../assets/SVG/HeaderText.svg";
+import { v4 as uuidv4 } from 'uuid'
 import { Link } from 'react-router-dom'
 import './navbar.css'
 
@@ -25,35 +27,63 @@ class NavBar extends React.Component {
   getLinks() {
       if (this.props.loggedIn) {
         return (
-            <div className="navlinks">
-                <strong className="navlink" onClick={this.handleClick("welcome")}>About</strong>
-                <Link className="navlink" to={'/'}>Dashboard</Link>
-                <Link className="navlink" to={'/coolr'}>Coolr</Link>
-                <Link className="navlink" to={'/orgs'}>Orgs</Link>
-                {/* <Link className="navlink" to={'/admin/608054e152211e62fd2b6a17'}>Admin</Link> */}
-                <strong 
-                  className="navlink" 
-                  onClick={this.handleClick('createOrg')}
-                  >Create Organization</strong>
-                <strong className="logout" onClick={this.logoutUser}>Logout</strong>
-            </div>
+          <div className="navlinks">
+            <strong
+              key={uuidv4()}
+              className="navlink"
+              onClick={this.handleClick("welcome")}
+            >
+              About
+            </strong>
+            <Link key={uuidv4()} className="navlink" to={"/"}>
+              Dashboard
+            </Link>
+            <Link key={uuidv4()} className="navlink" to={"/orgs"}>
+              Orgs
+            </Link>
+            {/* <Link className="navlink" to={'/admin/608054e152211e62fd2b6a17'}>Admin</Link> */}
+            <strong
+              key={uuidv4()}
+              className="navlink"
+              onClick={this.handleClick("createOrg")}
+            >
+              Create Organization
+            </strong>
+            <strong 
+              key={uuidv4()} 
+              className="logout" 
+              onClick={this.logoutUser}
+            >
+              Logout
+            </strong>
+          </div>
         );
       } else {
         return (
-            <div className="navlinks">
-                <strong
-                  className="navlink" 
-                  onClick={this.handleClick("welcome")}
-                  >About</strong>
-                <strong 
-                  className="navlink" 
-                  onClick={this.handleClick('signup')}
-                  >Signup</strong>
-                <strong 
-                  className="navlink" 
-                  onClick={this.handleClick('login')}
-                  >Login</strong>
-            </div>
+          <div className="navlinks">
+            <strong
+              key={uuidv4()}
+              className="navlink"
+              onClick={this.handleClick("welcome")}
+            >
+              About
+            </strong>
+            <strong
+              key={uuidv4()}
+              className="navlink"
+              onClick={this.handleClick("signup")}
+            >
+              Signup
+            </strong>
+
+            <strong
+              key={uuidv4()}
+              className="navlink"
+              onClick={this.handleClick("login")}
+            >
+              Login
+            </strong>
+          </div>
         );
       }
   }
@@ -61,7 +91,13 @@ class NavBar extends React.Component {
   render() {
       return (
         <div className="navbar">
-            <Link to={'/'} className="nav-logo">wtrcoolr</Link>
+            <Link to={'/'} className="nav-logo">
+              <WtrcoolrLogo style={{
+                zIndex: '2',
+                width: '200px',
+                height: '50px'
+                }}/>
+            </Link>
             { this.getLinks() }
         </div>
       );

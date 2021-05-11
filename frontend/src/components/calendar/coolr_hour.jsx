@@ -29,7 +29,6 @@ const CoolrHour = props => {
   const militaryTime = `${time[1]}${time[2]}:${time[3]}${time[4]}`
 
 
-  // console.log(typeof props.coolrHour[1])
   return (
     <li>
       {standTime}
