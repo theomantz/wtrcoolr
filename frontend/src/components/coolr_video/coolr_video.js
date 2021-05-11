@@ -7,9 +7,6 @@ import {
   faMicrophone,
 } from '@fortawesome/free-solid-svg-icons';
 import Peer from 'simple-peer';
-import { Howl } from 'howler'
-import notificationSound from '../../sounds/chat-notif.mp3'
-import ringtone from '../../sounds/ringtone.mp3'
 import { Rnd } from 'react-rnd'
 
 const style = {
@@ -30,8 +27,6 @@ class CoolrVideo extends React.Component {
 
     this.state = {
       response: null,
-      chatMessage: "",
-      messages: [],
       connected: false,
       sendSocket: null,
       receiveSocket: null,
@@ -41,8 +36,7 @@ class CoolrVideo extends React.Component {
       audioMuted: false,
       videoMuted: false,
       streamSource: null,
-      hasPeer: true,
-      synced: false
+      synced: false,
     };
 
     this.userVideo = React.createRef();
@@ -58,7 +52,15 @@ class CoolrVideo extends React.Component {
     this.setState = this.setState.bind(this)
     this.handleMute = this.handleMute.bind(this);
     this.handleVideo = this.handleVideo.bind(this);
+    this.endCall = this.endCall.bind(this);
+    this.endCallButton = this.endCallButton.bind(this);
 
+  }
+
+  debug(c) {
+    if(process.env.NODE_ENV !== 'production') {
+      console.log(c)
+    }
   }
 
   componentDidMount() {
@@ -81,7 +83,7 @@ class CoolrVideo extends React.Component {
 
     this.socket.on('connect', async data => {
       this.setState({ sendSocket: this.socket.id })
-
+      this.debug('connecting')
       if( this.socket.id ) {
         
         this.props.assignSocket({ user: user, sendSocket: this.socket.id })
@@ -96,7 +98,9 @@ class CoolrVideo extends React.Component {
 
     const { userMatch } = this.props
 
+
     if( !this.state.synced && !!userMatch.socket ) {
+      this.debug('sending handshake')
       this.socket.emit('handshake', {
         sendSocket: this.socket.id,
         receiveSocket: userMatch.socket,
@@ -105,30 +109,37 @@ class CoolrVideo extends React.Component {
     }
 
     this.socket.on('handshake', data => {
+      this.debug('handshake received')
+      
       this.setState( { receiveSocket: data.sendSocket } )
+
+      this.debug('sending sync')
+
+      
       this.socket.emit('sync', {
         to: this.state.receiveSocket,
         from: this.socket.id
       })
     })
   
-
     this.socket.on('sync', data => {
+      
+      this.debug('sync')
       this.setState({
         synced: true,
         receiveSocket: data.from
       })
     })
 
-    if (this.props.initiator && this.state.receiveSocket ) {
-      // debugger;
+    if ( this.props.initiator && this.state.receiveSocket ) {
+      
+      this.debug('initiating call')
+      
       this.initiateCall();
 
     }
 
     this.socket.on("receiveCall", (data) => {
-
-      console.log('Receiving call')
 
       this.setState({
         callActive: true,
@@ -141,9 +152,38 @@ class CoolrVideo extends React.Component {
     })
 
 
+    this.socket.on('callEnded', data => {
+      this.userPeer.destroy()
+      this.props.history.push('/')
+    })
+
+
     this.videoGridWidth = document.getElementById("video-grid").clientWidth;
     this.videoGridHeight = document.getElementById("video-grid").clientHeight;
   
+  }
+
+  endCall() {
+    /* Button to end calls using simple peer */
+    debugger
+    this.userPeer.destroy()
+    this.socket.emit('callEnded', {
+      to: this.state.receiveSocket
+    })
+
+    this.props.history.replace('/')
+  }
+
+  endCallButton() {
+    return (
+      <div
+        className='call-end-button-container'>
+        <button 
+          onClick={e => this.endCall()} 
+          id='call-end-button'
+        >End Call</button>
+      </div>
+    )
   }
 
   receiveCall(data) {
@@ -221,17 +261,6 @@ class CoolrVideo extends React.Component {
       this.stream.getTracks()
         .forEach(track => track.stop())
     }
-  }
-
-  ringtoneSound() {
-    return (
-      new Howl({
-        src: [ringtone],
-        loop: true,
-        preload: true,
-        volume: 0.1
-      })
-    )
   }
 
   handleMute() {
@@ -350,9 +379,27 @@ class CoolrVideo extends React.Component {
     .catch((err) => console.log(err));
   }
 
+  renderPeerVideoScreen() {
+    const { videoGridHeight, videoGridWidth } = this
+    if(!videoGridWidth || !videoGridHeight) {
+      return null
+    }
+    return (
+      <Rnd
+        style={style}
+        default={{
+          x: 8,
+          y: 8,
+          width: videoGridWidth,
+          height: videoGridHeight,
+        }}
+      >
+        <video id="peer-video" playsInline autoPlay />
+      </Rnd>
+    );
+  }
+
   render() {
-    const gridWidth = this.videoGridWidth || 470;
-    const gridHeight = this.videoGridHeight || 500;
     return (
       <div className="coolr-call container">
         <div className="header">
@@ -364,22 +411,12 @@ class CoolrVideo extends React.Component {
           <div className="main-left">
             <div id="video-grid-container">
               <div id="video-grid">
+                {this.renderPeerVideoScreen()}
                 <Rnd
                   style={style}
                   default={{
-                    x: 600,
-                    y: -10,
-                    width: gridWidth,
-                    height: gridHeight,
-                  }}
-                >
-                  <video id="peer-video" playsInline autoPlay />
-                </Rnd>
-                <Rnd
-                  style={style}
-                  default={{
-                    x: 40,
-                    y: -10,
+                    x: 0,
+                    y: 0,
                     width: 500,
                     height: 470,
                   }}
@@ -410,7 +447,7 @@ class CoolrVideo extends React.Component {
           </div>
           <div className="main-right">
             <div className="main-information-window">
-             
+              {this.endCallButton()}
             </div>
           </div>
         </div>

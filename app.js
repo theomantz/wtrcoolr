@@ -12,6 +12,7 @@ const index = require('./routes/api/chat')
 app.use(index)
 
 io.on('connection', socket => {
+  console.log('shaking hands')
   socket.on('handshake', msg => {
     io.to(msg.receiveSocket).emit('handshake', {
       sendSocket: msg.sendSocket,
@@ -19,19 +20,8 @@ io.on('connection', socket => {
     })
   })
 
-  socket.on('sync', msg=> {
-    io.to(msg.to).emit('sync', {
-      from: msg.from
-    })
-  })
-
-
   socket.on('disconnect', () => {
     console.log('Client Disconnected');
-  })
-  
-  socket.on('sendChatMessage', msg => {
-    return io.to(msg.receiveSocket).emit('receiveChatMessage', msg)
   })
   
   socket.on("callUser", (data) => {
@@ -43,12 +33,22 @@ io.on('connection', socket => {
     });
   });
 
+  socket.on('sync', data => {
+    io.to(data.to).emit('sync', {
+      from: data.from
+    })
+  })
+
   socket.on("acceptCall", (data) => {
 
     io.to(data.userToCall).emit('callAccepted', {
       signalData: data.signalData,
       from: data.from
     }) 
+  })
+
+  socket.on("callEnded", data => {
+    io.to(data.to).emit('callEnded')
   })
 
 })
