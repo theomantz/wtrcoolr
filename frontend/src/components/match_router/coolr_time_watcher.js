@@ -103,10 +103,9 @@ class CoolrTimeWatcher extends React.Component {
       this.props.receiveRouted();
       this.props.history.push("/coolr")
     }
-    console.log(this.props.history)
+
 
     if (this.props.currentCoolrs.length > 0) {
-      console.log(this.props.currentCoolrs)
       this.props.pause();
       this.props.openModal();
     }
