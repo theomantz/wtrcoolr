@@ -113,15 +113,19 @@ router.get('/sockets/:email', (req, res) => {
     .catch(err => {
       res.status(400).json({error: 'Cannot find user'})
     })
-}) 
+});
 
 router.patch('/sockets', (req, res) => {
-
+  console.log(req.body.user.id)
+  console.log(req.body.sendSocket)
   User.findByIdAndUpdate(req.body.user.id, {$set: { socket: req.body.sendSocket }})
     .then((user) => {
-      res.json({ id: user.id, name: user.name, socket: user.socket}.status(200))
-    })
-    .catch(err => {
+      console.log('success')
+      console.log(user)
+      res.json({ id: user.id, name: user.name, socket: user.socket}).status(200)
+    }).catch(err => {
+      console.log('fail')
+      console.log(err)
       res.status(400).json({error: 'Cannot find user'})
     })
 })
