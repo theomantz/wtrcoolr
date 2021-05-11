@@ -156,7 +156,7 @@ router.post('/register', (req, res)=>{
           name: req.body.name,
           email: req.body.email,
           password: req.body.password,
-          active: true
+          active: "busy"
         });
 
         bcrypt.genSalt(10, (err, salt) => {
@@ -246,7 +246,7 @@ router.post('/login', (req, res) => {
         .then(isMatch => {
           if (isMatch) {
             
-            User.findByIdAndUpdate(user.id, {$set: {active: "busy"}})
+            User.findByIdAndUpdate(user.id, {$set: {active: "busy"}}).exec()
 
             const payload = {id: user.id, name: user.name, email: user.email, orgs: user.orgs, active: user.active, admins: user.admins}
             jwt.sign(

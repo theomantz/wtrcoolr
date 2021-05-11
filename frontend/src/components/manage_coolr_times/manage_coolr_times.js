@@ -9,9 +9,6 @@ import {editOrg} from '../../util/orgs_api_util'
 class ManageCoolrTimes extends React.Component {
     constructor(props) {
         super(props);
-
-        
-
         this.state={
             coolrTimes: [],
             day: '0',
@@ -21,11 +18,7 @@ class ManageCoolrTimes extends React.Component {
         
         this.handleSubmit = this.handleSubmit.bind(this)
         this.listTimes = this.listTimes.bind(this)
-        this.handleRemove = this.handleRemove.bind(this)
-
-        
-
-        
+        this.handleRemove = this.handleRemove.bind(this)       
 
     } //constructor
 
