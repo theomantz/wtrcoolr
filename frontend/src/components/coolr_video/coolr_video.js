@@ -166,8 +166,10 @@ class CoolrVideo extends React.Component {
 
   endCall() {
     /* Button to end calls using simple peer */
-    debugger
-    this.userPeer.destroy()
+    if(this.userPeer) {
+      this.userPeer.destroy()
+    }
+    
     this.socket.emit('callEnded', {
       to: this.state.receiveSocket
     })
