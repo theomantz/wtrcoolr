@@ -12,6 +12,12 @@ code {
     monospace;
 }
 
+html {
+  font-size: 16px;
+}
+
+
+
 
 @font-face {
   font-family: 'Monteserrat';

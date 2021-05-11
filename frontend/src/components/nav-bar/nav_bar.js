@@ -1,6 +1,7 @@
 // src/components/nav/navbar.js
 
 import React from 'react';
+import { ReactComponent as WtrcoolrLogo } from "../../assets/SVG/HeaderText.svg";
 import { v4 as uuidv4 } from 'uuid'
 import { Link } from 'react-router-dom'
 import './navbar.css'
@@ -93,7 +94,13 @@ class NavBar extends React.Component {
   render() {
       return (
         <div className="navbar">
-            <Link to={'/'} className="nav-logo">wtrcoolr</Link>
+            <Link to={'/'} className="nav-logo">
+              <WtrcoolrLogo style={{
+                zIndex: '2',
+                width: '200px',
+                height: '50px'
+                }}/>
+            </Link>
             { this.getLinks() }
         </div>
       );

@@ -78,3 +78,10 @@
   background-color: #D2F9FA;
   color: #7F3F98;
 }
+
+.demo-errors-container {
+  display: flex;
+  flex-direction: column;
+  height: 40px;
+  justify-content: space-between;
+}

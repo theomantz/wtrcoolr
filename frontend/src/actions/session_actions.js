@@ -87,13 +87,15 @@ export const demoLogin = demo => dispatch => {
       dispatch(getPublicOrgs());
       dispatch(receiveCurrentUser(decoded));
 
+
       return res;
 
     })
     .catch(err => {
 
       console.log(err)
-      // dispatch(receiveErrors(err.response.data));
-      return err
+      dispatch(receiveErrors(err.response.data));
+
+      return err.response
     })
 }

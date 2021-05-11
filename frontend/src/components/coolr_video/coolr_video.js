@@ -1,5 +1,6 @@
 import './coolr.css'
 import React from 'react';
+import { ReactComponent as WtrcoolrLogo } from "../../assets/SVG/HeaderText.svg";
 import { io } from 'socket.io-client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
@@ -58,6 +59,7 @@ class CoolrVideo extends React.Component {
   }
 
   debug(c) {
+    debugger
     if(process.env.NODE_ENV !== 'production') {
       console.log(c)
     }
@@ -75,31 +77,34 @@ class CoolrVideo extends React.Component {
     
     this.socket = io(socketURL, { transports: ["websocket"] });
     
-    let socketToFetch =
-      this.props.user.email === "theo@example.com"
-        ? "demo@example.com"
-        : "theo@example.com";
 
-    const { user } = this.props
+    const { 
+      user, 
+      initiator, 
+      fetchSocket, 
+      assignSocket,
+      userMatch
+    } = this.props
 
-    this.socket.on('connect', async data => {
+    this.socket.on('connect', data => {
       this.setState({ sendSocket: this.socket.id })
       this.debug('connecting')
       if( this.socket.id ) {
         
-        this.props.assignSocket({ user: user, sendSocket: this.socket.id })
+        assignSocket({ user: user, sendSocket: this.socket.id })
 
       }
 
     })
 
-    if(this.props.user) {
-      this.props.fetchSocket(socketToFetch);
+    if( user && initiator ) {
+
+      fetchSocket(userMatch);
+
     }
 
-    const { userMatch } = this.props
 
-
+    debugger
     if( !this.state.synced && !!userMatch.socket ) {
       this.debug('sending handshake')
       this.socket.emit('handshake', {
@@ -132,7 +137,7 @@ class CoolrVideo extends React.Component {
       })
     })
 
-    if ( this.props.initiator && this.state.receiveSocket ) {
+    if ( initiator && this.state.receiveSocket ) {
       
       this.debug('initiating call')
       
@@ -408,7 +413,7 @@ class CoolrVideo extends React.Component {
       <div className="coolr-call container">
         <div className="header">
           <div className="logo">
-            <h3>wtrcoolr</h3>
+            <WtrcoolrLogo style={{height: '60px'}}/>
           </div>
         </div>
         <div className="video main">

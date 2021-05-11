@@ -79,12 +79,14 @@ class OrgsIndex extends React.Component {
         let currentUser = this.props.currentUser
           return (
             <div className="org-index">
-                <h1>Public Organizations</h1>
+                <div className='org-index-title-container'>
+                    <h1>Public Organizations</h1>
+                </div>
                 <ul className="org-index-container">
                     {this.props.orgs.map((org) => (
                         <li key={org.id} className="org-index-listing">
-                            <button onClick={this.handleClick(org,currentUser)} className="join-org-button">{this.checkJoined(org)? 'Leave': 'Join'}</button>
                             <strong>{org.name}</strong>
+                            <button onClick={this.handleClick(org,currentUser)} className="org-index-button">{this.checkJoined(org)? 'Leave': 'Join'}</button>
                         </li> ))}
                 </ul>
             </div>

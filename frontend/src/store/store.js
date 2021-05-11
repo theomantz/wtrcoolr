@@ -4,15 +4,17 @@ import logger from "redux-logger";
 import rootReducer from "../reducers/root_reducer";
 
 const configureStore = (preloadedState = {}) => {
-  if(process.env.NODE_ENV === 'production') {
-    return createStore(
-      rootReducer,
-      preloadedState,
-      applyMiddleware(thunk)
-    );
-  }
+
+  let middleware = [thunk, logger]
+  
+  // if(process.env.NODE_ENV === 'production') {
+  //   middleware = [thunk]
+  // } else {
+  //   middleware = [thunk, logger]
+  // }
+
   return(
-    createStore(rootReducer, preloadedState, applyMiddleware(thunk, logger))
+    createStore(rootReducer, preloadedState, applyMiddleware(...middleware))
   )
 }
 

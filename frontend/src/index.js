@@ -42,6 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = "/#/";
       })
     }
+
+    console.log(decodedUser)
     
   } else {
     

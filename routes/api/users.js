@@ -185,10 +185,13 @@ router.post('/demoLogin', (req, res) =>{
     .then(users => {
       let filtered = users.filter((demo) => {return demo.active === "offline"})
       if (filtered.length === 0){
-        res.status(400).json({demo: "No Demo Account Available"})
+        res.status(400).json({demo: "Sorry No Demo Account Available"})
       } else {
         let user = filtered[0]
-        User.findOneAndUpdate({email: user.email}, {active: "busy"})
+        User.findOneAndUpdate(
+          {email: user.email}, 
+          {active: "busy"},
+          {new: true})
         .populate('orgs')
         .then(user => {
           const payload = {

@@ -17,6 +17,7 @@ class SessionForm extends React.Component {
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.renderDemoErrors = this.renderDemoErrors.bind(this);
   }
 
   componentWillUnmount() {
@@ -33,15 +34,13 @@ class SessionForm extends React.Component {
 
   demoLogIn(e) {
     e.preventDefault();
-    try {
-      this.props
-        .demoLogin()
-        .then((res) => {
+    this.props
+      .demoLogin()
+      .then((res) => {
+        if(res.status !== 400) {
           this.props.openModal("addInterests");
-        });
-    } catch (err) {
-      console.log(err);
-    }
+        } 
+      });
   }
 
   handleSubmit(e) {
@@ -72,6 +71,39 @@ class SessionForm extends React.Component {
       })
       .catch(() => {})
     }
+  }
+
+  renderDemoErrors() {
+
+    const { demo } = this.props.errors
+    
+    if(!demo) return null
+    
+    const { formType } = this.props
+    const textOrLink = (
+      formType === 'Log in' ?
+
+      <span 
+        className='signup-modal-link'
+        style={{textDecoration: 'underline', cursor: "pointer"}}
+        onClick={e => this.props.openModal('signup')}
+      >
+        Sign Up
+      </span> : 
+
+      'Sign Up' 
+    )
+
+    return (
+      <div className='demo-errors-container'>
+        <span className='demo-errors-span'>
+          {demo}
+        </span>
+        <span className='demo-options-span'>
+          You Could {textOrLink} Instead
+        </span>
+      </div>
+    )
   }
 
   render() {
@@ -142,7 +174,7 @@ class SessionForm extends React.Component {
           <button
             className='demo-user session-button'
             onClick={e => this.demoLogIn(e)}>Try it Out</button>
-            {this.props.errors.demo}
+            {this.renderDemoErrors()}
         </form>
       </div>
     )
