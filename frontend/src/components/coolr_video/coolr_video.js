@@ -105,7 +105,7 @@ class CoolrVideo extends React.Component {
 
 
     debugger
-    if( !this.state.synced && !!userMatch.socket ) {
+    if( !this.state.synced && userMatch ) {
       this.debug('sending handshake')
       this.socket.emit('handshake', {
         sendSocket: this.socket.id,
