@@ -242,7 +242,7 @@ router.post('/login', (req, res) => {
         .then(isMatch => {
           if (isMatch) {
             
-            User.findByIdAndUpdate(user.id, {$set: {active: "busy"}})
+            User.findByIdAndUpdate(user.id, {$set: {active: "busy"}}).exec()
 
             const payload = {id: user.id, name: user.name, email: user.email, orgs: user.orgs, active: user.active, admins: user.admins}
             jwt.sign(
