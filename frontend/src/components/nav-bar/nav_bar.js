@@ -38,9 +38,6 @@ class NavBar extends React.Component {
             <Link key={uuidv4()} className="navlink" to={"/"}>
               Dashboard
             </Link>
-            <Link key={uuidv4()} className="navlink" to={"/coolr"}>
-              Coolr
-            </Link>
             <Link key={uuidv4()} className="navlink" to={"/orgs"}>
               Orgs
             </Link>

@@ -27,7 +27,6 @@ class Calendar extends React.Component {
     }
 
     render() {
-        // console.log(this.state.orgs)
         return (
             <div className="calendar-container">
                 <div className="week-header">

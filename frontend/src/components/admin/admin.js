@@ -44,7 +44,6 @@ class Admin extends React.Component {
           }
 
         this.setState({onlineUsersId: online, allUsers: orgMembers})
-        console.log(this.state)
         
     }
 
@@ -52,7 +51,6 @@ class Admin extends React.Component {
     async getActiveUsers(orgId){
         let onlineMembers = await activeUsers().then(users=>(users.data));
         let orgMembers = await getOrgMembers(orgId).then(members=>(members.data))
-        console.log("worked")
         this.updateState(onlineMembers,orgMembers)
     }
 

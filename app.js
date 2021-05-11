@@ -11,9 +11,17 @@ const io = require("socket.io")(server);
 const index = require('./routes/api/chat')
 app.use(index)
 
+const debug = (c) => {
+  if(process.env.NODE_ENV !== 'production') {
+    console.log(c)
+  }
+}
+
 io.on('connection', socket => {
-  console.log('shaking hands')
+  
   socket.on('handshake', msg => {
+    debug('shaking hands')
+    debug(`from ${msg.sendSocket} to: ${msg.targetId}`)
     io.to(msg.receiveSocket).emit('handshake', {
       sendSocket: msg.sendSocket,
       targetId: msg.targetId
@@ -21,7 +29,7 @@ io.on('connection', socket => {
   })
 
   socket.on('disconnect', () => {
-    console.log('Client Disconnected');
+    debug('Client Disconnected');
   })
   
   socket.on("callUser", (data) => {

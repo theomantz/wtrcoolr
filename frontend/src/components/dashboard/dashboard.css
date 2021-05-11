@@ -6,7 +6,7 @@
   --primary-light: #D2F9FA;
   --primary-accent: #F1D9FA;
   --purple-accent: #7F3F98;
-  font-family: "Poppins", sans-serif;
+  --column-width: ( 350 + 2rem )px;
 }
 
 .dashboard-column{
@@ -14,7 +14,7 @@
     flex-direction: column;
     justify-content: space-evenly;
     height: 700px;
-    width: 28%;
+    width: 350px;
     margin: 2%;
     margin-top: 4%;
     background-color: rgba( 255, 255, 255, 0.9 );
@@ -26,13 +26,28 @@
 }
 
 .dashboard-container{
-    display: flex;
+    display: grid;
     height: 100vw;
     justify-content: center;
     font-family: 'Montserrat', sans-serif;
     background-image: url('../../assets/jazz-cup-theme.jpg');
+    column-gap: 10px;
     background-size: cover;
 }
+
+@media screen and (min-width: 0) {
+    .dashboard-container {
+        grid-template-columns: repeat(1, 360px);
+    }
+}
+
+@media screen and (min-width: 1080px) {
+    .dashboard-container {
+        grid-template-columns: repeat(3, 360px);
+    }
+}
+
+
 
 .column-title{
     font-size: 32px;

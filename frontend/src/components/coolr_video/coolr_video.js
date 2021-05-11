@@ -59,7 +59,6 @@ class CoolrVideo extends React.Component {
   }
 
   debug(c) {
-    debugger
     if(process.env.NODE_ENV !== 'production') {
       console.log(c)
     }
@@ -98,20 +97,29 @@ class CoolrVideo extends React.Component {
     })
 
     if( user && initiator ) {
-
-      fetchSocket(userMatch);
-
+      fetchSocket(userMatch).then(() => {
+        this.debug("sending handshake");
+        const { userMatchObject } = this.props
+        this.socket.emit("handshake", {
+          sendSocket: this.socket.id,
+          receiveSocket: userMatchObject.socket,
+          targetId: userMatchObject.id,
+        });
+      });
     }
 
 
-    debugger
-    if( !this.state.synced && userMatch ) {
-      this.debug('sending handshake')
-      this.socket.emit('handshake', {
-        sendSocket: this.socket.id,
-        receiveSocket: userMatch.socket,
-        targetId: userMatch.id
-      })
+  
+    if( initiator ) {
+      const { userMatchObject } = this.props
+      if( !this.state.synced && userMatchObject ) {
+        this.debug('sending handshake')
+        this.socket.emit('handshake', {
+          sendSocket: this.socket.id,
+          receiveSocket: userMatch.socket,
+          targetId: userMatch.id
+        })
+      }
     }
 
     this.socket.on('handshake', data => {
@@ -236,7 +244,6 @@ class CoolrVideo extends React.Component {
           });
           
           this.userPeer.on("stream", stream => {
-            // debugger
             this.peerVideo = stream
             const peerVideo = document.getElementById('peer-video')
             if('srcObject' in peerVideo) {

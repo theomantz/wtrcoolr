@@ -32,26 +32,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if( demoUsers.includes(decodedUser.email) ) {
-      if( decodedUser.active === 'offline' ) {
-        store.dispatch(logout(decodedUser))
-        window.location.href = "/#/";
-      }
       window.addEventListener('beforeunload', e => {
         e.preventDefault()
         store.dispatch(logout(decodedUser))
-        window.location.href = "/#/";
       })
     }
 
-    console.log(decodedUser)
     
   } else {
     
     store = configureStore({});
-    console.log(store)
+
   }
 
-  console.log(store)
   
   const root = document.getElementById("root");
 

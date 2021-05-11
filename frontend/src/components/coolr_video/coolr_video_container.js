@@ -13,12 +13,12 @@ import { withRouter } from 'react-router-dom';
 
 
 const mapStateToProps = ({ session, messages, entities }) => {
-  debugger
   return {
     user: session.user,
     messages: messages,
     userMatch:
       entities.users.match === "available" ? null : entities.users.match,
+    userMatchObject: entities.users.match ? null : entities.users,
     initiator: Boolean(entities.users.match !== "available"),
   };
 };
