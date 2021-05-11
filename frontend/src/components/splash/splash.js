@@ -72,10 +72,10 @@ class Splash extends React.Component {
                   <strong>Jack Egbert</strong>
                   Backend Engineer
                   <div className="socmed-icons">
-                  <a href="https://github.com/jhnegbrt">
+                  <a href="https://github.com/jhnegbrt" target="_blank">
                       <i className="fab fa-github"></i>
                   </a>
-                  <a href="https://www.linkedin.com/in/jack-egbert/">
+                  <a href="https://www.linkedin.com/in/jack-egbert/" target="_blank">
                       <i className="fab fa-linkedin"></i>
                   </a>
                   </div>
@@ -86,10 +86,10 @@ class Splash extends React.Component {
                   <strong>Theo Mantz</strong>
                   Project Lead
                   <div className="socmed-icons">
-                  <a href="https://github.com/theomantz">
+                  <a href="https://github.com/theomantz" target="_blank">
                       <i className="fab fa-github"></i>
                   </a>
-                  <a href="https://www.linkedin.com/in/theo-mantz/">
+                  <a href="https://www.linkedin.com/in/theo-mantz/" target="_blank">
                       <i className="fab fa-linkedin"></i>
                   </a>
                   </div>
@@ -100,10 +100,10 @@ class Splash extends React.Component {
                   <strong>Gino Reyes</strong>
                   Frontend Engineer
                   <div className="socmed-icons">
-                  <a href="https://github.com/grmreyes">
+                  <a href="https://github.com/grmreyes" target="_blank">
                       <i className="fab fa-github"></i>
                   </a>
-                  <a href="https://www.linkedin.com/in/grmreyes/">
+                  <a href="https://www.linkedin.com/in/grmreyes/" target="_blank">
                       <i className="fab fa-linkedin"></i>
                   </a>
                   </div>
@@ -114,10 +114,10 @@ class Splash extends React.Component {
                   <strong>Everett Smith</strong>
                   Full-Stack Engineer
                   <div className="socmed-icons">
-                  <a href="https://github.com/evrtt">
+                  <a href="https://github.com/evrtt" target="_blank">
                       <i className="fab fa-github"></i>
                   </a>
-                  <a href="https://www.linkedin.com/in/everett-smith-924798153/">
+                  <a href="https://www.linkedin.com/in/everett-smith-924798153/" target="_blank">
                       <i className="fab fa-linkedin"></i>
                   </a>
                   </div>
