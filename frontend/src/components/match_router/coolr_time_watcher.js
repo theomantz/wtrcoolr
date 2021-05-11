@@ -1,12 +1,14 @@
 import { connect } from 'react-redux'
 import React from 'react'
 import { 
-  // queryMatch, 
   addCurrentCoolrs,
   removeCurrentCoolrs,
   pauseCounter,
   receiveRouted,
-  addToNotified
+  addToNotified,
+  removeNotifiedCoolrs,
+  clearCurrentCoolrs,
+  clearNotifiedCoolrs
  } from '../../actions/match_actions';
 import { 
   applyUTCoffset, 
@@ -20,34 +22,19 @@ class CoolrTimeWatcher extends React.Component {
 
   constructor(props) {
     super(props) 
-
-    this.state = {
-      localTime: new Date(),
-      localCoolrHoursStartAndEnd: []
-    }
-
     this.interval = this.interval.bind(this);
     this.usersCoolrTimesListLocal = this.usersCoolrTimesListLocal.bind(this);
     this.checkForCoolrTimes = this.checkForCoolrTimes.bind(this);
-    // this.markOffCoolers = this.markOffCoolers.bind(this);
   }
 
   componentDidMount() {
     this.backgroundInterval = setInterval(this.interval, 1000)
-    this.setState({
-      localCoolrHoursStartAndEnd: this.usersCoolrTimesListLocal(this.props.user.orgs)
-    })
   }
-
-  // markOffCoolers(coolrArr) {
-  //   this.props.addToNotified(coolrArr);
-  //   this.props.removeCurrentCoolrs(coolrArr);
-  // }
 
   usersCoolrTimesListLocal(orgs) {
     const localCoolrTimes = []
     if(orgs){orgs.forEach(org => {
-      if (org.coolrHours.length > 0) {
+      if (org.coolrHours.length > 0 && org) {
         org.coolrHours.forEach(coolrHour => {
           const adjCoolrHour = applyUTCoffset(coolrHour)
           const startAndEnd = calcEndAndStartStrings(adjCoolrHour)
@@ -59,34 +46,51 @@ class CoolrTimeWatcher extends React.Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.backgroundInterval)
+    clearInterval(this.backgroundInterval);
+    this.props.clearCurrentCoolrs();
+    this.props.clearNotifiedCoolrs();
   }
 
   interval() {
     if(!this.props.paused) {
       const localTime = new Date();
-      this.checkForCoolrTimes(localTime, this.state.localCoolrHoursStartAndEnd)
+      const localCoolrTimes = this.usersCoolrTimesListLocal(this.props.user.orgs)
+      this.checkForCoolrTimes(localTime, localCoolrTimes)
     }
   }
 
   checkForCoolrTimes(localTime, coolrHours) {
     let addCoolrs = [];
     let removeCoolrs = [];
+    let removeNotified = [];
+    let listOfCurrentCoolrStrings = this.props.currentCoolrs.map(
+      clr => JSON.stringify(clr)
+    )
+    let listOfNotifiedCoolrStrings = this.props.notifiedOfCoolrs.map(
+      clr => JSON.stringify(clr)
+    )
     coolrHours.forEach(coolrHour => {
+      let stringified = JSON.stringify(coolrHour)
       if(
-        (!this.props.currentCoolrs.includes(coolrHour))
+        (!listOfCurrentCoolrStrings.includes(stringified))
         &&
-        (!this.props.notifiedOfCoolrs.includes(coolrHour))
+        (!listOfNotifiedCoolrStrings.includes(stringified))
         &&
         happeningNow(coolrHour[0].startStr, coolrHour[0].endStr, localTime)
       ) {
         addCoolrs.push(coolrHour);
       } else if (
-        this.props.currentCoolrs.includes(coolrHour)
+        listOfCurrentCoolrStrings.includes(stringified)
         &&
         (!happeningNow(coolrHour[0].startStr, coolrHour[0].endStr, localTime))
       ) {
         removeCoolrs.push(coolrHour);
+      } else if (
+        listOfNotifiedCoolrStrings.includes(stringified)
+        &&
+        (!happeningNow(coolrHour[0].startStr, coolrHour[0].endStr, localTime))
+      ) {
+        removeNotified.push(coolrHour);
       }
     });
     if (addCoolrs.length > 0) {
@@ -94,6 +98,9 @@ class CoolrTimeWatcher extends React.Component {
     }
     if (removeCoolrs.length > 0) {
       this.props.removeCurrentCoolrs(removeCoolrs)
+    }
+    if (removeNotified.length > 0) {
+      this.props.removeNotifiedCoolrs(removeNotified)
     }
   }
 
@@ -103,17 +110,8 @@ class CoolrTimeWatcher extends React.Component {
       this.props.receiveRouted();
       this.props.history.push("/coolr")
     }
-
-
-    if (this.props.currentCoolrs.length > 0) {
-      this.props.pause();
-      this.props.openModal();
-    }
-    
-
-    if(this.props.history.location.pathname === "/coolr") {
-      this.props.pause()
-    }
+    if (this.props.currentCoolrs.length > 0) { this.props.openModal() }
+    if(this.props.history.location.pathname === "/coolr") { this.props.pause() }
     return null
   }
 }
@@ -127,13 +125,15 @@ const mSTP = state => ({
 })
 
 const mDTP = dispatch => ({
-  // queryMatch: userData => dispatch(queryMatch(userData)),
   addCurrentCoolrs: currentCoolrs => dispatch(addCurrentCoolrs(currentCoolrs)),
   removeCurrentCoolrs: currentCoolrs => dispatch(removeCurrentCoolrs(currentCoolrs)),
   openModal: () => dispatch(openModal('pairMatch')),
   pause: () => dispatch(pauseCounter()),
   receiveRouted: () => dispatch(receiveRouted()),
-  addToNotified: (coolrHours) => dispatch(addToNotified(coolrHours))
-})
+  addToNotified: (coolrHours) => dispatch(addToNotified(coolrHours)),
+  removeNotifiedCoolrs: (coolrHours) => dispatch(removeNotifiedCoolrs(coolrHours)),
+  clearCurrentCoolrs: () => dispatch(clearCurrentCoolrs()),
+  clearNotifiedCoolrs: () => dispatch(clearNotifiedCoolrs())
+ })
 
 export default withRouter(connect(mSTP, mDTP)(CoolrTimeWatcher));

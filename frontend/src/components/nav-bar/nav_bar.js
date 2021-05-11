@@ -21,7 +21,7 @@ class NavBar extends React.Component {
 
   handleClick(type) {
     return () => this.props.openModal(type)
-  }
+  }  
 
   // Selectively render links dependent on whether the user is logged in
   getLinks() {
@@ -38,6 +38,15 @@ class NavBar extends React.Component {
             <Link key={uuidv4()} className="navlink" to={"/"}>
               Dashboard
             </Link>
+
+            <strong
+              key={uuidv4()}
+              className="navlink"
+              onClick={this.handleClick("pairMatch")}
+            >
+              Coolr
+            </strong>
+
             <Link key={uuidv4()} className="navlink" to={"/orgs"}>
               Orgs
             </Link>

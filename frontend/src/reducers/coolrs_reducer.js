@@ -2,6 +2,7 @@ import {
   ADD_CURRENT_COOLRS,
   PROMPTED_USER,
   REMOVE_CURRENT_COOLRS,
+  CLEAR_CURRENT_COOLRS
 } from '../actions/match_actions';
 
 
@@ -23,6 +24,9 @@ const coolrReducer = (state = [], action) => {
           return [clr[0], clr[1], {notified: true}] 
         }
       })
+    case CLEAR_CURRENT_COOLRS:
+      let clearState = []
+      return clearState;
     default:
       return state;
   }
