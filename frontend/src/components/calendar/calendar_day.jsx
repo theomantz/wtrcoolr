@@ -1,5 +1,6 @@
 import React from 'react';
 import CoolrHour from './coolr_hour';
+import { v4 as uuidv4 } from 'uuid'
 import { applyUTCoffset } from '../../util/time_conversion_util';
 
 class CalendarDay extends React.Component {
@@ -76,7 +77,7 @@ class CalendarDay extends React.Component {
           </ul>
           <ul className="org-name-list">
             {this.todaysCoolrTimesList().map(arr => {
-              return <li>{arr[1]}</li>
+              return <li key={uuidv4()}>{arr[1]}</li>
             })}
           </ul>
         </div>  

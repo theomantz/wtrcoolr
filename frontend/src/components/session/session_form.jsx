@@ -32,17 +32,23 @@ class SessionForm extends React.Component {
   }
 
   demoLogIn(e) {
-    e.preventDefault()
+    debugger;
+    e.preventDefault();
     try {
-      this.props.demoAction({
-        email: 'demo@example.com',
-        password: 'wtrcoolrdemo'
-      }).then(res => {
-        this.props.openModal('addInterests')
-      })
+      let test = this.props
+        .demoAction({
+          email: "demo@example.com",
+          password: "wtrcoolrdemo",
+        })
+        .then((res) => {
+          this.props.openModal("addInterests");
+        });
+      console.log(test);
     } catch (err) {
-      console.log(err)
-    } 
+      console.log(err);
+    }
+
+    // demo2: demo2@example.com, wtrcoolrdemo
   }
 
   handleSubmit(e) {
@@ -136,14 +142,13 @@ class SessionForm extends React.Component {
           <input 
             type="submit" 
             value={this.props.formType}
+            className='submit-button session-button'
             onClick={(e) => e.stopPropagation()}
           />
           <span className='session-demo-span'>Or</span>
           <button
-            className='demo-user'
+            className='demo-user session-button'
             onClick={e => this.demoLogIn(e)}>Try it Out</button>
-            
-          
         </form>
       </div>
     )
