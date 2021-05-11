@@ -21,6 +21,5 @@ export const logout = user => {
 }
 
 export const demoLogin = demo => {
-  return axios.post("/api/demo/login", demo)
+  return axios.post("/api/users/demoLogin", demo)
 }
-

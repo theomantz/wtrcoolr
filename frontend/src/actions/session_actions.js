@@ -78,6 +78,7 @@ export const logout = (user) => (dispatch) => {
 export const demoLogin = demo => dispatch => {
   return APIUtil.demoLogin(demo)
     .then(res => {
+
       const { token } = res.data;
       localStorage.setItem("jwtToken", token);
       APIUtil.setAuthToken(token);
@@ -87,9 +88,12 @@ export const demoLogin = demo => dispatch => {
       dispatch(receiveCurrentUser(decoded));
 
       return res;
+
     })
     .catch(err => {
-      dispatch(receiveErrors(err.response.data));
+
+      console.log(err)
+      // dispatch(receiveErrors(err.response.data));
       return err
     })
 }

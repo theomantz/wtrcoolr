@@ -6,6 +6,7 @@ import {
 import SessionForm from './session_form';
 import {
   login,
+  demoLogin,
   clearErrors
 } from '../../actions/session_actions'
 
@@ -16,7 +17,7 @@ const mSTP = state => ({
 
 const mDTP = dispatch => ({
   formAction: (user) => dispatch(login(user)),
-  demoAction: (demoUser) => dispatch(login(demoUser)),
+  demoLogin: () => dispatch(demoLogin()),
   closeModal: () => dispatch(closeModal()),
   openModal: (modal) => dispatch(openModal(modal)),
   clearErrors: () => dispatch(clearErrors())

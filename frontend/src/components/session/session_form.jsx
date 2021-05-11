@@ -32,23 +32,16 @@ class SessionForm extends React.Component {
   }
 
   demoLogIn(e) {
-    debugger;
     e.preventDefault();
     try {
-      let test = this.props
-        .demoAction({
-          email: "demo@example.com",
-          password: "wtrcoolrdemo",
-        })
+      this.props
+        .demoLogin()
         .then((res) => {
           this.props.openModal("addInterests");
         });
-      console.log(test);
     } catch (err) {
       console.log(err);
     }
-
-    // demo2: demo2@example.com, wtrcoolrdemo
   }
 
   handleSubmit(e) {
@@ -149,6 +142,7 @@ class SessionForm extends React.Component {
           <button
             className='demo-user session-button'
             onClick={e => this.demoLogIn(e)}>Try it Out</button>
+            {this.props.errors.demo}
         </form>
       </div>
     )

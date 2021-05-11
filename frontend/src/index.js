@@ -8,14 +8,20 @@ import configureStore from "./store/store";
 import jwt_decode from "jwt-decode";
 
 document.addEventListener("DOMContentLoaded", () => {
+
   let store;
+  
   if (localStorage.jwtToken) {
+
     setAuthToken(localStorage.jwtToken);
     const decodedUser = jwt_decode(localStorage.jwtToken);
+
+    const demoUsers = ['demo@example.com', 'demo3@example.com']
 
     const preloadedState = {
       session: { isAuthenticated: true, user: decodedUser },
     };
+
     store = configureStore(preloadedState);
 
     const currentTime = Date.now() / 1000;
@@ -24,9 +30,26 @@ document.addEventListener("DOMContentLoaded", () => {
       store.dispatch(logout(decodedUser));
       window.location.href = "/#/";
     }
+
+    if( demoUsers.includes(decodedUser.email) ) {
+      if( decodedUser.active === 'offline' ) {
+        store.dispatch(logout(decodedUser))
+        window.location.href = "/#/";
+      }
+      window.addEventListener('beforeunload', e => {
+        e.preventDefault()
+        store.dispatch(logout(decodedUser))
+        window.location.href = "/#/";
+      })
+    }
+    
   } else {
+    
     store = configureStore({});
+    console.log(store)
   }
+
+  console.log(store)
   
   const root = document.getElementById("root");
 

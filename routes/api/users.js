@@ -114,16 +114,10 @@ router.get('/sockets/:email', (req, res) => {
 });
 
 router.patch('/sockets', (req, res) => {
-  console.log(req.body.user.id)
-  console.log(req.body.sendSocket)
   User.findByIdAndUpdate(req.body.user.id, {$set: { socket: req.body.sendSocket }})
     .then((user) => {
-      console.log('success')
-      console.log(user)
       res.json({ id: user.id, name: user.name, socket: user.socket}).status(200)
     }).catch(err => {
-      console.log('fail')
-      console.log(err)
       res.status(400).json({error: 'Cannot find user'})
     })
 })
@@ -164,8 +158,11 @@ router.post('/register', (req, res)=>{
             newUser
               .save()
               .then(user => {
-                const payload = {id: user.id, name: user.name, email: user.email, orgs: user.orgs, active: user.active, admins: user.admins}
-
+                const payload = {
+                  id: user.id, name: user.name, 
+                  email: user.email, orgs: user.orgs, 
+                  active: user.active, admins: user.admins
+                }
                 jwt.sign(payload, keys.secretOrKey, {expiresIn: 3600}, (err, token) =>{
                   res.json({
                     success: true,
@@ -188,22 +185,34 @@ router.post('/demoLogin', (req, res) =>{
     .then(users => {
       let filtered = users.filter((demo) => {return demo.active === "offline"})
       if (filtered.length === 0){
-        res.status(400).json("No Demo Account Available")
+        res.status(400).json({demo: "No Demo Account Available"})
       } else {
         let user = filtered[0]
-        User.findOneAndUpdate({email: user.email}, {active: "busy"}).exec()
-        const payload = {id: user.id, name: user.name, email: user.email, orgs: user.orgs, active: user.active, admins: user.admins}
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          {expiresIn: 3600},
-          (err, token) =>{
-            res.json({
-              succcess: true,
-              token: 'Bearer ' + token
-            })
-          }
-        )
+        User.findOneAndUpdate({email: user.email}, {active: "busy"})
+        .populate('orgs')
+        .then(user => {
+          const payload = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            orgs: user.orgs,
+            active: user.active,
+            admins: user.admins,
+            initiator: Boolean(filtered.length === 1),
+          };
+          jwt.sign(
+            payload,
+            keys.secretOrKey,
+            { expiresIn: 3600 },
+            (err, token) => {
+              res.json({
+                succcess: true,
+                token: "Bearer " + token,
+              });
+            }
+          );
+        })
+        
       }
     })
 

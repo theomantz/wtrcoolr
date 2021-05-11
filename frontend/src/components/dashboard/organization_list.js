@@ -1,6 +1,8 @@
 import React from "react";
+import { v4 as uuid } from 'uuid'
 import './organization_list.css'
 import { Link } from "react-router-dom";
+
 
 
 class OrganizationList extends React.Component {
@@ -49,10 +51,19 @@ class OrganizationList extends React.Component {
 
       <div className="organization-list-container">
         {itemArr.map((item, index) => (
-          <div className="dashboard-org-list">
-            <strong>{item.content}</strong>
-            <div className="buttons-list">
-              {(item.admins.includes(this.props.currentUser.id)) ?  <Link className="admin-button" to={`admin/${item.id}`}>Admin</Link> : ""    }
+          <div key={uuid()} className="dashboard-org-list">
+            <strong key={uuid()}>{item.content}</strong>
+            <div key={uuid()} className="buttons-list">
+
+              {(item.admins.includes(this.props.currentUser.id)) ?  
+                <Link 
+                  className="admin-button" 
+                  to={`admin/${item.id}`}
+                  key={uuid()}
+                >
+                  Admin
+                </Link> : 
+              ""    }
               
               <button onClick={this.handleClick(item, this.props.currentUser)} className="leave-org-button">Leave</button>
             </div>
