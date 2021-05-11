@@ -28,6 +28,7 @@ class Modal extends React.Component {
     if (this.props.modal === 'pairMatch') {
       this.props.addToNotified(this.props.currentCoolrs)
       this.props.removeCurrentCoolrs(this.props.currentCoolrs)
+      this.props.unpause();
     } else if (this.props.modal ==='addInterests'){
       return
     }
@@ -35,7 +36,6 @@ class Modal extends React.Component {
       return
     }
     this.props.closeModal();
-    this.props.unpause();
   }
   
   render() {
@@ -62,9 +62,6 @@ class Modal extends React.Component {
       break;
     case 'pairMatch':
         component = <PairPrompt />;
-      break;
-    case 'coolr':
-        component = <CoolrPrompt />;
       break;
     case 'welcome':
       component = <Welcome />
