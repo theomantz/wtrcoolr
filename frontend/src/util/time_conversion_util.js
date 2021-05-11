@@ -35,7 +35,7 @@ export const applyUTCoffset = (str) => {
   }
 
   if (adjDay < 0) {
-    adjDay = 6 - (Math.abs(adjDay));
+    adjDay = 7 - (Math.abs(adjDay));
   }
 
   const finalHours = fixToStr(adjHours)
