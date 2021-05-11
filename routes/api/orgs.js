@@ -76,6 +76,7 @@ router.patch('/updateUsers', passport.authenticate('jwt', {session: false}), (re
       Org.findByIdAndUpdate(req.body.orgId, { $pull: {"members": req.body.userId, "admins": req.body.userId}}, { new: true })
         .then(org => res.json(org))
         .catch(err => res.status(404).json({userUpdateFailed: "Failed to update Org"}))
+        
     }
 
   }
