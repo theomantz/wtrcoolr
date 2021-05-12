@@ -110,7 +110,7 @@ router.get('/sockets/:email', (req, res) => {
   User.findOne({ email: email })
     .then(user => {
       const payload = { 
-        user: user.id, 
+        id: user.id, 
         name: user.name, 
         socket: user.socket, 
         email: user.email 

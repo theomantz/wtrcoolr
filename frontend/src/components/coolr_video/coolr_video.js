@@ -97,27 +97,32 @@ class CoolrVideo extends React.Component {
 
     })
 
-    if( user && initiator ) {
-      const { socket } = this
-      fetchSocket(userMatch).then(() => {
-        this.debug("sending handshake");
-        this.debug(socket.id)
-        const { userMatchObject } = this.props
-        this.debug(`userMatchObject from fetch:`)
-        this.debug(userMatchObject)
-        this.socket.emit("handshake", {
-          sendSocket: socket.id,
-          receiveSocket: userMatchObject.socket,
-          targetId: userMatchObject.id,
-        });
-      });
+    if( userMatch && initiator ) {
+      // const { socket } = this
+      fetchSocket(userMatch)
+      // .then(() => {
+      //   this.debug("sending handshake");
+      //   this.debug(socket)
+      //   this.debug(`socketId: ${socket.id}`)
+      //   const { userMatchObject } = this.props
+      //   this.debug(`userMatchObject from fetch:`)
+      //   this.debug(userMatchObject)
+      //   this.socket.emit("handshake", {
+      //     sendSocket: socket.id,
+      //     receiveSocket: userMatchObject.socket,
+      //     targetId: userMatchObject.id,
+      //   });
+      // });
     }
 
 
   
     if( initiator && this.props.userMatchObject ) {
       const { userMatchObject } = this.props
+      this.debug('socket Object:')
+      this.debug(this.socket.id)
       this.debug(`userMatchObject from props: ${userMatchObject}`)
+      this.debug(userMatchObject)
       if( !this.state.synced && userMatchObject ) {
         this.debug(`sending handshake to ${userMatchObject}`)
         this.socket.emit('handshake', {
