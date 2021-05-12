@@ -8,7 +8,6 @@ import CreateOrgFormContainer from "../create_org/create_org_container";
 import AddMemberContainer from '../admin/add_member_container'
 import AddInterestsContainer from '../interests/interests_form_container'
 import PairPrompt from '../match_router/pair_prompt';
-import CoolrPrompt from '../match_router/coolr_prompt';
 import Welcome from '../../components/splash/welcome'
 import { 
   unpauseCounter,

@@ -1,6 +1,5 @@
-import matchUsers from '../util/match_util';
+import { matchUsers, matchInterests, removeInterests } from '../util/match_util';
 import { receiveErrors } from './session_actions';
-
 
 export const RECEIVE_MATCH = "RECEIVE_MATCH";
 export const CLEAR_MATCH = 'CLEAR_MATCH';
@@ -14,8 +13,9 @@ export const ADD_TO_NOTIFIED = "MOVE_TO_NOTIFIED";
 export const SET_MATCH_ATTEMPTED = "SET_MATCH_ATTEMPTED";
 export const REMOVE_NOTIFIED_COOLRS = "REMOVE_NOTIFIED_COOLRS";
 export const CLEAR_CURRENT_COOLRS = "CLEAR_CURRENT_COOLRS";
-export const CLEAR_NOTIFIED_COOLRS = "CLEAR_NOTIFIED_COOLRS"
-
+export const CLEAR_NOTIFIED_COOLRS = "CLEAR_NOTIFIED_COOLRS";
+export const RECEIVE_MATCH_INTERESTS = "RECEIVE_MATCH_INTERESTS";
+export const CLEAR_MATCH_INTERESTS = "CLEAR_MATCH_INTERESTS";
 
 export const receieveMatch = (matchEmail) => ({
   type: RECEIVE_MATCH,
@@ -66,16 +66,54 @@ export const clearNotifiedCoolrs = () => ({
   type: CLEAR_NOTIFIED_COOLRS
 })
 
+export const receiveMatchInterests = (pojo) => ({
+  type: RECEIVE_MATCH_INTERESTS,
+  pojo
+})
+
+export const clearMatchInterests = () => ({
+  type: CLEAR_MATCH_INTERESTS
+})
+
+export const removeMatchInterests = (userId) => dispatch => {
+  return (
+    removeInterests(userId)
+      .then(() => dispatch(clearMatchInterests()))
+      .catch(errs => {
+        dispatch(receiveErrors(errs));
+      })
+  )
+};
+
+export const queryInterests = (userId) => dispatch => {
+  return (
+    matchInterests(userId)
+      .then(interests => {
+        dispatch(receiveMatchInterests({
+          interests: interests.data.interests,
+          nonStarters: interests.data.nonStarters,
+          userName: interests.data.username
+        }))
+      })
+      .catch(errs => {
+        dispatch(receiveErrors(errs));
+      })
+  )
+};
+
 export const queryMatch = (matchData) => dispatch => {  
   return (
     matchUsers(matchData)
       .then(matchEmail => {
-        dispatch(receieveMatch(matchEmail.data));       
-        return (matchEmail)
+        dispatch(receieveMatch(matchEmail.data.email));
+        dispatch(receiveMatchInterests({
+          interests: matchEmail.data.interests,
+          nonStarters: matchEmail.data.nonStarters,
+          userName: matchEmail.data.username
+        }))       
       })
       .catch(errs => {
         dispatch(receiveErrors(errs));
-        return (errs)
       })
   )
 }
