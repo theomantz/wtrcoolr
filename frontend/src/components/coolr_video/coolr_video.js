@@ -18,10 +18,6 @@ const style = {
   background: "#fffff",
 };
 
-/* Upcoming features:
-- Chat timeout function for initial 90 seconds and then automatically 
-cancelling the call at 5 minutes  */
-
 class CoolrVideo extends React.Component {
   constructor(props) {
     super(props);
@@ -59,9 +55,9 @@ class CoolrVideo extends React.Component {
   }
 
   debug(c) {
-    // if(process.env.NODE_ENV !== 'production') {
+    if(process.env.NODE_ENV !== 'production') {
       console.log(c)
-    // }
+    }
   }
 
   componentDidMount() {
@@ -98,21 +94,7 @@ class CoolrVideo extends React.Component {
     })
 
     if( userMatch && initiator ) {
-      // const { socket } = this
       fetchSocket(userMatch)
-      // .then(() => {
-      //   this.debug("sending handshake");
-      //   this.debug(socket)
-      //   this.debug(`socketId: ${socket.id}`)
-      //   const { userMatchObject } = this.props
-      //   this.debug(`userMatchObject from fetch:`)
-      //   this.debug(userMatchObject)
-      //   this.socket.emit("handshake", {
-      //     sendSocket: socket.id,
-      //     receiveSocket: userMatchObject.socket,
-      //     targetId: userMatchObject.id,
-      //   });
-      // });
     }
 
 

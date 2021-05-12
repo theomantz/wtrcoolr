@@ -12,9 +12,9 @@ const index = require('./routes/api/chat')
 app.use(index)
 
 const debug = (c) => {
-  // if(process.env.NODE_ENV !== 'production') {
+  if(process.env.NODE_ENV !== 'production') {
     console.log(c)
-  // }
+  }
 }
 
 io.on('connection', socket => {
