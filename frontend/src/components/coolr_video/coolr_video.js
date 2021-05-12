@@ -98,12 +98,15 @@ class CoolrVideo extends React.Component {
     })
 
     if( user && initiator ) {
+      const { socket } = this
       fetchSocket(userMatch).then(() => {
         this.debug("sending handshake");
+        this.debug(socket)
         const { userMatchObject } = this.props
-        this.debug(`userMatchObject from fetch: ${userMatchObject}`)
+        this.debug(`userMatchObject from fetch:`)
+        this.debug(userMatchObject)
         this.socket.emit("handshake", {
-          sendSocket: this.socket.id,
+          sendSocket: socket.id,
           receiveSocket: userMatchObject.socket,
           targetId: userMatchObject.id,
         });
