@@ -38,7 +38,11 @@ class Splash extends React.Component {
                 </h1>
                 <p 
                   className='splash-text'>
-                  We're disrupting the watercooler chat industry.
+                  We're using technology to disrupt the watercooler chat industry
+                </p>
+                <p 
+                  className='splash-text'>
+                  Providing big impact from small talk
                 </p>
               </div>
           </div>

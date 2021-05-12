@@ -59,9 +59,9 @@ class CoolrVideo extends React.Component {
   }
 
   debug(c) {
-    if(process.env.NODE_ENV !== 'production') {
+    // if(process.env.NODE_ENV !== 'production') {
       console.log(c)
-    }
+    // }
   }
 
   componentDidMount() {
@@ -113,17 +113,17 @@ class CoolrVideo extends React.Component {
     if( initiator ) {
       const { userMatchObject } = this.props
       if( !this.state.synced && userMatchObject ) {
-        this.debug('sending handshake')
+        this.debug(`sending handshake to ${userMatchObject}`)
         this.socket.emit('handshake', {
           sendSocket: this.socket.id,
-          receiveSocket: userMatch.socket,
-          targetId: userMatch.id
+          receiveSocket: userMatchObject.socket,
+          targetId: userMatchObject.id
         })
       }
     }
 
     this.socket.on('handshake', data => {
-      this.debug('handshake received')
+      this.debug(`handshake received from ${data.sendSocket}`)
       
       this.setState( { receiveSocket: data.sendSocket } )
 
@@ -147,7 +147,7 @@ class CoolrVideo extends React.Component {
 
     if ( initiator && this.state.receiveSocket ) {
       
-      this.debug('initiating call')
+      this.debug(`initiating call with ${this.state.receiveSocket}`)
       
       this.initiateCall();
 
