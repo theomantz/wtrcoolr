@@ -21,7 +21,8 @@ io.on('connection', socket => {
   
   socket.on('handshake', msg => {
     debug('shaking hands')
-    debug(`from ${msg.sendSocket} to: ${msg.targetId}`)
+    debug(`msg: ${msg}`)
+    debug(`from ${msg.sendSocket} to: ${msg.receiveSocket}`)
     io.to(msg.receiveSocket).emit('handshake', {
       sendSocket: msg.sendSocket,
       targetId: msg.targetId
@@ -42,6 +43,7 @@ io.on('connection', socket => {
   });
 
   socket.on('sync', data => {
+    debug(`sending sync to ${data.to}`)
     io.to(data.to).emit('sync', {
       from: data.from
     })

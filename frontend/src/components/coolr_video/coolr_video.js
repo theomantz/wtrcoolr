@@ -76,6 +76,7 @@ class CoolrVideo extends React.Component {
     
     this.socket = io(socketURL, { transports: ["websocket"] });
     
+    this.debug(this.socket)
 
     const { 
       user, 
@@ -100,6 +101,7 @@ class CoolrVideo extends React.Component {
       fetchSocket(userMatch).then(() => {
         this.debug("sending handshake");
         const { userMatchObject } = this.props
+        this.debug(`userMatchObject from fetch: ${userMatchObject}`)
         this.socket.emit("handshake", {
           sendSocket: this.socket.id,
           receiveSocket: userMatchObject.socket,
@@ -110,8 +112,9 @@ class CoolrVideo extends React.Component {
 
 
   
-    if( initiator ) {
+    if( initiator && this.props.userMatchObject ) {
       const { userMatchObject } = this.props
+      this.debug(`userMatchObject from props: ${userMatchObject}`)
       if( !this.state.synced && userMatchObject ) {
         this.debug(`sending handshake to ${userMatchObject}`)
         this.socket.emit('handshake', {
