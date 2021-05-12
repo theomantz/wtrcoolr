@@ -21,7 +21,6 @@ io.on('connection', socket => {
   
   socket.on('handshake', msg => {
     debug('shaking hands')
-    debug(`msg: ${msg}`)
     debug(msg)
     debug(`from ${msg.sendSocket} to: ${msg.receiveSocket}`)
     io.to(msg.receiveSocket).emit('handshake', {
