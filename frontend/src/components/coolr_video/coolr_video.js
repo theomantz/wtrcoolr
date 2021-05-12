@@ -271,12 +271,12 @@ class CoolrVideo extends React.Component {
     if( this.props.initiator && this.state.receiveSocket ) {
       this.initiateCall()
     }
-    const { userMatch } = this.props;
-    if ( !this.state.synced && userMatch && !this.stream.current ) {
+    const { userMatchObject } = this.props;
+    if ( !this.state.synced && userMatchObject && !this.stream.current ) {
       this.socket.emit("handshake", {
         sendSocket: this.socket.id,
-        receiveSocket: userMatch.socket,
-        targetId: userMatch.user,
+        receiveSocket: userMatchObject.socket,
+        targetId: userMatchObject.user,
       });
     }
   }
