@@ -32,6 +32,9 @@ const UserSchema = new Schema(
       }],
       validate: [validateNonStartersLength, 'Non starters cannot exceed 6']
     },
+    match: {
+      type: Array
+    },
     orgs: {
       type: [{
         type: mongoose.Schema.Types.ObjectId,

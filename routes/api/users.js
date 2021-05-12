@@ -31,35 +31,38 @@ router.get('/email/:email', passport.authenticate('jwt', {session: false}), (req
 
 // passport.authenticate('jwt', {session: false}),
 
+// if (org.members.length === 0){
+//   User.findByIdAndUpdate(req.body.userId, {$set: {active: "available"}}, {new: true}).then(usr => {
+
+//     return res.json("available")
+//   })
+// } else 
+
 router.patch('/matchUsers', passport.authenticate('jwt', {session: false}), (req, res) =>{
 
   Org.findById(req.body.orgId, {members: 1})
     .populate({path: 'members', match: {active: "available", _id: { $not: { $eq: req.body.userId}}}})
     .then(org => {
-        if (org.members.length === 0){
-          User.findByIdAndUpdate(req.body.userId, {$set: {active: "available"}}, {new: true}).then(usr => {
-
-            return res.json("available")
-          })
-        } else {
-          let length = org.members.length
-          
-          let index;
-          if (length > 1){
-            index = Math.floor(Math.random()* length-1) + 1
-          } else{
-            index = 0
-          }
-          let member = org.members[index]
-          User.findByIdAndUpdate(req.body.userId, {$set: {active: "busy"}}).exec()
-          User.findByIdAndUpdate(member.id, {$set: {active: "busy"}}).exec()
-          res.json({email: member.email, interests: member.interests, nonStarters: member.nonStarters} )
+        let length = org.members.length
+        
+        let index;
+        if (length > 1){
+          index = Math.floor(Math.random()* length-1) + 1
+        } else{
+          index = 0
         }
+        let member = org.members[index]
+        User.findByIdAndUpdate(req.body.userId, {$set: {active: "busy"}}, {new: true})
+          .then(user =>{
+            User.findByIdAndUpdate(member.id, {$set: {active: "busy", match: [user.interests, user.nonStarters]}}).exec()
+          })
+        
+        res.json({username: member.username, email: member.email, interests: member.interests, nonStarters: member.nonStarters} )
     })
     .catch(err => {
 
       User.findByIdAndUpdate(req.body.userId, {$set: {active: "available"}}, {new: true}).then((user) => {
-        return res.json("available")
+        return res.json({email: "available"})
       })
     })
 }) 
