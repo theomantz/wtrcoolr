@@ -53,7 +53,7 @@ router.patch('/matchUsers', passport.authenticate('jwt', {session: false}), (req
           let member = org.members[index]
           User.findByIdAndUpdate(req.body.userId, {$set: {active: "busy"}}).exec()
           User.findByIdAndUpdate(member.id, {$set: {active: "busy"}}).exec()
-          res.json(member.email)
+          res.json({email: member.email, interests: member.interests, nonStarters: member.nonStarters} )
         }
     })
     .catch(err => {
