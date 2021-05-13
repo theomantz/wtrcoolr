@@ -12,19 +12,7 @@ class Calendar extends React.Component {
         }
     }
 
-    days() {
-        return (
-            [
-                0,
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-            ]
-        )
-    }
+    days() { return [ 0, 1, 2, 3, 4, 5, 6 ] }
 
     render() {
         return (
