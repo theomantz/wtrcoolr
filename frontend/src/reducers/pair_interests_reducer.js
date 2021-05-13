@@ -6,8 +6,7 @@ import {
 const initState = {
   interests: null,
   nonStarters: null,
-  username: null,
-  waiting: false
+  username: null
 }
 
 export default (state = initState, action) => {

@@ -1,0 +1,13 @@
+.waiting-for-another{
+  color: rgb(255, 187, 0);
+  font-size: 70px;
+  font-weight: 900;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-shadow: 0 0 0 white, 0 0 5px rgb(114, 114, 114), 0 0 2px rgb(114, 114, 114);
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+}
