@@ -261,12 +261,22 @@ router.post('/demoLogin', (req, res) =>{
 })
 
 router.get('/activeUsers', passport.authenticate('jwt', {session: false}), (req, res) => {
-  User.find({ active: true})
+
+  
+  User.find({active: {$ne: "offline"}})
     .then(activeUsers => {
       res.json(activeUsers)
     })
     .catch(err => res.status(404).json({noActiveUsers: "No Active Users"}))
 })
+
+// router.get('/activeUsers', passport.authenticate('jwt', {session: false}), (req, res) => {
+//   User.find({ active: true})
+//     .then(activeUsers => {
+//       res.json(activeUsers)
+//     })
+//     .catch(err => res.status(404).json({noActiveUsers: "No Active Users"}))
+// })
 
 router.patch('/active', passport.authenticate('jwt', {session: false}), (req, res) => {
   User.findByIdAndUpdate(req.body.id, {active: req.body.active}, {new: true})
@@ -331,13 +341,9 @@ router.post('/login', (req, res) => {
     })
 })
 
-router.get('/activeUsers', passport.authenticate('jwt', {session: false}), (req, res) => {
-  User.find({ active: true})
-    .then(activeUsers => {
-      res.json(activeUsers)
-    })
-    .catch(err => res.status(404).json({noActiveUsers: "No Active Users"}))
-})
+
+
+
 
 
 module.exports = router;
