@@ -4,7 +4,8 @@ import { combineReducers } from 'redux';
 import pausedReducer from './paused_reducer';
 import notifiedOfCoolrs from './notified_of_coolrs_reducer';
 import SocketReducer from './socket_reducer';
-import pairInterests from './pair_interests_reducer'
+import pairInterests from './pair_interests_reducer';
+import waiting from './waiting_reducer';
 
 export default combineReducers({
   modal: ModalReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   notifiedOfCoolrs: notifiedOfCoolrs,
   paused: pausedReducer,
   socket: SocketReducer,
-  pairInterests
+  pairInterests,
+  waiting
 })

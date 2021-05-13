@@ -16,6 +16,8 @@ export const CLEAR_CURRENT_COOLRS = "CLEAR_CURRENT_COOLRS";
 export const CLEAR_NOTIFIED_COOLRS = "CLEAR_NOTIFIED_COOLRS";
 export const RECEIVE_MATCH_INTERESTS = "RECEIVE_MATCH_INTERESTS";
 export const CLEAR_MATCH_INTERESTS = "CLEAR_MATCH_INTERESTS";
+export const START_WAITING = "START_WAITING";
+export const STOP_WAITING = "STOP_WAITING";
 
 export const receieveMatch = (matchEmail) => ({
   type: RECEIVE_MATCH,
@@ -75,6 +77,14 @@ export const clearMatchInterests = () => ({
   type: CLEAR_MATCH_INTERESTS
 })
 
+export const startWaiting = () => ({
+  type: START_WAITING
+})
+
+export const stopWaiting = () => ({
+  type: STOP_WAITING
+})
+
 export const removeMatchInterests = (userId) => dispatch => {
   return (
     removeInterests(userId)
@@ -112,6 +122,8 @@ export const queryMatch = (matchData) => dispatch => {
             nonStarters: matchEmail.data.nonStarters,
             userName: matchEmail.data.username
           }))       
+        } else {
+          dispatch(startWaiting())
         }
       })
       .catch(errs => {

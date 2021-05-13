@@ -17,6 +17,7 @@ import {
 } from '../../util/time_conversion_util';
 import { openModal } from '../../actions/modal_actions';
 import { withRouter } from 'react-router-dom';
+import './coolr_time_watcher.scss'
 
 class CoolrTimeWatcher extends React.Component {
 
@@ -112,7 +113,16 @@ class CoolrTimeWatcher extends React.Component {
     }
     if (this.props.currentCoolrs.length > 0) { this.props.openModal() }
     if(this.props.history.location.pathname === "/coolr") { this.props.pause() }
-    return null
+    
+    if(this.props.waiting) {
+      return (
+        <div className="waiting-for-another">
+          Waiting for another member
+        </div>
+      )
+    } else {
+      return null
+    }
   }
 }
 
@@ -121,7 +131,8 @@ const mSTP = state => ({
   currentCoolrs: state.ui.currentCoolrs,
   notifiedOfCoolrs: state.ui.notifiedOfCoolrs,
   paused: state.ui.paused,
-  matched: state.entities.users
+  matched: state.entities.users,
+  waiting: state.ui.waiting
 })
 
 const mDTP = dispatch => ({

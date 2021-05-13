@@ -181,6 +181,7 @@ class CoolrVideo extends React.Component {
     })
 
     this.props.history.replace('/')
+    this.props.stopWaiting();
   }
 
   endCallButton() {
@@ -196,7 +197,7 @@ class CoolrVideo extends React.Component {
   }
 
   receiveCall(data) {
-    
+    this.props.stopWaiting();
     navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
@@ -264,6 +265,9 @@ class CoolrVideo extends React.Component {
     console.log(!this.props.initiator)
     if(!this.props.initiator) {
       this.props.queryInterests(this.props.user.id);
+      // if (!!this.props.userMatchObject) {
+      //   this.props.stopWaiting();
+      // }
     }
   }
 
@@ -275,6 +279,7 @@ class CoolrVideo extends React.Component {
     }
     this.props.unpause();
     this.props.removeInterests(this.props.user.id);
+    this.props.stopWaiting();
   }
 
   handleMute() {
