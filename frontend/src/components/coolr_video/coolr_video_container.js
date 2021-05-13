@@ -10,6 +10,8 @@ import {
 } from '../../actions/users_actions';
 import { unpauseCounter  } from '../../actions/match_actions'
 import { withRouter } from 'react-router-dom';
+import { queryInterests, removeMatchInterests } from '../../actions/match_actions'
+
 
 
 const mapStateToProps = ({ session, messages, entities }) => {
@@ -28,7 +30,9 @@ const mapDispatchToProps = dispatch => ({
   assignSocket: userData => dispatch(assignSocket(userData)),
   removeSocket: user => dispatch(nullSocket(user)),
   fetchSocket: email => dispatch(fetchSocket(email)),
-  unpause: () => dispatch(unpauseCounter ())
+  unpause: () => dispatch(unpauseCounter ()),
+  removeInterests: (userId) => dispatch(removeMatchInterests(userId)),
+  queryInterests: (userId) => dispatch(queryInterests(userId))
 });
 
 export default withRouter(connect( mapStateToProps, mapDispatchToProps )(CoolrVideo))

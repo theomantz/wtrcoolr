@@ -261,6 +261,10 @@ class CoolrVideo extends React.Component {
         targetId: userMatchObject.user,
       });
     }
+    console.log(!this.props.initiator)
+    if(!this.props.initiator) {
+      this.props.queryInterests(this.props.user.id);
+    }
   }
 
   componentWillUnmount() {
@@ -269,7 +273,8 @@ class CoolrVideo extends React.Component {
       this.stream.getTracks()
         .forEach(track => track.stop())
     }
-    this.props.unpause()
+    this.props.unpause();
+    this.props.removeInterests(this.props.user.id);
   }
 
   handleMute() {
