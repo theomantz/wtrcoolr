@@ -26,7 +26,8 @@
 
 .dashboard-container{
     display: grid;
-    height: 100vw;
+    height: fit-content;
+    min-height: 100vh;
     justify-content: center;
     font-family: 'Montserrat', sans-serif;
     background-image: url('../../assets/jazz-cup-theme.jpg');

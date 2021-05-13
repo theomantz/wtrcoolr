@@ -5,6 +5,8 @@
     width: 100%;
     position: absolute;
     left: 0px;
+    height: fit-content;
+    min-height: 100vh;
     background-image: url("https://github.com/theomantz/wtrcoolr/wiki/images/jazz-cup-theme.jpg") ;
     background-size: cover;
     color: #7F3F98;
