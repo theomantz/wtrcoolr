@@ -54,10 +54,10 @@ router.patch('/matchUsers', passport.authenticate('jwt', {session: false}), (req
         let member = org.members[index]
         User.findByIdAndUpdate(req.body.userId, {$set: {active: "busy"}}, {new: true})
           .then(user =>{
-            User.findByIdAndUpdate(member.id, {$set: {active: "busy", match: [user.interests, user.nonStarters]}}).exec()
+            User.findByIdAndUpdate(member.id, {$set: {active: "busy", match: [user.name, user.interests, user.nonStarters]}}).exec()
           })
         
-        res.json({username: member.username, email: member.email, interests: member.interests, nonStarters: member.nonStarters} )
+        res.json({username: member.name, email: member.email, interests: member.interests, nonStarters: member.nonStarters} )
     })
     .catch(err => {
 
@@ -67,6 +67,22 @@ router.patch('/matchUsers', passport.authenticate('jwt', {session: false}), (req
     })
 }) 
 
+router.get('/interests/:userId', passport.authenticate('jwt', {session: false}), (req, res) => {
+
+  console.log(req.params.userId)
+  return User.findById(req.params.userId)
+    .then(user => res.json({interests: user.match[1], username: user.match[0], nonStarters: user.match[2]}))
+    .catch(err => res.status(404).json({ noCurrentUser: "No Current User" }))
+
+})
+
+router.patch('/interests', passport.authenticate('jwt', {session: false}), (req, res) => {
+
+  return User.findByIdAndUpdate(req.body.userId, { $set: { match: [] } })
+    .then(user => res.json({success: 'success'}))
+    .catch(err => res.status(404).json({ noCurrentUser: "No Current User" }))
+
+})
 
 
 router.patch('/edit', passport.authenticate('jwt', {session: false}), (req, res) =>{

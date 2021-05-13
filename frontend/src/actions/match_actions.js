@@ -106,11 +106,13 @@ export const queryMatch = (matchData) => dispatch => {
     matchUsers(matchData)
       .then(matchEmail => {
         dispatch(receieveMatch(matchEmail.data.email));
-        dispatch(receiveMatchInterests({
-          interests: matchEmail.data.interests,
-          nonStarters: matchEmail.data.nonStarters,
-          userName: matchEmail.data.username
-        }))       
+        if (matchEmail.data.email !== 'available') {
+          dispatch(receiveMatchInterests({
+            interests: matchEmail.data.interests,
+            nonStarters: matchEmail.data.nonStarters,
+            userName: matchEmail.data.username
+          }))       
+        }
       })
       .catch(errs => {
         dispatch(receiveErrors(errs));

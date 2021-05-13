@@ -6,7 +6,8 @@ export const matchUsers = matchData => {
 }
 
 export const matchInterests = (userId) => {
-  return axios.get('/api/users/interests', userId)
+  console.log(userId)
+  return axios.get(`/api/users/interests/${userId}`)
 }
 
 export const removeInterests = (userId) => {
