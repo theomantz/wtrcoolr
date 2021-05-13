@@ -265,9 +265,6 @@ class CoolrVideo extends React.Component {
     console.log(!this.props.initiator)
     if(!this.props.initiator) {
       this.props.queryInterests(this.props.user.id);
-      // if (!!this.props.userMatchObject) {
-      //   this.props.stopWaiting();
-      // }
     }
   }
 
