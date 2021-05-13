@@ -13,12 +13,13 @@
 }
 
 .org-name-header{
-    position: absolute;
-    left: 50%;
-    top: 10%;
-    transform: translateX(-50%);
+    position: relative;
+    text-align: center;
+    top: 2vh;
     font-size: 24px;
     color: #7F3F98;
+    font-family: 'Permanent Marker', cursive;
+    z-index: 2;
 }
 
 .admin-members-column{
