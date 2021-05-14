@@ -7,7 +7,8 @@ const keys = require('../../config/keys')
 const validateRegisterInput = require('../../validation/register')
 const validateLoginInput = require('../../validation/login')
 const passport = require('passport');
-const Org = require('../../models/Org')
+const Org = require('../../models/Org');
+const DemoCounter = require("../../models/DemoCounter");
 
 router.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
 
@@ -175,6 +176,7 @@ router.post('/register', (req, res)=>{
     return res.status(400).json(errors)
   }
 
+
   User.findOne({ email: req.body.email })
     .then(user => {
       if (user) {
@@ -218,47 +220,55 @@ router.post('/register', (req, res)=>{
 
 router.post('/demoLogin', (req, res) =>{
 
-  User.find().find({email: /^demo.*example.com$/})
-    .then(users =>{
-      res.json(users)
-    })
-    // .then(users => {
-    //   let filtered = users.filter((demo) => {return demo.active === "offline"})
-    //   if (filtered.length === 0){
-    //     res.status(400).json({demo: "Sorry No Demo Account Available"})
-    //   } else {
-    //     let user = filtered[0]
-    //     User.findOneAndUpdate(
-    //       {email: user.email}, 
-    //       {active: "busy"},
-    //       {new: true})
-    //     .populate('orgs')
-    //     .then(user => {
+  const newDemoCounter = new DemoCounter({
+    count: 1
+  })
 
-    //       const payload = {
-    //         id: user.id,
-    //         name: user.name,
-    //         email: user.email,
-    //         orgs: user.orgs,
-    //         active: user.active,
-    //         admins: user.admins,
-    //         initiator: Boolean(filtered.length === 1),
-    //       };
-    //       jwt.sign(
-    //         payload,
-    //         keys.secretOrKey,
-    //         { expiresIn: 3600 },
-    //         (err, token) => {
-    //           res.json({
-    //             succcess: true,
-    //             token: "Bearer " + token,
-    //           });
-    //         }
-    //       );
-    //     })
+  newDemoCounter.save()
+    .then(counter=>{
+      res.json(counter)
+    })
+
+  // newDemonCounter.save()
+
+  // User.find().find({email: /^demo.*example.com$/})
+  //   .then(users => {
+  //     let filtered = users.filter((demo) => {return demo.active === "offline"})
+  //     if (filtered.length === 0){
         
-    //   }
-    // })
+  //     } else {
+  //       let user = filtered[0]
+  //       User.findOneAndUpdate(
+  //         {email: user.email}, 
+  //         {active: "busy"},
+  //         {new: true})
+  //       .populate('orgs')
+  //       .then(user => {
+
+  //         const payload = {
+  //           id: user.id,
+  //           name: user.name,
+  //           email: user.email,
+  //           orgs: user.orgs,
+  //           active: user.active,
+  //           admins: user.admins,
+  //           initiator: Boolean(filtered.length === 1),
+  //         };
+  //         jwt.sign(
+  //           payload,
+  //           keys.secretOrKey,
+  //           { expiresIn: 3600 },
+  //           (err, token) => {
+  //             res.json({
+  //               succcess: true,
+  //               token: "Bearer " + token,
+  //             });
+  //           }
+  //         );
+  //       })
+        
+  //     }
+  //   })
 
 })
 
