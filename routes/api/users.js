@@ -230,7 +230,8 @@ router.post('/demoLogin', (req, res) =>{
             name: `wtrcoolr fan ${count.count}`,
             email: `demo${count.count}@example.com`,
             password: "111111",
-            active: "busy"
+            active: "busy",
+            orgs: ["6099c5e649292a11a460021e"]
           });
   
           bcrypt.genSalt(10, (err, salt) => {
@@ -244,7 +245,7 @@ router.post('/demoLogin', (req, res) =>{
                   const payload = {
                     id: user.id, name: user.name, 
                     email: user.email, orgs: user.orgs, 
-                    active: user.active, admins: user.admins
+                    active: user.active, admins: user.admins,
                   }
                   jwt.sign(payload, keys.secretOrKey, {expiresIn: 3600}, (err, token) =>{
                     res.json({
