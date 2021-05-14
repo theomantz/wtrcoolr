@@ -218,45 +218,47 @@ router.post('/register', (req, res)=>{
 
 router.post('/demoLogin', (req, res) =>{
 
-  User.find().or([{email:"demo@example.com"},{email:"demo3@example.com"}])
-    .then(users => {
-
-      let filtered = users.filter((demo) => {return demo.active === "offline"})
-      if (filtered.length === 0){
-        res.status(400).json({demo: "Sorry No Demo Account Available"})
-      } else {
-        let user = filtered[0]
-        User.findOneAndUpdate(
-          {email: user.email}, 
-          {active: "busy"},
-          {new: true})
-        .populate('orgs')
-        .then(user => {
-
-          const payload = {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            orgs: user.orgs,
-            active: user.active,
-            admins: user.admins,
-            initiator: Boolean(filtered.length === 1),
-          };
-          jwt.sign(
-            payload,
-            keys.secretOrKey,
-            { expiresIn: 3600 },
-            (err, token) => {
-              res.json({
-                succcess: true,
-                token: "Bearer " + token,
-              });
-            }
-          );
-        })
-        
-      }
+  User.find().find({email: /^demo.*example.com$/})
+    .then(users =>{
+      res.json(users)
     })
+    // .then(users => {
+    //   let filtered = users.filter((demo) => {return demo.active === "offline"})
+    //   if (filtered.length === 0){
+    //     res.status(400).json({demo: "Sorry No Demo Account Available"})
+    //   } else {
+    //     let user = filtered[0]
+    //     User.findOneAndUpdate(
+    //       {email: user.email}, 
+    //       {active: "busy"},
+    //       {new: true})
+    //     .populate('orgs')
+    //     .then(user => {
+
+    //       const payload = {
+    //         id: user.id,
+    //         name: user.name,
+    //         email: user.email,
+    //         orgs: user.orgs,
+    //         active: user.active,
+    //         admins: user.admins,
+    //         initiator: Boolean(filtered.length === 1),
+    //       };
+    //       jwt.sign(
+    //         payload,
+    //         keys.secretOrKey,
+    //         { expiresIn: 3600 },
+    //         (err, token) => {
+    //           res.json({
+    //             succcess: true,
+    //             token: "Bearer " + token,
+    //           });
+    //         }
+    //       );
+    //     })
+        
+    //   }
+    // })
 
 })
 
