@@ -11,6 +11,7 @@ import PairPrompt from '../match_router/pair_prompt';
 import Welcome from '../../components/splash/welcome'
 import { 
   unpauseCounter,
+  pauseCounter,
   addToNotified,
   removeCurrentCoolrs
  } from '../../actions/match_actions';
@@ -27,7 +28,6 @@ class Modal extends React.Component {
     if (this.props.modal === 'pairMatch') {
       this.props.addToNotified(this.props.currentCoolrs)
       this.props.removeCurrentCoolrs(this.props.currentCoolrs)
-      this.props.unpause();
     } else if (this.props.modal ==='addInterests'){
       return
     }
@@ -35,6 +35,7 @@ class Modal extends React.Component {
       return
     }
     this.props.closeModal();
+    this.props.unpause();
   }
   
   render() {
@@ -93,6 +94,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     closeModal: () => dispatch(closeModal()),
     unpause: () => dispatch(unpauseCounter()),
+    pause: () => dispatch(pauseCounter()),
     addToNotified: (coolrHours) => dispatch(addToNotified(coolrHours)),
     removeCurrentCoolrs: (coolrHours) => dispatch(removeCurrentCoolrs(coolrHours))
   };

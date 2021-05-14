@@ -4,11 +4,14 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  width: 45vw;
+  width: 75vw;
+  max-height: 95vh;
   height: fit-content;
   border-radius: 25px;
   text-align: center;
   border: 1px solid lightgray;
+  overflow: scroll;
+  padding-bottom: 20px;
 }
 
 .welcome-modal h2{
@@ -81,3 +84,28 @@
   margin-bottom: 2%;
   line-height: 2rem;
 }
+
+.recruiters p{
+  font-size: 16px;
+  text-align: left;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 2%;
+  line-height: 1rem;
+}
+
+.recruiters h3{
+    font-size: 2rem;
+    margin-bottom: 3%;
+}
+
+.recruiters h4{
+  text-align: left;
+  margin-left: 5%;
+  font-weight: 700;
+  font-size: 18px;
+  text-decoration: underline;
+  text-decoration-color: #4AC2C5;
+  margin-bottom: 2%
+}
+
