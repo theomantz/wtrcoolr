@@ -220,16 +220,12 @@ router.post('/register', (req, res)=>{
 
 router.post('/demoLogin', (req, res) =>{
 
-  const newDemoCounter = new DemoCounter({
-    count: 1
-  })
 
-  newDemoCounter.save()
-    .then(counter=>{
-      res.json(counter)
+  DemoCounter.findOneAndUpdate({},{$inc: {"count":1}}, {$new: true})
+    .then(c=>{
+      res.json(c.count + 1)
     })
 
-  // newDemonCounter.save()
 
   // User.find().find({email: /^demo.*example.com$/})
   //   .then(users => {
