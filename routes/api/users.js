@@ -7,7 +7,8 @@ const keys = require('../../config/keys')
 const validateRegisterInput = require('../../validation/register')
 const validateLoginInput = require('../../validation/login')
 const passport = require('passport');
-const Org = require('../../models/Org')
+const Org = require('../../models/Org');
+const DemoCounter = require("../../models/DemoCounter");
 
 router.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
 
@@ -175,6 +176,7 @@ router.post('/register', (req, res)=>{
     return res.status(400).json(errors)
   }
 
+
   User.findOne({ email: req.body.email })
     .then(user => {
       if (user) {
@@ -218,12 +220,44 @@ router.post('/register', (req, res)=>{
 
 router.post('/demoLogin', (req, res) =>{
 
-  User.find().or([{email:"demo@example.com"},{email:"demo3@example.com"}])
+  User.find().find({email: /^demo.*example.com$/})
     .then(users => {
-
       let filtered = users.filter((demo) => {return demo.active === "offline"})
       if (filtered.length === 0){
-        res.status(400).json({demo: "Sorry No Demo Account Available"})
+        DemoCounter.findOneAndUpdate({},{$inc: {"count":1}}, {new: true})
+        .then(count=>{
+          const newUser = new User({
+            name: `wtrcoolr fan ${count.count}`,
+            email: `demo${count.count}@example.com`,
+            password: "111111",
+            active: "busy",
+            orgs: ["6099c5e649292a11a460021e"]
+          });
+  
+          bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(newUser.password, salt, (err, hash) => {
+              if (err) throw err;
+              newUser.password = hash;
+              newUser
+                .save()
+                .then(user => {
+                  //have to add the organizations as well
+                  const payload = {
+                    id: user.id, name: user.name, 
+                    email: user.email, orgs: user.orgs, 
+                    active: user.active, admins: user.admins,
+                  }
+                  jwt.sign(payload, keys.secretOrKey, {expiresIn: 3600}, (err, token) =>{
+                    res.json({
+                      success: true,
+                      token: "Bearer " + token
+                    });
+                  })
+                })
+                .catch(err => console.log(err))
+            })
+          })  
+        })
       } else {
         let user = filtered[0]
         User.findOneAndUpdate(
