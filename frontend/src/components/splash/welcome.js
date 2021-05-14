@@ -45,6 +45,28 @@ const Welcome = () =>{
           another online member (chosen randomly) from the same organization.
         </p>
       </div>
+      <div className="recruiters">
+        <h3>Here for a quick tour?</h3>
+        <h4>
+          To test the video chat feature on your own:
+        </h4>
+        <p>
+          1. Turn your volume down in anticipation of the echo.
+        </p>
+        <p>
+          2. Open two browsers, making sure one is incognito. 
+        </p>
+        <p>
+          3. On both browsers, click 'Try it Out' to login as demo users. 
+        </p>
+        <p>
+          4. On both browsers, fill out interests OR click 'Get Started' to skip it.
+        </p>
+        <p>
+          5. On both browsers, click 'Chat with a Member' to join the video chat when prompted.
+        </p>
+        
+      </div>
       <button className="enter">Cool</button>
     </div>
   );
