@@ -220,51 +220,76 @@ router.post('/register', (req, res)=>{
 
 router.post('/demoLogin', (req, res) =>{
 
+  User.find().find({email: /^demo.*example.com$/})
+    .then(users => {
+      let filtered = users.filter((demo) => {return demo.active === "offline"})
+      if (filtered.length === 0){
+        DemoCounter.findOneAndUpdate({},{$inc: {"count":1}}, {new: true})
+        .then(count=>{
+          const newUser = new User({
+            name: `wtrcoolr fan ${count.count}`,
+            email: `demo${count.count}@example.com`,
+            password: "111111",
+            active: "busy"
+          });
+  
+          bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(newUser.password, salt, (err, hash) => {
+              if (err) throw err;
+              newUser.password = hash;
+              newUser
+                .save()
+                .then(user => {
+                  //have to add the organizations as well
+                  const payload = {
+                    id: user.id, name: user.name, 
+                    email: user.email, orgs: user.orgs, 
+                    active: user.active, admins: user.admins
+                  }
+                  jwt.sign(payload, keys.secretOrKey, {expiresIn: 3600}, (err, token) =>{
+                    res.json({
+                      success: true,
+                      token: "Bearer " + token
+                    });
+                  })
+                })
+                .catch(err => console.log(err))
+            })
+          })  
+        })
+      } else {
+        let user = filtered[0]
+        User.findOneAndUpdate(
+          {email: user.email}, 
+          {active: "busy"},
+          {new: true})
+        .populate('orgs')
+        .then(user => {
 
-  DemoCounter.findOneAndUpdate({},{$inc: {"count":1}}, {$new: true})
-    .then(c=>{
-      res.json(c.count + 1)
+          const payload = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            orgs: user.orgs,
+            active: user.active,
+            admins: user.admins,
+            initiator: Boolean(filtered.length === 1),
+          };
+          jwt.sign(
+            payload,
+            keys.secretOrKey,
+            { expiresIn: 3600 },
+            (err, token) => {
+              res.json({
+                succcess: true,
+                token: "Bearer " + token,
+              });
+            }
+          );
+        })
+        
+      }
     })
-
-
-  // User.find().find({email: /^demo.*example.com$/})
-  //   .then(users => {
-  //     let filtered = users.filter((demo) => {return demo.active === "offline"})
-  //     if (filtered.length === 0){
-        
-  //     } else {
-  //       let user = filtered[0]
-  //       User.findOneAndUpdate(
-  //         {email: user.email}, 
-  //         {active: "busy"},
-  //         {new: true})
-  //       .populate('orgs')
-  //       .then(user => {
-
-  //         const payload = {
-  //           id: user.id,
-  //           name: user.name,
-  //           email: user.email,
-  //           orgs: user.orgs,
-  //           active: user.active,
-  //           admins: user.admins,
-  //           initiator: Boolean(filtered.length === 1),
-  //         };
-  //         jwt.sign(
-  //           payload,
-  //           keys.secretOrKey,
-  //           { expiresIn: 3600 },
-  //           (err, token) => {
-  //             res.json({
-  //               succcess: true,
-  //               token: "Bearer " + token,
-  //             });
-  //           }
-  //         );
-  //       })
-        
-  //     }
-  //   })
 
 })
 
