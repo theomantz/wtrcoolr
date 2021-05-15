@@ -63,9 +63,9 @@ class ManageCoolrTimes extends React.Component {
             let time = parseInt(hours)+":"+mins+" "+ampm
 
             hours = parseInt(adjHour.slice(5,9))
-            hours = (hours/100)%12
+            hours = (hours/100)%24
             if(hours===0){
-                hours = 12;
+                hours = 24;
             }
             mins = parseInt(adjHour.slice(5,9))%100
             if(mins<10){
