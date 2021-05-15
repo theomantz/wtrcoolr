@@ -6,7 +6,6 @@ import { updateUser } from '../../actions/users_actions';
 
 
 const mSTP = state => {
-  debugger
   return({  
     currentUser: state.session.user,
     itemArr: state.session.user.orgs.map(org => (
