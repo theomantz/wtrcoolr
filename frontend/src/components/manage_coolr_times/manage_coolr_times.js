@@ -13,7 +13,7 @@ class ManageCoolrTimes extends React.Component {
             coolrTimes: [],
             day: '0',
             duration: '0060',
-            time: '0900'
+            time: '09:00'
         }
         
         this.handleSubmit = this.handleSubmit.bind(this)
