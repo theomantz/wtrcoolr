@@ -98,7 +98,7 @@ router.patch('/edit', passport.authenticate('jwt', {session: false}), (req, res)
 })
 
 router.patch('/updateOrgs', passport.authenticate('jwt', {session: false}), (req, res) => {
-
+  debugger
   if (req.body.add === true){
     User.findByIdAndUpdate(req.body.userId, { $addToSet: {"orgs": req.body.orgId}}, { new: true })
       .then(user => res.json(user))
@@ -111,8 +111,11 @@ router.patch('/updateOrgs', passport.authenticate('jwt', {session: false}), (req
 
 })
 
+
+
 router.patch('/logout', (req, res) => {
-  User.findByIdAndUpdate(req.body.id, 
+
+    User.findByIdAndUpdate(req.body.id, 
     {$set: {active: "offline", socket: null } }
     )
     .then(user => res.json({
@@ -122,6 +125,8 @@ router.patch('/logout', (req, res) => {
       email: user.email
     }))
     .catch(err => res.status(404).json({userUpdateFailed: "Failed to update User"}))
+  
+
 })
 
 router.get('/sockets/:email', (req, res) => {
@@ -218,6 +223,8 @@ router.post('/register', (req, res)=>{
 
 //write demo login route
 
+
+
 router.post('/demoLogin', (req, res) =>{
 
   User.find().find({email: /^demo.*example.com$/})
@@ -231,7 +238,6 @@ router.post('/demoLogin', (req, res) =>{
             email: `demo${count.count}@example.com`,
             password: "111111",
             active: "busy",
-            orgs: ["6099c5e649292a11a460021e"]
           });
   
           bcrypt.genSalt(10, (err, salt) => {
@@ -241,20 +247,23 @@ router.post('/demoLogin', (req, res) =>{
               newUser
                 .save()
                 .then(user => {
-                  //have to add the organizations as well
-                  const payload = {
-                    id: user.id, name: user.name, 
-                    email: user.email, orgs: user.orgs, 
-                    active: user.active, admins: user.admins,
-                  }
-                  jwt.sign(payload, keys.secretOrKey, {expiresIn: 3600}, (err, token) =>{
-                    res.json({
-                      success: true,
-                      token: "Bearer " + token
-                    });
+                  User.findByIdAndUpdate(user.id, { $addToSet: {"orgs": "6099c5e649292a11a460021e"}}, { new: true })
+                    .populate('orgs')
+                    .then(updatedUser =>{
+                      const payload = {
+                        id: updatedUser.id, name: updatedUser.name, 
+                        email: updatedUser.email, orgs: updatedUser.orgs, 
+                        active: updatedUser.active, admins: updatedUser.admins,
+                      }
+                      jwt.sign(payload, keys.secretOrKey, {expiresIn: 3600}, (err, token) =>{
+                        res.json({
+                          success: true,
+                          token: "Bearer " + token
+                        });
+                      })
+                    })
+                    .catch(err => console.log(err))
                   })
-                })
-                .catch(err => console.log(err))
             })
           })  
         })
