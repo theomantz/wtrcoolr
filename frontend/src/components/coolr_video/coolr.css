@@ -316,10 +316,43 @@ video {
 /* pair info */
 
 .pair-info-container{
+  text-align: center;
   height: 40vh;
-  margin-bottom: 20vh
+  margin-bottom: 20vh;
+  margin-left: 5vw;
+  margin-right: 5vw;
+
+}
+
+.pair-info-container h2{
+  font-family: 'Permanent Marker', cursive;
+  color: white;
+  font-size: 5vh;
+  margin-bottom: 2vh;
 }
 
 .pair-info{
   background-color: white;
+  border-radius: 10px;
+  height: 30vh;
+  text-align: left;
+  color: var(--main-darklg);
+  padding: 5%;
+  padding-left: 10%;
+}
+
+.pair-info h3{
+  margin-top: 2vh;
+}
+
+.pair-info h4{
+  margin-left: 1vw;
+  font-size: 2vw;
+  font-size: 1.5vw;
+}
+
+.pair-info li{
+  list-style: none;
+  margin-left: 1vw;
+  font-size: 1.5vw;
 }
