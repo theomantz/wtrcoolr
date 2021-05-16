@@ -293,6 +293,7 @@ video {
   color: white;
 }
 
+
 @media (max-width: 700px) {
   .main-right {
     display: none;
@@ -310,4 +311,15 @@ video {
   #showChat {
     display: flex;
   }
+}
+
+/* pair info */
+
+.pair-info-container{
+  height: 40vh;
+  margin-bottom: 20vh
+}
+
+.pair-info{
+  background-color: white;
 }

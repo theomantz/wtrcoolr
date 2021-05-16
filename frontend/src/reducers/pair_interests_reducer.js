@@ -13,7 +13,6 @@ export default (state = initState, action) => {
   Object.freeze(state)
   switch (action.type) {
     case RECEIVE_MATCH_INTERESTS:
-      console.log(action.pojo.userName)
       let newState = Object.assign({}, state, {
         interests: action.pojo.interests,
         nonStarters: action.pojo.nonStarters,
