@@ -1,4 +1,5 @@
 import './coolr.css'
+import MatchInfoContainer from './match_info_container'
 import React from 'react';
 import { ReactComponent as WtrcoolrLogo } from "../../assets/SVG/HeaderText.svg";
 import { io } from 'socket.io-client';
@@ -462,6 +463,7 @@ class CoolrVideo extends React.Component {
             </div>
           </div>
           <div className="main-right">
+            <MatchInfoContainer />
             <div className="main-information-window">
               {this.endCallButton()}
             </div>

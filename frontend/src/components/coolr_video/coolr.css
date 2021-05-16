@@ -293,6 +293,7 @@ video {
   color: white;
 }
 
+
 @media (max-width: 700px) {
   .main-right {
     display: none;
@@ -311,3 +312,56 @@ video {
     display: flex;
   }
 }
+
+/* pair info */
+
+.pair-info-container{
+  text-align: center;
+  height: 40vh;
+  margin-bottom: 20vh;
+  margin-left: 5vw;
+  margin-right: 5vw;
+
+}
+
+.pair-info-container h2{
+  font-family: 'Permanent Marker', cursive;
+  color: white;
+  font-size: 5vh;
+  margin-bottom: 2vh;
+}
+
+.pair-info{
+  background-color: white;
+  border-radius: 10px;
+  text-align: left;
+  color: var(--main-darklg);
+  padding: 5%;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.pair-info h3{
+  margin-top: 2vh;
+}
+
+.pair-info h3{
+  font-size: 1.8vw
+}
+
+.pair-info h3:first-child{
+  font-size: 1.5vw
+}
+
+.pair-info h4{
+  text-align: center;
+  font-size: 2vw;
+
+}
+
+.pair-info li{
+  /* list-style: none; */
+  margin-left: 1vw;
+  font-size: 1.3vw;
+}
+

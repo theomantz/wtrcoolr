@@ -72,7 +72,7 @@ router.get('/interests/:userId', passport.authenticate('jwt', {session: false}),
 
   console.log(req.params.userId)
   return User.findById(req.params.userId)
-    .then(user => res.json({interests: user.match.interests, username: user.match.username, nonStarters: user.match.nonStarters}))
+    .then(user => res.json({interests: user.match.interests, username: user.match.name, nonStarters: user.match.nonStarters}))
     .catch(err => res.status(404).json({ noCurrentUser: "No Current User" }))
 
 })
@@ -98,7 +98,6 @@ router.patch('/edit', passport.authenticate('jwt', {session: false}), (req, res)
 })
 
 router.patch('/updateOrgs', passport.authenticate('jwt', {session: false}), (req, res) => {
-  debugger
   if (req.body.add === true){
     User.findByIdAndUpdate(req.body.userId, { $addToSet: {"orgs": req.body.orgId}}, { new: true })
       .then(user => res.json(user))
@@ -126,12 +125,8 @@ router.patch('/logout', (req, res) => {
     }))
     .catch(err => res.status(404).json({userUpdateFailed: "Failed to update User"}))
   
-
 })
 
-// router.patch('/logout', (req, res) => {
-//   res.send('string')
-// })
 
 router.get('/sockets/:email', (req, res) => {
 
