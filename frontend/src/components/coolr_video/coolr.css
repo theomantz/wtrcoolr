@@ -339,6 +339,7 @@ video {
   padding: 5%;
   padding-left: 10%;
   padding-right: 10%;
+  min-height: 30vh;
 }
 
 .pair-info h3{
