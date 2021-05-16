@@ -34,7 +34,6 @@ class MatchInfo extends React.Component{
       <div className="pair-info-container">
         <h2>{matchInfo.username ? "Pair Info" : "Learn about your pair here!"}</h2>
         <div className="pair-info">
-          <h3>{matchInfo.username ? 'Username:' : ""}</h3>
           <h4>{matchInfo ? matchInfo.username : ""}</h4>
           {matchInfo.interests ? this.renderInterests() : ""}
           {matchInfo.nonStarters ? this.renderNonStarters() : ""}

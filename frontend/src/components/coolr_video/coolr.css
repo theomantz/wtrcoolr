@@ -334,25 +334,34 @@ video {
 .pair-info{
   background-color: white;
   border-radius: 10px;
-  height: 30vh;
   text-align: left;
   color: var(--main-darklg);
   padding: 5%;
   padding-left: 10%;
+  padding-right: 10%;
 }
 
 .pair-info h3{
   margin-top: 2vh;
 }
 
+.pair-info h3{
+  font-size: 1.8vw
+}
+
+.pair-info h3:first-child{
+  font-size: 1.5vw
+}
+
 .pair-info h4{
-  margin-left: 1vw;
+  text-align: center;
   font-size: 2vw;
-  font-size: 1.5vw;
+
 }
 
 .pair-info li{
-  list-style: none;
+  /* list-style: none; */
   margin-left: 1vw;
-  font-size: 1.5vw;
+  font-size: 1.3vw;
 }
+
