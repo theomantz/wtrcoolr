@@ -81,7 +81,6 @@ export const calcEndAndStartStrings = localCoolrHour => {
     endDayNum += Math.floor(endHoursNum / 24)
     endHoursNum = endHoursNum % 24
   }
-  endDayNum = endDayNum % 6
 
   let endMinsStr = fixToStr(endMinsNum)
   let endHoursStr = fixToStr(endHoursNum)

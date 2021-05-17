@@ -171,7 +171,7 @@ class ManageCoolrTimes extends React.Component {
                         className="add-coolr-time-form">
                         <div className="coolr-inputs">
                         <input onChange={this.update('time')} type="time" value={this.state.time} id="time" />
-                        <select onChange={this.update('day')}>
+                        <select onChange={this.update('day')} id='day-select'>
                             <option value="0">Sunday</option>
                             <option value="1">Monday</option>
                             <option value="2">Tuesday</option>
@@ -180,11 +180,11 @@ class ManageCoolrTimes extends React.Component {
                             <option value="5">Friday</option>
                             <option value="6">Saturday</option>
                         </select>
-                        <select onChange={this.update('duration')}>
-                            <option value="0100">One hour</option>
-                            <option value="0030">30 minutes</option>
-                            <option value="0015">15 minutes</option>
-                            <option value="0005">5 minutes</option>
+                        <select onChange={this.update('duration')} id='duration-select'>
+                            <option value="0100">One Hour</option>
+                            <option value="0030">30 Minutes</option>
+                            <option value="0015">15 Minutes</option>
+                            <option value="0005">5 Minutes</option>
                         </select>
                         </div>
                         <input 

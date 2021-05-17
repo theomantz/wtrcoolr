@@ -1,45 +1,73 @@
+.admin-page-container {
+    background-image: url("https://github.com/theomantz/wtrcoolr/wiki/images/jazz-cup-theme.jpg");
+    background-size: cover;
+    height: calc(100vh - 70px);
+    overflow-y: hidden;
+}
+
 .admin-container{
-    display: flex;
+    display: grid;
+    column-gap: 1rem;
+    row-gap: 1rem;
     justify-content: center;
     font-family: 'Montserrat', sans-serif;
     width: 100%;
     position: absolute;
     left: 0px;
-    height: fit-content;
-    min-height: 100vh;
-    background-image: url("https://github.com/theomantz/wtrcoolr/wiki/images/jazz-cup-theme.jpg") ;
-    background-size: cover;
     color: #7F3F98;
 }
 
+@media screen and (min-width: 0) {
+    .admin-container {
+        grid-template-columns: repeat(1, 500px);
+    }
+}
+
+@media screen and (min-width: 1080px) {
+    .admin-container {
+        grid-template-columns: repeat(2, 500px);
+    }
+}
+
 .org-name-header{
-    position: relative;
-    text-align: center;
-    top: 2vh;
-    font-size: 24px;
-    color: #7F3F98;
+    font-size: 34px;
     font-family: 'Permanent Marker', cursive;
-    z-index: 2;
+    width: 60%;
+    color: #7F3F98;
+    background-color: #d2f9fa9d;
+    text-align: center;
+    margin: 2rem auto;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 5px 5px 15px -11px rgb(0 0 0 / 37%);
 }
 
 .admin-members-column{
     height: 700px;
-    width: 20%;
-    margin: 3%;
+    width: 100%;
     background-color: rgb(255, 255, 255, 0.9);
     border-radius: 16px;
     color: #7F3F98;
-    border: solid 1px rgb(216, 216, 216);
+    box-shadow: 5px 5px 15px -11px rgb(0 0 0 / 37%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.members-list-container {
+    width: 80%;
 }
 
 .coolr-times-column{
     height: 700px;
-    width: 40%;
-    margin: 3%;
+    width: 100%;
     background-color: rgb(255, 255, 255, 0.9);
     border-radius: 16px;
     color: #7F3F98;
-    border: solid 1px gray;
+    box-shadow: 5px 5px 15px -11px rgb(0 0 0 / 37%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .add-member-button{
@@ -48,17 +76,19 @@
     margin: 20px;
     padding: 10px;
     color: white;
-    font-weight: 500;
-    font-size: 14px;
+    font-size: 20px;
     border: 1px solid rgb(189, 189, 189);
     border-radius: 16px;
     background-color: #7F3F98;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Permanent Marker', cursive;
+    width: 250px;
 }
 
 .add-member-button:hover{
+    color: #814599;
+    background-color: #d2f9fa;
     cursor: pointer;
-    background-color: #84469c
+    border: none;
 }
 
 .add-member-button:focus {
@@ -72,17 +102,21 @@
     font-size: 30px
 }
 
-.column-title{
+.admin-container .column-title{
     color: #7F3F98;
     font-size: 28px;
+    width: 80%;  
+    border-radius: 16px;
+    padding: 5px;
 }
 
 .org-listing{
-   color: #7F3F98;
+    color: #7F3F98;
     background-color: #d2f9fa;
     border-radius: 16px;
     font-size: 14px;
     position: relative;
+    width: 85%;
 }
 .org-listing strong{
     width: 80%
@@ -92,22 +126,12 @@
     left: 80%;
 }
 
-
-.column-title{
-    color: #7F3F98;
-    background-color: #d2f9fa;
-    border-radius: 16px;
-    padding: 5px;
-    font-size: 28px;
-
-
-}
-
-.column-subtitle{
+.admin-container .column-subtitle{
     color: #7F3F98;
     background-color: #d2f9fa;
     border-radius: 16px;
     padding: 5px;
     font-size: 22px;
+    width: 80%;
 
 }

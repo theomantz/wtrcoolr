@@ -16,7 +16,7 @@ export default (state = initState, action) => {
       let newState = Object.assign({}, state, {
         interests: action.pojo.interests,
         nonStarters: action.pojo.nonStarters,
-        username: action.pojo.username
+        username: action.pojo.userName
       });
       return newState;
     case CLEAR_MATCH_INTERESTS:

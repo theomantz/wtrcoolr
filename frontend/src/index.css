@@ -35,3 +35,13 @@ html {
   font-family: 'Monteserrat Permanent_Marker';
   src: url('./assets/Montserrat,Permanent_Marker/Permanent_Marker/PermanentMarker-Regular.ttf');
 }
+
+:root {
+  --main-darklg: #1d2635;
+  --main-dark: #161d29;
+  --primary-color: #2f80ec;
+  --main-light: #ffffff;
+  --primary-light: #D2F9FA;
+  --primary-accent: #F1D9FA;
+  --purple-accent: #7F3F98;
+}

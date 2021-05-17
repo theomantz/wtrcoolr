@@ -1,11 +1,14 @@
 import './coolr.css'
+import MatchInfoContainer from './match_info_container'
 import React from 'react';
 import { ReactComponent as WtrcoolrLogo } from "../../assets/SVG/HeaderText.svg";
 import { io } from 'socket.io-client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faVideo, 
+  faVideoSlash,
   faMicrophone,
+  faMicrophoneSlash,
 } from '@fortawesome/free-solid-svg-icons';
 import Peer from 'simple-peer';
 import { Rnd } from 'react-rnd'
@@ -47,8 +50,8 @@ class CoolrVideo extends React.Component {
     this.videoGridHeight = null;
     
     this.setState = this.setState.bind(this)
-    this.handleMute = this.handleMute.bind(this);
-    this.handleVideo = this.handleVideo.bind(this);
+    // this.handleMute = this.handleMute.bind(this);
+    // this.handleVideo = this.handleVideo.bind(this);
     this.endCall = this.endCall.bind(this);
     this.endCallButton = this.endCallButton.bind(this);
 
@@ -198,20 +201,24 @@ class CoolrVideo extends React.Component {
 
   receiveCall(data) {
     this.props.stopWaiting();
+    this.props.queryInterests(this.props.user.id);
     navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
 
           this.userPeer = new Peer({
             initiator: this.props.initiator,
-            stream: stream,
           });
+
+          this.userPeer.addStream(stream)
+
+          debugger
           
           const receiveSocket = data.fromSocket
           const streamSource = new MediaStream(stream);
           this.userVideo = streamSource;
           
-          this.stream = stream;
+          this.stream = new MediaStream(stream);
 
           const video = document.getElementById("user-video");
           if ("srcObject" in video) {
@@ -262,10 +269,6 @@ class CoolrVideo extends React.Component {
         targetId: userMatchObject.user,
       });
     }
-    console.log(!this.props.initiator)
-    if(!this.props.initiator) {
-      this.props.queryInterests(this.props.user.id);
-    }
   }
 
   componentWillUnmount() {
@@ -279,19 +282,33 @@ class CoolrVideo extends React.Component {
     this.props.stopWaiting();
   }
 
-  handleMute() {
-    if(this.stream) {
-      this.setState({ audioMuted: !this.state.audioMuted })
-      this.stream.getAudioTracks()[0].enabled = this.state.audioMuted
-    }
-  }
+  // handleMute() {
+  //   debugger
+  //   const { audioMuted } = this.state;
+  //   const { stream, userPeer } = this;
+  //   if ( stream ) {
+  //     if (audioMuted) {
+  //       userPeer.addTrack(stream.getAudioTracks()[0], stream);
+  //     } else {
+  //       userPeer.removeTrack(stream.getAudioTracks()[0], stream);
+  //     }
+  //     this.setState({ audioMuted: !audioMuted });
+  //   }
+  // }
 
-  handleVideo() {
-    if(this.stream) {
-      this.setState({ videoMuted: !this.state.videoMuted });
-      this.stream.getVideoTracks()[0].enabled = this.state.videoMuted
-    }
-  }
+  // handleVideo() {
+  //   debugger
+  //   const { videoMuted } = this.state;
+  //   const { stream, userPeer } = this;
+  //   if( stream ) {
+  //     if( videoMuted ) {
+  //       userPeer.addTrack(stream.getVideoTracks()[0], stream)
+  //     } else {
+  //       userPeer.removeTrack(stream.getVideoTracks()[0], stream)
+  //     }
+  //     this.setState({ videoMuted: !videoMuted });
+  //   }
+  // }
   
   
   initiateCall() {
@@ -302,7 +319,7 @@ class CoolrVideo extends React.Component {
       const streamSource = new MediaStream(stream)
       this.userVideo = streamSource
       
-      this.stream = stream
+      this.stream = new MediaStream(stream);
       const video = document.getElementById('user-video')
       if('srcObject' in video ) {
         video.srcObject = stream;
@@ -310,7 +327,7 @@ class CoolrVideo extends React.Component {
         video.src = window.URL.createObjectURL(stream);
       }
 
-
+      debugger
 
       this.userPeer = new Peer({
         initiator: this.props.initiator,
@@ -363,8 +380,9 @@ class CoolrVideo extends React.Component {
             },
           ],
         },
-        stream: stream,
       });
+
+      this.userPeer.addStream(stream)
 
       const { user } = this.props;
       const { receiveSocket } = this.state;
@@ -416,11 +434,12 @@ class CoolrVideo extends React.Component {
   }
 
   render() {
+    const {audioMuted, videoMuted} = this.state
     return (
       <div className="coolr-call container">
         <div className="header">
           <div className="logo">
-            <WtrcoolrLogo style={{height: '60px'}}/>
+            <WtrcoolrLogo style={{ height: "60px" }} />
           </div>
         </div>
         <div className="video main">
@@ -443,25 +462,32 @@ class CoolrVideo extends React.Component {
             </div>
             <div className="options">
               <div className="options-left">
-                <div id="video-icon">
+                {/* <div id="video-icon"
+                  className='stream'
+                  // className={`${this.stream.current ? "stream" : "no-stream"}`}
+                >
                   <FontAwesomeIcon
-                    icon={faVideo}
+                    icon={videoMuted ? faVideoSlash : faVideo}
                     className={`option-button video ${this.state.videoMuted}`}
-                    onClick={this.handleVideo}
+                    onClick={e => this.handleVideo()}
                   />
                 </div>
-                <div id="microphone-icon">
+                <div id="microphone-icon" 
+                  className='stream'
+                  // className={`${this.stream.current ? "stream" : "no-stream"}`}
+                >
                   <FontAwesomeIcon
-                    icon={faMicrophone}
+                    icon={audioMuted ? faMicrophoneSlash : faMicrophone }
                     className={`option-button microphone ${this.state.audioMuted}`}
-                    onClick={this.handleMute}
+                    onClick={e => this.handleMute()}
                   />
-                </div>
+                </div> */}
               </div>
               <div className="options-right"></div>
             </div>
           </div>
           <div className="main-right">
+            <MatchInfoContainer />
             <div className="main-information-window">
               {this.endCallButton()}
             </div>

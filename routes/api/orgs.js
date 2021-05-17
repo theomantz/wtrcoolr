@@ -45,9 +45,6 @@ router.post('/', passport.authenticate('jwt', {session: false}),
     })
 })
 
-//
-// const firstAdmin = User.findById(req.body.currentUser)
-//  res.status(404).json({ orgNotCreated: "Invalid Organization Details"})
 
 router.patch('/edit', passport.authenticate('jwt', {session: false}),  (req, res) =>{
 

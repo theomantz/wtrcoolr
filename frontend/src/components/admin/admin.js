@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid'
 import '../dashboard/dashboard.css'
 import './admin.css'
 import {getOrgMembers} from '../../util/orgs_api_util'
@@ -67,15 +68,15 @@ class Admin extends React.Component {
     render() {
         if(this.props.org.name){
           return (
-            <div>
+            <div className='admin-page-container'>
                 <h1 className="org-name-header">{this.props.org.name}</h1>
                 <div className="admin-container">
                     
                     <div className="admin-members-column">
                     <h1 onClick={this.callUpdate} className="column-title" >Members</h1>
-                    <ul>
+                    <ul className='members-list-container'>
                         {this.state.allUsers.map((user) => (
-                            <li className="org-listing">
+                            <li className="org-listing" key={uuidv4()}>
                                 <strong>{user.name}</strong> 
                                 <span className="user-online">
                                     {this.state.onlineUsersId.includes(user._id)? "online" : "offline"}

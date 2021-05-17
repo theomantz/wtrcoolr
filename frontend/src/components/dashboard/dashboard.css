@@ -11,8 +11,9 @@
 .dashboard-column{
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    height: 700px;
+    justify-content: flex-start;
+    align-items: center;
+    height: 720px;
     width: 350px;
     margin: 2%;
     margin-top: 4%;
@@ -27,7 +28,7 @@
 .dashboard-container{
     display: grid;
     height: fit-content;
-    min-height: 100vh;
+    min-height: calc(100vh - 90px);
     justify-content: center;
     font-family: 'Montserrat', sans-serif;
     background-image: url('../../assets/jazz-cup-theme.jpg');
@@ -53,6 +54,7 @@
     font-size: 32px;
     margin: 10px;
     left: 50%;
+    width: 90%;
     text-align: center;
     color: white;
     background-color: var(--primary-light);

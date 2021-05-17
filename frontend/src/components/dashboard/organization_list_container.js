@@ -5,12 +5,14 @@ import { updateUser } from '../../actions/users_actions';
 
 
 
-const mSTP = state => ({
-  currentUser: state.session.user,
-  itemArr: state.session.user.orgs.map(org => (
-    { id: String(org._id), content: org.name, admins: org.admins }
-  ))
-})
+const mSTP = state => {
+  return({  
+    currentUser: state.session.user,
+    itemArr: state.session.user.orgs.map(org => (
+      { id: String(org._id), content: org.name, admins: org.admins }
+    ))
+  })
+}
 
 const mDTP = dispatch => ({
   updateOrgUsers: org => dispatch(updateOrgUsers(org)),

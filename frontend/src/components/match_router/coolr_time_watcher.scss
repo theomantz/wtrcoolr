@@ -1,12 +1,14 @@
 .waiting-for-another{
-  color: rgb(255, 187, 0);
+  font-family: 'Permanent Marker', cursive;
+  background-color: rgba( 255, 255, 255, 0.9 );
+  box-shadow: 5px 5px 15px -11px rgba(0,0,0,0.37);
+  color: #7F3F98;
   font-size: 70px;
   font-weight: 900;
   position: fixed;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
-  text-shadow: 0 0 0 white, 0 0 5px rgb(114, 114, 114), 0 0 2px rgb(114, 114, 114);
+  transform: translate(-75%, -50%);
   padding: 10px;
   border-radius: 8px;
   text-align: center;
