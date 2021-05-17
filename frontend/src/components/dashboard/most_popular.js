@@ -73,7 +73,7 @@ class NavBar extends React.Component {
   render() {
       let currentUser = this.props.currentUser
       return (
-        <div>
+        <div className='most-popular-container'>
             <div className="most-popular">
             <h2 className="column-subtitle">Most Popular</h2>
                 <ul>

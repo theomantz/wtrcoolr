@@ -20,7 +20,12 @@
 
 
 .most-popular{
+    width: 100%;
     margin: auto
+}
+
+.most-popular-container {
+    width: 100%;
 }
 
 .org-index-button{

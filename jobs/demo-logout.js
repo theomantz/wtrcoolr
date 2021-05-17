@@ -1,6 +1,9 @@
+// Required Modules
+const moment = require('moment')
+
 // Database Setup
 const mongoose = require('mongoose');
-const db = require('./config/keys').mongoURI;
+const db = require('../config/keys').mongoURI;
 
 
 mongoose
@@ -9,23 +12,35 @@ mongoose
   .catch((err) => console.log(err));
 
 // Models
-const User = require("./models/User");
+const User = require("../models/User");
 
 const logoutDemoUsers = async () => {
-
-  const cutoffDate = Date.now() - 1
+  
+  const cutoffDate = (Date.now() - (1000 * 3600 * 24))
   
   try {
 
-    const demoUsers = await User.updateMany({ 
-      email: /^demo.*example.com$/,
-    }).exec();
+    const inactiveDemoUsers = await User.updateMany(
+      {
+        email: /^demo.*example.com$/,
+        updatedAt: {
+          $lt: cutoffDate,
+        },
+        active: { $ne: 'offline' }
+      },
+      {active: 'offline'}
+    );
 
-    const inactiveDemoUsers = allDemoUsers.filter(usr => {
-      let inactiveTime = usr.updatedAt
-    })
+    console.log(inactiveDemoUsers)
+    process.exit()
 
-  } catch {
+  } catch (err) {
+
     console.log(err)
+    process.exit()
+
   }
+  
 }
+
+logoutDemoUsers()
