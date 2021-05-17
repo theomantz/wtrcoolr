@@ -318,7 +318,7 @@ video {
 .pair-info-container{
   text-align: center;
   height: 40vh;
-  margin-bottom: 20vh;
+  margin-bottom: 30vh;
   margin-left: 5vw;
   margin-right: 5vw;
 
@@ -339,6 +339,7 @@ video {
   padding: 5%;
   padding-left: 10%;
   padding-right: 10%;
+  min-height: 30vh;
 }
 
 .pair-info h3{
