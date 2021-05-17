@@ -5,8 +5,10 @@
   transform: translate(-50%, -50%);
   background-color: white;
   width: 75vw;
-  max-height: 95vh;
   height: fit-content;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  max-height: 80vh;
   border-radius: 25px;
   text-align: center;
   border: 1px solid lightgray;
