@@ -85,43 +85,43 @@
     box-shadow: 5px 5px 15px -11px rgba(0,0,0,0.37);
 }
 
-@media screen and (min-width: 0) {
+@media screen and (min-width: 300px) {
     .org-index-container {
         grid-template-columns: repeat(1, 250px);
     }
 }
 
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 600px) {
     .org-index-container {
         grid-template-columns: repeat(2, 250px);
     }
 }
 
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 900px) {
     .org-index-container {
         grid-template-columns: repeat(3, 250px);
     }
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 1200px) {
     .org-index-container {
         grid-template-columns: repeat(4, 250px);
     }
 }
 
-@media screen and (min-width: 1250px) {
+@media screen and (min-width: 1500px) {
     .org-index-container {
         grid-template-columns: repeat(5, 250px);
     }
 }
 
-@media screen and (min-width: 1500px) {
+@media screen and (min-width: 1750px) {
     .org-index-container {
         grid-template-columns: repeat(6, 250px);
     }
 }
 
-@media screen and (min-width: 1750px) {
+@media screen and (min-width: 2000px) {
     .org-index-container {
         grid-template-columns: repeat(7, 250px);
     }

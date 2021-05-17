@@ -88,7 +88,7 @@ video {
   align-items: center;
 }
 
-#microphone-icon, #send-icon {
+#microphone-icon {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -106,7 +106,6 @@ video {
 
 .option-button {
   display: flex;
-  cursor: pointer;
   justify-content: center;
   align-items: center;
   background-color: var(--primary-color);
@@ -121,10 +120,15 @@ video {
   width: 250px;
 }
 
-#video-icon:hover, #microphone-icon:hover, #send-icon:hover {
+#video-icon.stream:hover, #microphone-icon.stream:hover {
   padding: 0.15rem 0.0rem;
   border-radius: 8px;
   background-color: var(--primary-light);
+  cursor: pointer;
+}
+
+#video-icon.no-stream:hover, #microphone-icon.no-stream:hover {
+  cursor: not-allowed;
 }
 
 .background-red {
@@ -239,7 +243,7 @@ video {
 }
 
 .option-button.true {
-  background-color: var(--purple-accent);
+  background-color: red;
 }
 
 .user-video-container {
@@ -258,7 +262,7 @@ video {
   height: 100%;
   width: 100%;
   object-fit: cover;
-  background-color: #161d291e;
+  background-color: #161d2900;
 }
 
 .main-information-window {

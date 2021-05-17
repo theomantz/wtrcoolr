@@ -1,7 +1,6 @@
 .session-form-container {
   width: fit-content;
   height: fit-content;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 .session-form {
@@ -48,6 +47,7 @@
   cursor: pointer;
   width: 200px;
   background-color: #7F3F98;
+  font-size: 24px;
   color: white;
   border: none;
 }
@@ -72,6 +72,8 @@
 
 .session-button {
   transition: all 0.2s;
+  font-family: 'Permanent Marker', cursive;
+  font-size: 24px;
 }
 
 .session-button:hover {

@@ -6,7 +6,9 @@ import { io } from 'socket.io-client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faVideo, 
+  faVideoSlash,
   faMicrophone,
+  faMicrophoneSlash,
 } from '@fortawesome/free-solid-svg-icons';
 import Peer from 'simple-peer';
 import { Rnd } from 'react-rnd'
@@ -213,7 +215,7 @@ class CoolrVideo extends React.Component {
           const streamSource = new MediaStream(stream);
           this.userVideo = streamSource;
           
-          this.stream = stream;
+          this.stream = new MediaStream(stream);
 
           const video = document.getElementById("user-video");
           if ("srcObject" in video) {
@@ -264,10 +266,6 @@ class CoolrVideo extends React.Component {
         targetId: userMatchObject.user,
       });
     }
-    // console.log(!this.props.initiator)
-    // if(!this.props.initiator) {
-    //   this.props.queryInterests(this.props.user.id);
-    // }
   }
 
   componentWillUnmount() {
@@ -282,16 +280,28 @@ class CoolrVideo extends React.Component {
   }
 
   handleMute() {
-    if(this.stream) {
-      this.setState({ audioMuted: !this.state.audioMuted })
-      this.stream.getAudioTracks()[0].enabled = this.state.audioMuted
+    const { audioMuted } = this.state;
+    const { stream, userPeer } = this;
+    if (stream.current) {
+      if (audioMuted) {
+        userPeer.addTrack(stream.getAudioTracks()[0], stream);
+      } else {
+        userPeer.removeTrack(stream.getAudioTracks()[0], stream);
+      }
+      this.setState({ audioMuted: !audioMuted });
     }
   }
 
   handleVideo() {
-    if(this.stream) {
-      this.setState({ videoMuted: !this.state.videoMuted });
-      this.stream.getVideoTracks()[0].enabled = this.state.videoMuted
+    const { videoMuted } = this.state;
+    const { stream, userPeer } = this;
+    if(stream.current) {
+      if( videoMuted ) {
+        userPeer.addTrack(stream.getVideoTracks()[0], stream)
+      } else {
+        userPeer.removeTrack(stream.getVideoTracks()[0], stream)
+      }
+      this.setState({ videoMuted: !videoMuted });
     }
   }
   
@@ -304,7 +314,7 @@ class CoolrVideo extends React.Component {
       const streamSource = new MediaStream(stream)
       this.userVideo = streamSource
       
-      this.stream = stream
+      this.stream = new MediaStream(stream);
       const video = document.getElementById('user-video')
       if('srcObject' in video ) {
         video.srcObject = stream;
@@ -418,11 +428,12 @@ class CoolrVideo extends React.Component {
   }
 
   render() {
+    const {audioMuted, videoMuted} = this.state
     return (
       <div className="coolr-call container">
         <div className="header">
           <div className="logo">
-            <WtrcoolrLogo style={{height: '60px'}}/>
+            <WtrcoolrLogo style={{ height: "60px" }} />
           </div>
         </div>
         <div className="video main">
@@ -445,16 +456,22 @@ class CoolrVideo extends React.Component {
             </div>
             <div className="options">
               <div className="options-left">
-                <div id="video-icon">
+                <div id="video-icon"
+                  className='stream'
+                  // className={`${this.stream.current ? "stream" : "no-stream"}`}
+                >
                   <FontAwesomeIcon
-                    icon={faVideo}
+                    icon={videoMuted ? faVideoSlash : faVideo}
                     className={`option-button video ${this.state.videoMuted}`}
                     onClick={this.handleVideo}
                   />
                 </div>
-                <div id="microphone-icon">
+                <div id="microphone-icon" 
+                  className='stream'
+                  // className={`${this.stream.current ? "stream" : "no-stream"}`}
+                >
                   <FontAwesomeIcon
-                    icon={faMicrophone}
+                    icon={audioMuted ? faMicrophoneSlash : faMicrophone }
                     className={`option-button microphone ${this.state.audioMuted}`}
                     onClick={this.handleMute}
                   />
