@@ -69,10 +69,8 @@ router.patch('/matchUsers', passport.authenticate('jwt', {session: false}), (req
 }) 
 
 router.get('/interests/:userId', passport.authenticate('jwt', {session: false}), (req, res) => {
-
-  console.log(req.params.userId)
   return User.findById(req.params.userId)
-    .then(user => res.json({interests: user.match.interests, username: user.match.name, nonStarters: user.match.nonStarters}))
+    .then(user => res.json({interests: user.match.interests, username: user.match.username, nonStarters: user.match.nonStarters}))
     .catch(err => res.status(404).json({ noCurrentUser: "No Current User" }))
 
 })
