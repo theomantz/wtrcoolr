@@ -5,12 +5,12 @@
   transform: translate(-50%, -50%);
   background-color: white;
   width: 75vw;
-  max-height: 95vh;
+  height: 95vh;
   height: fit-content;
   border-radius: 25px;
   text-align: center;
   border: 1px solid lightgray;
-  overflow: scroll;
+  overflow: auto;
   padding-bottom: 20px;
 }
 
