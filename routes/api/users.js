@@ -34,44 +34,40 @@ router.get(
   }
 );
 
-// passport.authenticate('jwt', {session: false}),
-
-// if (org.members.length === 0){
-//   User.findByIdAndUpdate(req.body.userId, {$set: {active: "available"}}, {new: true}).then(usr => {
-
-//     return res.json("available")
-//   })
-// } else
-
 router.patch(
   "/matchUsers",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
 
-      const members = await Org.findById(req.body.id, { members: 1 }).populate({
+      const org = await Org.findById(req.body.orgId, { members: 1 }).populate({
         path: "members",
-        match: { active: "available", _id: { $not: { $eq: req.body.userId } } },
+        match: { active: "available", _id: { $ne: req.body.userId } },
       });
 
+      const members = org.members
+      console.log(org)
       console.log(members)
+
 
       let index;
       if (!members || members.length === 0) {
 
         console.log('set user to available')
-        const user = User.findByIdAndUpdate(
+        const user = await User.findByIdAndUpdate(
           req.body.userId,
-          { $set: { active: "available" } },
+          { active: "available" },
           { new: true }
-        )
+        ).exec()
+
+        console.log(user)
 
         return res.json({ email: "available" });
 
       } else {
 
         console.log("indexing members");
-        index = Math.floor(Math.random() * length);
+        index = Math.floor(Math.random() * members.length);
 
         let member = members[index];
 
