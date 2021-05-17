@@ -33,7 +33,7 @@ const UserSchema = new Schema(
       validate: [validateNonStartersLength, 'Non starters cannot exceed 6']
     },
     match: {
-      type: Array
+      type: Object
     },
     orgs: {
       type: [{
