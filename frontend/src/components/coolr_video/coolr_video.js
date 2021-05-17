@@ -199,6 +199,7 @@ class CoolrVideo extends React.Component {
 
   receiveCall(data) {
     this.props.stopWaiting();
+    this.props.queryInterests(this.props.user.id);
     navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
@@ -263,10 +264,10 @@ class CoolrVideo extends React.Component {
         targetId: userMatchObject.user,
       });
     }
-    console.log(!this.props.initiator)
-    if(!this.props.initiator) {
-      this.props.queryInterests(this.props.user.id);
-    }
+    // console.log(!this.props.initiator)
+    // if(!this.props.initiator) {
+    //   this.props.queryInterests(this.props.user.id);
+    // }
   }
 
   componentWillUnmount() {

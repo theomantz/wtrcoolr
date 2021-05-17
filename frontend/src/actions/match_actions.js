@@ -99,6 +99,7 @@ export const queryInterests = (userId) => dispatch => {
   return (
     matchInterests(userId)
       .then(interests => {
+        console.log("THIS HERE", interests)
         dispatch(receiveMatchInterests({
           interests: interests.data.interests,
           nonStarters: interests.data.nonStarters,
