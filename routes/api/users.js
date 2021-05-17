@@ -48,8 +48,7 @@ router.patch(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      debugger
-      
+
       const members = await Org.findById(req.body.id, { members: 1 }).populate({
         path: "members",
         match: { active: "available", _id: { $not: { $eq: req.body.userId } } },
@@ -58,46 +57,58 @@ router.patch(
       console.log(members)
 
       let index;
-      if (members.length === 0) {
-        return await User.findByIdAndUpdate(
+      if (!members || members.length === 0) {
+
+        console.log('set user to available')
+        const user = User.findByIdAndUpdate(
           req.body.userId,
           { $set: { active: "available" } },
           { new: true }
-        ).then(() => {
-          return res.json({ email: "available" });
-        });
+        )
+
+        return res.json({ email: "available" });
+
       } else {
+
+        console.log("indexing members");
         index = Math.floor(Math.random() * length);
-      }
 
-      let member = members[index];
+        let member = members[index];
 
-      const user = await User.findByIdAndUpdate(
-        req.body.userId,
-        { $set: { active: "busy" } },
-        { new: true }
-      );
+        const user = await User.findByIdAndUpdate(
+          req.body.userId,
+          { $set: { active: "busy" } },
+          { new: true }
+        );
 
-      member = await User.findByIdAndUpdate(member.id, {
-        $set: {
-          active: "busy",
-          match: {
-            username: user.name,
-            interests: user.interests,
-            nonStarters: user.nonStarters,
+        member = await User.findByIdAndUpdate(
+          member.id,
+          {
+            $set: {
+              active: "busy",
+              match: {
+                username: user.name,
+                interests: user.interests,
+                nonStarters: user.nonStarters,
+              },
+            },
           },
-        },
-      }, { new: true });
+          { new: true }
+        );
 
-      res.json({
-        username: member.name,
-        email: member.email,
-        interests: member.interests,
-        nonStarters: member.nonStarters,
-      });
-
+        return res.json({
+          username: member.name,
+          email: member.email,
+          interests: member.interests,
+          nonStarters: member.nonStarters,
+        });
+        
+      }
+      
     } catch (err) {
-      console.log(err);
+
+      return console.log(err);
+
     }
 
     // debugger
