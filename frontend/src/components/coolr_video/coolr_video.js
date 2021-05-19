@@ -50,8 +50,6 @@ class CoolrVideo extends React.Component {
     this.videoGridHeight = null;
     
     this.setState = this.setState.bind(this)
-    // this.handleMute = this.handleMute.bind(this);
-    // this.handleVideo = this.handleVideo.bind(this);
     this.endCall = this.endCall.bind(this);
     this.endCallButton = this.endCallButton.bind(this);
 
@@ -170,7 +168,30 @@ class CoolrVideo extends React.Component {
 
     this.videoGridWidth = document.getElementById("video-grid").clientWidth;
     this.videoGridHeight = document.getElementById("video-grid").clientHeight;
-  
+    
+    if(!initiator) {
+      
+      debugger
+      
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => { 
+
+          this.userVideo = new MediaStream(stream)
+          
+          const video = document.getElementById("user-video");
+          if ("srcObject" in video) {
+            video.srcObject = stream;
+          } else {
+            video.src = window.URL.createObjectURL(stream);
+          }
+          
+          video.onloadedmetadata = (e) => {
+            video.play();
+          };
+        })
+    }
+    
   }
 
   endCall() {
@@ -202,6 +223,11 @@ class CoolrVideo extends React.Component {
   receiveCall(data) {
     this.props.stopWaiting();
     this.props.queryInterests(this.props.user.id);
+
+    const tracks = this.userVideo.getTracks()
+
+    tracks.forEach(track => track.stop())
+    
     navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
@@ -281,35 +307,6 @@ class CoolrVideo extends React.Component {
     this.props.removeInterests(this.props.user.id);
     this.props.stopWaiting();
   }
-
-  // handleMute() {
-  //   debugger
-  //   const { audioMuted } = this.state;
-  //   const { stream, userPeer } = this;
-  //   if ( stream ) {
-  //     if (audioMuted) {
-  //       userPeer.addTrack(stream.getAudioTracks()[0], stream);
-  //     } else {
-  //       userPeer.removeTrack(stream.getAudioTracks()[0], stream);
-  //     }
-  //     this.setState({ audioMuted: !audioMuted });
-  //   }
-  // }
-
-  // handleVideo() {
-  //   debugger
-  //   const { videoMuted } = this.state;
-  //   const { stream, userPeer } = this;
-  //   if( stream ) {
-  //     if( videoMuted ) {
-  //       userPeer.addTrack(stream.getVideoTracks()[0], stream)
-  //     } else {
-  //       userPeer.removeTrack(stream.getVideoTracks()[0], stream)
-  //     }
-  //     this.setState({ videoMuted: !videoMuted });
-  //   }
-  // }
-  
   
   initiateCall() {
     navigator.mediaDevices
@@ -434,7 +431,6 @@ class CoolrVideo extends React.Component {
   }
 
   render() {
-    const {audioMuted, videoMuted} = this.state
     return (
       <div className="coolr-call container">
         <div className="header">
@@ -462,26 +458,6 @@ class CoolrVideo extends React.Component {
             </div>
             <div className="options">
               <div className="options-left">
-                {/* <div id="video-icon"
-                  className='stream'
-                  // className={`${this.stream.current ? "stream" : "no-stream"}`}
-                >
-                  <FontAwesomeIcon
-                    icon={videoMuted ? faVideoSlash : faVideo}
-                    className={`option-button video ${this.state.videoMuted}`}
-                    onClick={e => this.handleVideo()}
-                  />
-                </div>
-                <div id="microphone-icon" 
-                  className='stream'
-                  // className={`${this.stream.current ? "stream" : "no-stream"}`}
-                >
-                  <FontAwesomeIcon
-                    icon={audioMuted ? faMicrophoneSlash : faMicrophone }
-                    className={`option-button microphone ${this.state.audioMuted}`}
-                    onClick={e => this.handleMute()}
-                  />
-                </div> */}
               </div>
               <div className="options-right"></div>
             </div>
